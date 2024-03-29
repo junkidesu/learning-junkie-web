@@ -1,41 +1,33 @@
-import { Backdrop, CircularProgress, Grid } from "@mui/material";
+import { Box, Container, Grid, TextField } from "@mui/material";
 import CourseCard from "../components/CourseCard";
-import { useState, useEffect } from "react";
 import { useGetCoursesQuery } from "../services/courses.service";
+import LoadingCourseCard from "../components/LoadingCourseCard";
 
 const AllCourses = () => {
-  const [open, setOpen] = useState<boolean>(true);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const { data: courses, isLoading } = useGetCoursesQuery();
 
-  useEffect(() => {
-    if (!isLoading) {
-      handleClose();
-    }
-  }, [isLoading]);
-
   return (
-    <>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+    <Container>
+      {isLoading && (
+        <Grid container spacing={3}>
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <Grid item key={n} xs={4}>
+              <LoadingCourseCard />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+
       {courses && (
         <Grid container spacing={3}>
           {courses.map((course) => (
-            <Grid item key={course.id}>
+            <Grid item key={course.id} xs={4}>
               <CourseCard course={course} />
             </Grid>
           ))}
         </Grid>
       )}
-    </>
+    </Container>
   );
 };
 
