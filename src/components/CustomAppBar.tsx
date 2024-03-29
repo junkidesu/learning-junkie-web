@@ -7,29 +7,32 @@ import {
   Typography,
   Stack,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const CustomAppBar = () => {
   return (
     <AppBar position="sticky" sx={{ mb: "20px" }}>
       <Container>
         <Toolbar disableGutters>
-          <Button sx={{ mr: 2 }} startIcon={<TipsAndUpdates />} color="inherit">
-            <Typography variant="h5">Learning Junkie</Typography>
-          </Button>
+          <Link to="/">
+            <Button sx={{ mr: 2 }} startIcon={<TipsAndUpdates />}>
+              <Typography variant="h5">Learning Junkie</Typography>
+            </Button>
+          </Link>
 
           <Stack direction="row" sx={{ flexGrow: 1 }}>
-            <Button color="inherit" startIcon={<PlayLesson />}>
-              Courses
-            </Button>
+            <Link to="/courses">
+              <Button startIcon={<PlayLesson />}>Courses</Button>
+            </Link>
 
-            <Button color="inherit" startIcon={<School />}>
-              Universities
-            </Button>
+            <Link to="/universities">
+              <Button startIcon={<School />}>Universities</Button>
+            </Link>
           </Stack>
 
-          <Button color="inherit" sx={{ justifyContent: "right" }}>
-            Login
-          </Button>
+          <Link to="/login">
+            <Button sx={{ justifyContent: "right" }}>Login</Button>
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>

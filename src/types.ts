@@ -46,3 +46,8 @@ export interface Course {
   enrollmentsCount: number;
   totalPoints: number;
 }
+
+export interface AuthResponse {
+  id: number;
+  token: string;
+}
