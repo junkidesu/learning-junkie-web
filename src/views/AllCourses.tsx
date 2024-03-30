@@ -1,4 +1,4 @@
-import { Box, Container, Grid, TextField } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import CourseCard from "../components/CourseCard";
 import { useGetCoursesQuery } from "../services/courses.service";
 import LoadingCourseCard from "../components/LoadingCourseCard";

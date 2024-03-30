@@ -19,6 +19,17 @@ export enum Education {
   PhD,
 }
 
+export const educationToString = (education: Education): string => {
+  switch (education) {
+    case Education.Bachelor:
+      return "BSc";
+    case Education.Master:
+      return "MSc";
+    default:
+      return "PhD";
+  }
+};
+
 export interface User {
   id: number;
   role: Role;

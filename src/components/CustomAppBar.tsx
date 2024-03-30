@@ -1,4 +1,4 @@
-import { TipsAndUpdates, PlayLesson, School } from "@mui/icons-material";
+import { TipsAndUpdates, PlayLesson, School, Login } from "@mui/icons-material";
 import {
   AppBar,
   Container,
@@ -7,32 +7,34 @@ import {
   Typography,
   Stack,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 const CustomAppBar = () => {
   return (
     <AppBar position="sticky" sx={{ mb: "20px" }}>
       <Container>
         <Toolbar disableGutters>
-          <Link to="/">
+          <RouterLink to="/">
             <Button sx={{ mr: 2 }} startIcon={<TipsAndUpdates />}>
               <Typography variant="h5">Learning Junkie</Typography>
             </Button>
-          </Link>
+          </RouterLink>
 
           <Stack direction="row" sx={{ flexGrow: 1 }}>
-            <Link to="/courses">
+            <RouterLink to="/courses">
               <Button startIcon={<PlayLesson />}>Courses</Button>
-            </Link>
+            </RouterLink>
 
-            <Link to="/universities">
+            <RouterLink to="/universities">
               <Button startIcon={<School />}>Universities</Button>
-            </Link>
+            </RouterLink>
           </Stack>
 
-          <Link to="/login">
-            <Button sx={{ justifyContent: "right" }}>Login</Button>
-          </Link>
+          <RouterLink to="/login">
+            <Button sx={{ justifyContent: "right" }} startIcon={<Login />}>
+              Login
+            </Button>
+          </RouterLink>
         </Toolbar>
       </Container>
     </AppBar>
