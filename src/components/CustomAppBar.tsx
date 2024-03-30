@@ -12,7 +12,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { useGetUserByIdQuery } from "../services/users.service";
 import { useState } from "react";
@@ -24,6 +24,7 @@ const CustomAppBar = () => {
   const open = Boolean(anchorEl);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const id = useAppSelector(({ auth }) => auth.id);
   const { data: loggedInUser } = useGetUserByIdQuery(id!, {
@@ -37,6 +38,7 @@ const CustomAppBar = () => {
   const handleLogout = () => {
     handleClose();
     dispatch(removeAuth());
+    navigate("/login");
   };
 
   return (

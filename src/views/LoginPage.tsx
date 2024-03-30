@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { useLoginMutation } from "../services/auth.service";
 import { useAppDispatch } from "../hooks";
 import { setAuth } from "../reducers/auth.reducer";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -26,6 +27,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [login] = useLoginMutation();
 
@@ -40,6 +42,8 @@ const LoginPage = () => {
       const authData = await login({ email, password }).unwrap();
 
       dispatch(setAuth(authData));
+
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
