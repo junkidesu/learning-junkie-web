@@ -58,6 +58,11 @@ export interface Course {
   totalPoints: number;
 }
 
+export interface Credentials {
+  email: string;
+  password: string;
+}
+
 export interface AuthResponse {
   id: number;
   token: string;
