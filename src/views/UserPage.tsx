@@ -88,11 +88,15 @@ const UserTabs = ({ user }: { user: User }) => {
 
           {courses && (
             <Grid container spacing={3}>
-              {courses.map((course) => (
-                <Grid item key={course.id} xs={4}>
-                  <CourseCard course={course} />
-                </Grid>
-              ))}
+              {courses.length === 0 ? (
+                <Typography>This user is not enrolled in any course</Typography>
+              ) : (
+                courses.map((course) => (
+                  <Grid item key={course.id} xs={4}>
+                    <CourseCard course={course} />
+                  </Grid>
+                ))
+              )}
             </Grid>
           )}
         </Container>

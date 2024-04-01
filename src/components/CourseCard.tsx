@@ -10,14 +10,23 @@ import {
 import { Course } from "../types";
 import courseBanner from "../assets/course-banner.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import useAuthUser from "../hooks/useAuthUser";
 
 const CourseCard = ({ course }: { course: Course }) => {
+  const { existsId, courses } = useAuthUser();
+
+  const isEnrolled = courses?.map((c) => c.id).includes(course.id);
+
   const navigate = useNavigate();
 
   return (
     <Card sx={{ maxWidth: "345px", height: "100%" }}>
       <CardActionArea onClick={() => navigate(`/courses/${course.id}`)}>
-        <CardMedia component="img" height={200} image={course.banner || courseBanner} />
+        <CardMedia
+          component="img"
+          height={200}
+          image={course.banner || courseBanner}
+        />
       </CardActionArea>
 
       <CardContent>
@@ -32,7 +41,8 @@ const CourseCard = ({ course }: { course: Course }) => {
       </CardContent>
 
       <CardActions>
-        <Button>Enroll</Button>
+        {existsId &&
+          (isEnrolled ? <Button>Continue</Button> : <Button>Enroll</Button>)}
         <Link to={`/courses/${course.id}`}>
           <Button>Learn More</Button>
         </Link>

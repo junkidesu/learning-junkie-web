@@ -18,6 +18,12 @@ export const coursesApi = api.injectEndpoints({
         url: `courses/${id}/enrollments`,
       }),
     }),
+    enroll: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `courses/${id}/enrollments`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -25,4 +31,5 @@ export const {
   useGetCoursesQuery,
   useGetCourseByIdQuery,
   useGetEnrolledUsersQuery,
+  useEnrollMutation,
 } = coursesApi;

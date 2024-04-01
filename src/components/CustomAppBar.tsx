@@ -23,7 +23,7 @@ const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
   const open = Boolean(anchorEl);
 
-  const { existsId, authUser, isLoading } = useAuthUser();
+  const { existsId, authUser, userLoading } = useAuthUser();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const CustomAppBar = () => {
                 sx={{ p: 0 }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
               >
-                {authUser && !isLoading ? (
+                {authUser && !userLoading ? (
                   <Tooltip title={authUser.name}>
                     <UserAvatar user={authUser} />
                   </Tooltip>

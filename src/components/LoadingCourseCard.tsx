@@ -19,7 +19,7 @@ const LoadingCourseCard = () => {
       </CardContent>
 
       <CardActions>
-        <Button>Enroll</Button>
+        {/* <Button>Enroll</Button> */}
         <Button>Learn More</Button>
       </CardActions>
     </Card>

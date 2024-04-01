@@ -1,26 +1,53 @@
 import { useAppSelector } from "../hooks";
-import { useGetUserByIdQuery } from "../services/users.service";
-import { User } from "../types";
+import {
+  useGetUserByIdQuery,
+  useGetUserCoursesQuery,
+} from "../services/users.service";
+import { Course, User } from "../types";
 
 type AuthUserData = {
   existsId: boolean;
   authUser?: User;
-  isLoading: boolean;
-  isError: boolean;
+  courses?: Course[];
+  userLoading: boolean;
+  coursesLoading: boolean;
+  userError: boolean;
+  coursesError: boolean;
 };
 
 const useAuthUser = (): AuthUserData => {
   const id = useAppSelector(({ auth }) => auth.id);
 
   const {
-    data: user,
-    isLoading,
-    isError,
+    data: authUser,
+    isLoading: userLoading,
+    isError: userError,
   } = useGetUserByIdQuery(id!, { skip: !id });
 
-  if (!id) return { existsId: false, isLoading: false, isError: false };
+  const {
+    data: courses,
+    isLoading: coursesLoading,
+    isError: coursesError,
+  } = useGetUserCoursesQuery(id!, { skip: !id });
 
-  return { existsId: true, authUser: user, isLoading, isError };
+  if (!id)
+    return {
+      existsId: false,
+      userLoading: false,
+      coursesLoading: false,
+      userError: false,
+      coursesError: false,
+    };
+
+  return {
+    existsId: true,
+    authUser,
+    courses,
+    userLoading,
+    coursesLoading,
+    userError,
+    coursesError,
+  };
 };
 
 export default useAuthUser;
