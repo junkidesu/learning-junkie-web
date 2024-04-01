@@ -66,6 +66,9 @@ const CoursePage = () => {
         <Box sx={{ p: 2 }}>
           <Typography variant="h5">Description</Typography>
           <Typography>{course.description}</Typography>
+          <Typography>
+            Difficulty: <b>{course.difficulty}</b>
+          </Typography>
         </Box>
 
         <Box sx={{ p: 2, float: "right" }}>

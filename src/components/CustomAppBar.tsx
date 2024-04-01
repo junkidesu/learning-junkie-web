@@ -41,6 +41,11 @@ const CustomAppBar = () => {
     navigate("/login");
   };
 
+  const handleProfile = () => {
+    navigate(`/users/${loggedInUser!.id}`);
+    handleClose();
+  };
+
   return (
     <AppBar position="sticky" sx={{ mb: "20px" }}>
       <Container>
@@ -92,7 +97,7 @@ const CustomAppBar = () => {
                   mt: "45px",
                 }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleProfile}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>Account</MenuItem>
                 <MenuItem onClick={handleLogout}>Log out</MenuItem>
               </Menu>

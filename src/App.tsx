@@ -6,6 +6,7 @@ import CoursePage from "./views/CoursePage";
 import LoginPage from "./views/LoginPage";
 import AllUniversitiesPage from "./views/AllUniversitiesPage";
 import UniversityPage from "./views/UniversityPage";
+import UserPage from "./views/UserPage";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="courses/:id" element={<CoursePage />} />
         <Route path="universities" element={<AllUniversitiesPage />} />
         <Route path="universities/:id" element={<UniversityPage />} />
+        <Route path="users/:id" element={<UserPage />} />
       </Routes>
     </Container>
   );

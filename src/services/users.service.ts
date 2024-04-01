@@ -1,4 +1,4 @@
-import { User } from "../types";
+import { Course, User } from "../types";
 import { api } from "./api";
 
 export const usersApi = api.injectEndpoints({
@@ -8,7 +8,12 @@ export const usersApi = api.injectEndpoints({
         url: `users/${id}`,
       }),
     }),
+    getUserCourses: builder.query<Course[], number>({
+      query: (id) => ({
+        url: `users/${id}/courses`,
+      }),
+    }),
   }),
 });
 
-export const { useGetUserByIdQuery } = usersApi;
+export const { useGetUserByIdQuery, useGetUserCoursesQuery } = usersApi;

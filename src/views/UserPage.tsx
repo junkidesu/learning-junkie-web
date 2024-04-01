@@ -3,9 +3,7 @@ import {
   Box,
   Card,
   Container,
-  Divider,
   Grid,
-  Link,
   Paper,
   Stack,
   Tab,
@@ -14,14 +12,21 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import {
-  useGetUniversityByIdQuery,
-  useGetUniversityCoursesQuery,
-} from "../services/universities.service";
-import universityLogo from "../assets/university-logo.jpg";
+  useGetUserByIdQuery,
+  useGetUserCoursesQuery,
+} from "../services/users.service";
+import { nameInitials } from "../util";
 import { useState } from "react";
-import { University } from "../types";
 import CourseCard from "../components/CourseCard";
 import LoadingCourseCard from "../components/LoadingCourseCard";
+import { User } from "../types";
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,17 +50,8 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const UniversityTabs = ({ university }: { university: University }) => {
-  const { data: courses, isLoading } = useGetUniversityCoursesQuery(
-    university.id
-  );
+const UserTabs = ({ user }: { user: User }) => {
+  const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
   const [value, setValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -70,8 +66,9 @@ const UniversityTabs = ({ university }: { university: University }) => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Courses" {...a11yProps(0)} />
-          <Tab label="Instructors" {...a11yProps(1)} />
+          <Tab label="Enrollments" {...a11yProps(0)} />
+          <Tab label="Progress" {...a11yProps(1)} disabled />
+          <Tab label="Solutions" {...a11yProps(2)} disabled />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -98,63 +95,58 @@ const UniversityTabs = ({ university }: { university: University }) => {
         </Container>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Typography>Instructors</Typography>
+        <Typography>Progress</Typography>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <Typography>Solutions</Typography>
       </CustomTabPanel>
     </Card>
   );
 };
 
-const UniversityPage = () => {
-  const universityId = useParams().id;
+const UserPage = () => {
+  const userId = useParams().id;
 
   const {
-    data: university,
+    data: user,
     isLoading,
     isError,
-  } = useGetUniversityByIdQuery(Number(universityId), {
-    skip: !universityId,
-  });
+  } = useGetUserByIdQuery(Number(userId), { skip: !userId });
 
-  if (!universityId) return null;
+  if (!userId) return null;
 
-  if (isLoading && !university) return <Typography>Loading...</Typography>;
+  if (isLoading) return <Typography>Loading...</Typography>;
 
-  if (!university || isError)
-    return <Typography>Some error occurred</Typography>;
+  if (isError || !user)
+    return <Typography>Some error has occurred!</Typography>;
 
   return (
     <Container>
       <Stack gap={3}>
         <Paper sx={{ p: 2 }}>
-          <Stack sx={{ gap: 2 }}>
-            <Stack direction="row" sx={{ alignItems: "center" }}>
+          <Stack direction="row" sx={{ alignItems: "center" }}>
+            {user.avatar ? (
               <Avatar
                 sx={{ width: 150, height: 150, mr: 3 }}
-                src={universityLogo || university.logo}
+                src={user.avatar}
               />
-              <Stack height="100%">
-                <Typography variant="h3">{university.name}</Typography>
-                <Typography>{university.year}</Typography>
-                <Link component="a" href={university.url}>
-                  {university.url}
-                </Link>
-              </Stack>
+            ) : (
+              <Avatar sx={{ width: 150, height: 150 }}>
+                {nameInitials(user.name)}
+              </Avatar>
+            )}
+
+            <Stack>
+              <Typography variant="h3">{user.name}</Typography>
+              <Typography variant="h6">{user.role}</Typography>
             </Stack>
-
-            <Divider />
-
-            <Typography>
-              {university.abbreviation || university.name} has been a member of
-              Learning Junkie since{" "}
-              {new Date(university.joined).toLocaleDateString()}
-            </Typography>
           </Stack>
         </Paper>
 
-        <UniversityTabs university={university} />
+        <UserTabs user={user} />
       </Stack>
     </Container>
   );
 };
 
-export default UniversityPage;
+export default UserPage;
