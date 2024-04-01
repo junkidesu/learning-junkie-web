@@ -9,7 +9,7 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { University } from "../types";
 import universityLogo from "../assets/university-logo.jpg";
 
@@ -18,8 +18,11 @@ const UniversityCard = ({ university }: { university: University }) => {
 
   return (
     <Card square={false}>
-      <CardActionArea sx={{ p: 2 }}>
-        <Stack gap={2}>
+      <Stack>
+        <CardActionArea
+          sx={{ p: 2 }}
+          onClick={() => navigate(`/universities/${university.id}`)}
+        >
           <Stack direction="row">
             <Avatar
               sx={{ height: 80, width: 80, mr: 2 }}
@@ -28,10 +31,8 @@ const UniversityCard = ({ university }: { university: University }) => {
 
             <Container>
               <Typography
-                component={RouterLink}
                 sx={{ textDecoration: "none" }}
                 variant="h5"
-                to={`/universities/${university.id}`}
                 color="inherit"
               >
                 {university.name}
@@ -45,19 +46,19 @@ const UniversityCard = ({ university }: { university: University }) => {
               </Link>
             </Container>
           </Stack>
+        </CardActionArea>
 
-          <Divider />
+        <Divider />
 
-          <Container>
-            <Button
-              sx={{ float: "right" }}
-              onClick={() => navigate(`universities/${university.id}`)}
-            >
-              Learn more
-            </Button>
-          </Container>
-        </Stack>
-      </CardActionArea>
+        <Container sx={{ p: 1 }}>
+          <Button
+            sx={{ float: "right" }}
+            onClick={() => navigate(`universities/${university.id}`)}
+          >
+            Learn more
+          </Button>
+        </Container>
+      </Stack>
     </Card>
   );
 };

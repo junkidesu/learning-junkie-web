@@ -1,4 +1,4 @@
-import { University } from "../types";
+import { Course, University } from "../types";
 import { api } from "./api";
 
 export const universitiesApi = api.injectEndpoints({
@@ -8,7 +8,21 @@ export const universitiesApi = api.injectEndpoints({
         url: "universities",
       }),
     }),
+    getUniversityById: builder.query<University, number>({
+      query: (id) => ({
+        url: `universities/${id}`,
+      }),
+    }),
+    getUniversityCourses: builder.query<Course[], number>({
+      query: (id) => ({
+        url: `universities/${id}/courses`,
+      }),
+    }),
   }),
 });
 
-export const { useGetUniversitiesQuery } = universitiesApi;
+export const {
+  useGetUniversitiesQuery,
+  useGetUniversityByIdQuery,
+  useGetUniversityCoursesQuery,
+} = universitiesApi;
