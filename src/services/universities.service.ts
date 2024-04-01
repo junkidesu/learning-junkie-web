@@ -1,5 +1,5 @@
 import { Course, University } from "../types";
-import { api } from "./api";
+import { api } from "./api.service";
 
 export const universitiesApi = api.injectEndpoints({
   endpoints: (builder) => ({

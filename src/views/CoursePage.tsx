@@ -21,8 +21,11 @@ import universityLogo from "../assets/university-logo.jpg";
 import courseBanner from "../assets/education.jpg";
 import { educationToString } from "../types";
 import UserAvatar from "../components/UserAvatar";
+import useAuthUser from "../hooks/useAuthUser";
 
 const CoursePage = () => {
+  const { existsId, authUser } = useAuthUser();
+
   const courseId = useParams().id;
 
   const navigate = useNavigate();
@@ -38,6 +41,10 @@ const CoursePage = () => {
   if (!courseId) return null;
 
   if (isLoading || !course || !enrolledUsers) return <div>Loading...</div>;
+
+  const isEnrolled = authUser
+    ? enrolledUsers.map((u) => u.id).includes(authUser.id)
+    : false;
 
   return (
     <Container>
@@ -111,7 +118,13 @@ const CoursePage = () => {
             {course.enrollmentsCount} users are already enrolled.
           </Typography>
 
-          <Button variant="contained">Enroll</Button>
+          {isEnrolled ? (
+            <Button variant="contained">Continue</Button>
+          ) : (
+            <Button disabled={!existsId}>
+              Enroll
+            </Button>
+          )}
         </Stack>
       </Paper>
     </Container>
