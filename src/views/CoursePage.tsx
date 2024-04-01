@@ -3,6 +3,8 @@ import {
   AvatarGroup,
   Box,
   Button,
+  Card,
+  CardActionArea,
   Container,
   Divider,
   Link,
@@ -10,7 +12,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import {
   useGetCourseByIdQuery,
   useGetEnrolledUsersQuery,
@@ -22,6 +24,8 @@ import UserAvatar from "../components/UserAvatar";
 
 const CoursePage = () => {
   const courseId = useParams().id;
+
+  const navigate = useNavigate();
 
   const { data: course, isLoading } = useGetCourseByIdQuery(Number(courseId), {
     skip: !courseId,
@@ -72,23 +76,26 @@ const CoursePage = () => {
         </Box>
 
         <Box sx={{ p: 2, float: "right" }}>
-          <Paper
-            sx={{ p: 1, width: "fit-content" }}
-            elevation={5}
-            square={false}
-          >
-            <Stack direction="row" sx={{ alignItems: "center" }}>
-              <UserAvatar user={course.instructor} />
+          <Card sx={{ width: "fit-content" }} elevation={5} square={false}>
+            <CardActionArea
+              sx={{ p: 1 }}
+              onClick={() => navigate(`/users/${course.instructor.id}`)}
+            >
+              <Stack direction="row" sx={{ alignItems: "center" }}>
+                <UserAvatar user={course.instructor} />
 
-              <Box sx={{ ml: 1 }}>
-                <Typography>
-                  {course.instructor.name},{" "}
-                  {educationToString(course.instructor.education!)}
-                </Typography>
-                <Typography fontSize={13}>{course.university.name}</Typography>
-              </Box>
-            </Stack>
-          </Paper>
+                <Box sx={{ ml: 1 }}>
+                  <Typography>
+                    {course.instructor.name},{" "}
+                    {educationToString(course.instructor.education!)}
+                  </Typography>
+                  <Typography fontSize={13}>
+                    {course.university.name}
+                  </Typography>
+                </Box>
+              </Stack>
+            </CardActionArea>
+          </Card>
         </Box>
       </Paper>
 

@@ -2,7 +2,9 @@ import {
   Avatar,
   Box,
   Card,
+  CardActionArea,
   Container,
+  Divider,
   Grid,
   Paper,
   Stack,
@@ -10,7 +12,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
@@ -107,6 +109,7 @@ const UserTabs = ({ user }: { user: User }) => {
 
 const UserPage = () => {
   const userId = useParams().id;
+  const navigate = useNavigate();
 
   const {
     data: user,
@@ -125,31 +128,51 @@ const UserPage = () => {
     <Container>
       <Stack gap={3}>
         <Paper sx={{ p: 2 }}>
-          <Stack direction="row" sx={{ alignItems: "center" }}>
-            {user.avatar ? (
-              <Avatar
-                sx={{ width: 150, height: 150, mr: 3 }}
-                src={user.avatar}
-              />
-            ) : (
-              <Avatar sx={{ width: 150, height: 150 }}>
-                {nameInitials(user.name)}
-              </Avatar>
-            )}
+          <Stack gap={2}>
+            <Stack direction="row" sx={{ alignItems: "center" }}>
+              {user.avatar ? (
+                <Avatar
+                  sx={{ width: 150, height: 150, mr: 3 }}
+                  src={user.avatar}
+                />
+              ) : (
+                <Avatar sx={{ width: 150, height: 150 }}>
+                  {nameInitials(user.name)}
+                </Avatar>
+              )}
 
-            <Stack sx={{ flexGrow: 1 }}>
-              <Typography variant="h3">{user.name}</Typography>
-              <Typography variant="h6">{user.role}</Typography>
+              <Stack sx={{ flexGrow: 1 }}>
+                <Typography variant="h3">{user.name}</Typography>
+                <Typography variant="h6">{user.role}</Typography>
+              </Stack>
+
+              {user.university && (
+                <Card elevation={5}>
+                  <CardActionArea
+                    sx={{ p: 1 }}
+                    onClick={() =>
+                      navigate(`/universities/${user.university!.id}`)
+                    }
+                  >
+                    <Stack
+                      direction="row"
+                      gap={2}
+                      sx={{ alignItems: "center" }}
+                    >
+                      <Avatar src={user.university.logo || universityLogo} />
+                      {user.university.name}
+                    </Stack>
+                  </CardActionArea>
+                </Card>
+              )}
             </Stack>
 
-            {user.university && (
-              <Paper elevation={5} sx={{ p: 2 }}>
-                <Stack direction="row" gap={2} sx={{ alignItems: "center" }}>
-                  <Avatar src={user.university.logo || universityLogo} />
-                  {user.university.name}
-                </Stack>
-              </Paper>
-            )}
+            <Divider />
+
+            <Typography>
+              {user.name} has been a member of Learning Junkie since{" "}
+              {new Date(user.joined).toLocaleDateString()}
+            </Typography>
           </Stack>
         </Paper>
 
