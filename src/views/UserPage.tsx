@@ -17,7 +17,7 @@ import {
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
 } from "../services/users.service";
-import { nameInitials } from "../util";
+import { nameInitials, stringToColor } from "../util";
 import { useState } from "react";
 import CourseCard from "../components/CourseCard";
 import LoadingCourseCard from "../components/LoadingCourseCard";
@@ -89,7 +89,9 @@ const UserTabs = ({ user }: { user: User }) => {
           {courses && (
             <Grid container spacing={3}>
               {courses.length === 0 ? (
-                <Typography>This user is not enrolled in any course</Typography>
+                <Typography sx={{ p: 2 }}>
+                  This user is not enrolled in any course
+                </Typography>
               ) : (
                 courses.map((course) => (
                   <Grid item key={course.id} xs={4}>
@@ -140,8 +142,17 @@ const UserPage = () => {
                   src={user.avatar}
                 />
               ) : (
-                <Avatar sx={{ width: 150, height: 150 }}>
-                  {nameInitials(user.name)}
+                <Avatar
+                  sx={{
+                    width: 150,
+                    height: 150,
+                    mr: 3,
+                    bgcolor: stringToColor(user.name),
+                  }}
+                >
+                  <Typography variant="h3">
+                    {nameInitials(user.name)}
+                  </Typography>
                 </Avatar>
               )}
 

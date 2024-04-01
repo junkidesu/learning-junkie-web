@@ -36,8 +36,6 @@ const LoginPage = () => {
 
     console.log("Logging in!");
 
-    console.log(email, password);
-
     try {
       const authData = await login({ email, password }).unwrap();
 

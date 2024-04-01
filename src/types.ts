@@ -15,9 +15,9 @@ export enum Role {
 }
 
 export enum Education {
-  Bachelor,
-  Master,
-  PhD,
+  Bachelor = "Bachelor",
+  Master = "Master",
+  PhD = "PhD",
 }
 
 export const educationToString = (education: Education): string => {
@@ -41,6 +41,14 @@ export interface User {
   birthday?: string;
   joined: string;
   university?: University;
+}
+
+export interface NewUser {
+  name: string;
+  email: string;
+  education?: Education;
+  birthday?: string;
+  password: string;
 }
 
 export enum Difficulty {

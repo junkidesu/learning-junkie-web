@@ -1,4 +1,10 @@
-import { TipsAndUpdates, PlayLesson, School, Login } from "@mui/icons-material";
+import {
+  TipsAndUpdates,
+  PlayLesson,
+  School,
+  Login,
+  AppRegistration,
+} from "@mui/icons-material";
 import {
   AppBar,
   Container,
@@ -65,18 +71,18 @@ const CustomAppBar = () => {
 
           {existsId ? (
             <>
-              <IconButton
-                sx={{ p: 0 }}
-                onClick={(e) => setAnchorEl(e.currentTarget)}
-              >
-                {authUser && !userLoading ? (
-                  <Tooltip title={authUser.name}>
+              {authUser && !userLoading ? (
+                <Tooltip title={authUser.name}>
+                  <IconButton
+                    sx={{ p: 0 }}
+                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                  >
                     <UserAvatar user={authUser} />
-                  </Tooltip>
-                ) : (
-                  <CircularProgress />
-                )}
-              </IconButton>
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <CircularProgress />
+              )}
 
               <Menu
                 open={open}
@@ -100,11 +106,17 @@ const CustomAppBar = () => {
               </Menu>
             </>
           ) : (
-            <RouterLink to="/login">
-              <Button sx={{ justifyContent: "right" }} startIcon={<Login />}>
+            <Stack direction="row">
+              <Button startIcon={<Login />} onClick={() => navigate(`/login`)}>
                 Login
               </Button>
-            </RouterLink>
+              <Button
+                startIcon={<AppRegistration />}
+                onClick={() => navigate(`/signup`)}
+              >
+                Sign Up
+              </Button>
+            </Stack>
           )}
         </Toolbar>
       </Container>
