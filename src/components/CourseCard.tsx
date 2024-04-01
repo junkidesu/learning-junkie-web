@@ -11,6 +11,7 @@ import { Course } from "../types";
 import courseBanner from "../assets/course-banner.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthUser from "../hooks/useAuthUser";
+import { useEnrollMutation } from "../services/courses.service";
 
 const CourseCard = ({ course }: { course: Course }) => {
   const { existsId, courses } = useAuthUser();
@@ -18,6 +19,12 @@ const CourseCard = ({ course }: { course: Course }) => {
   const isEnrolled = courses?.map((c) => c.id).includes(course.id);
 
   const navigate = useNavigate();
+
+  const [enroll] = useEnrollMutation();
+
+  const handleEnroll = async () => {
+    await enroll(course.id);
+  };
 
   return (
     <Card sx={{ maxWidth: "345px", height: "100%" }}>
@@ -42,7 +49,11 @@ const CourseCard = ({ course }: { course: Course }) => {
 
       <CardActions>
         {existsId &&
-          (isEnrolled ? <Button>Continue</Button> : <Button>Enroll</Button>)}
+          (isEnrolled ? (
+            <Button>Continue</Button>
+          ) : (
+            <Button onClick={handleEnroll}>Enroll</Button>
+          ))}
         <Link to={`/courses/${course.id}`}>
           <Button>Learn More</Button>
         </Link>

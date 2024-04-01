@@ -12,6 +12,7 @@ export const usersApi = api.injectEndpoints({
       query: (id) => ({
         url: `users/${id}/courses`,
       }),
+      providesTags: ["CourseUsers"],
     }),
     signUp: builder.mutation<User, NewUser>({
       query: (newUser) => ({

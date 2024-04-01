@@ -17,12 +17,14 @@ export const coursesApi = api.injectEndpoints({
       query: (id) => ({
         url: `courses/${id}/enrollments`,
       }),
+      providesTags: ["CourseUsers"],
     }),
     enroll: builder.mutation<void, number>({
       query: (id) => ({
         url: `courses/${id}/enrollments`,
         method: "POST",
       }),
+      invalidatesTags: ["CourseUsers"],
     }),
   }),
 });

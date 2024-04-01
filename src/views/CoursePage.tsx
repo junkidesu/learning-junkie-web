@@ -108,7 +108,7 @@ const CoursePage = () => {
 
       <Paper square={false} sx={{ p: 2 }}>
         <Stack direction="row" sx={{ alignItems: "center" }}>
-          <AvatarGroup max={2} sx={{ mr: 1 }}>
+          <AvatarGroup max={3} sx={{ mr: 1 }}>
             {enrolledUsers.map((user) => (
               <UserAvatar key={user.id} user={user} />
             ))}
