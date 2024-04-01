@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import CoursePage from "./views/CoursePage";
 import LoginPage from "./views/LoginPage";
 import AllUniversities from "./views/AllUniversities";
+import UniversityPage from "./views/UniversityPage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="courses" element={<AllCourses />} />
         <Route path="courses/:id" element={<CoursePage />} />
         <Route path="universities" element={<AllUniversities />} />
+        <Route path="universities/:id" element={<UniversityPage />} />
       </Routes>
     </Container>
   );
