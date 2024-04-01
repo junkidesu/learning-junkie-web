@@ -6,7 +6,7 @@ import {
 import { useGetUniversitiesQuery } from "../services/universities.service";
 import UniversityCard from "../components/UniversityCard";
 
-const AllUniversities = () => {
+const AllUniversitiesPage = () => {
   const { data: universities } = useGetUniversitiesQuery();
 
   return (
@@ -20,4 +20,4 @@ const AllUniversities = () => {
   );
 };
 
-export default AllUniversities;
+export default AllUniversitiesPage;

@@ -3,7 +3,7 @@ import CourseCard from "../components/CourseCard";
 import { useGetCoursesQuery } from "../services/courses.service";
 import LoadingCourseCard from "../components/LoadingCourseCard";
 
-const AllCourses = () => {
+const AllCoursesPage = () => {
   const { data: courses, isLoading } = useGetCoursesQuery();
 
   return (
@@ -31,4 +31,4 @@ const AllCourses = () => {
   );
 };
 
-export default AllCourses;
+export default AllCoursesPage;
