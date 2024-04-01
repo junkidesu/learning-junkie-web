@@ -13,23 +13,20 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { useGetUserByIdQuery } from "../services/users.service";
+import { useAppDispatch } from "../hooks";
 import { useState } from "react";
 import { removeAuth } from "../reducers/auth.reducer";
 import UserAvatar from "./UserAvatar";
+import useAuthUser from "../hooks/useAuthUser";
 
 const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
   const open = Boolean(anchorEl);
 
+  const { existsId, authUser, isLoading } = useAuthUser();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const id = useAppSelector(({ auth }) => auth.id);
-  const { data: loggedInUser } = useGetUserByIdQuery(id!, {
-    skip: !id,
-  });
 
   const handleClose = () => {
     setAnchorEl(undefined);
@@ -42,7 +39,7 @@ const CustomAppBar = () => {
   };
 
   const handleProfile = () => {
-    navigate(`/users/${loggedInUser!.id}`);
+    navigate(`/users/${authUser!.id}`);
     handleClose();
   };
 
@@ -66,15 +63,15 @@ const CustomAppBar = () => {
             </RouterLink>
           </Stack>
 
-          {id ? (
+          {existsId ? (
             <>
               <IconButton
                 sx={{ p: 0 }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
               >
-                {loggedInUser ? (
-                  <Tooltip title={loggedInUser?.name}>
-                    <UserAvatar user={loggedInUser} />
+                {authUser && !isLoading ? (
+                  <Tooltip title={authUser.name}>
+                    <UserAvatar user={authUser} />
                   </Tooltip>
                 ) : (
                   <CircularProgress />
