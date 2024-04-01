@@ -20,6 +20,7 @@ import { useState } from "react";
 import CourseCard from "../components/CourseCard";
 import LoadingCourseCard from "../components/LoadingCourseCard";
 import { User } from "../types";
+import universityLogo from "../assets/university-logo.jpg";
 
 function a11yProps(index: number) {
   return {
@@ -136,10 +137,19 @@ const UserPage = () => {
               </Avatar>
             )}
 
-            <Stack>
+            <Stack sx={{ flexGrow: 1 }}>
               <Typography variant="h3">{user.name}</Typography>
               <Typography variant="h6">{user.role}</Typography>
             </Stack>
+
+            {user.university && (
+              <Paper elevation={5} sx={{ p: 2 }}>
+                <Stack direction="row" gap={2} sx={{ alignItems: "center" }}>
+                  <Avatar src={user.university.logo || universityLogo} />
+                  {user.university.name}
+                </Stack>
+              </Paper>
+            )}
           </Stack>
         </Paper>
 
