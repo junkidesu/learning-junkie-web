@@ -6,18 +6,18 @@ import {
   Button,
   Typography,
   Stack,
-  Avatar,
   IconButton,
   Menu,
   MenuItem,
   Tooltip,
+  CircularProgress,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { useGetUserByIdQuery } from "../services/users.service";
 import { useState } from "react";
-import instructorAvatar from "../assets/instructor.jpg";
 import { removeAuth } from "../reducers/auth.reducer";
+import UserAvatar from "./UserAvatar";
 
 const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
@@ -67,9 +67,13 @@ const CustomAppBar = () => {
                 sx={{ p: 0 }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
               >
-                <Tooltip title={loggedInUser?.name}>
-                  <Avatar src={instructorAvatar} alt={loggedInUser?.name} />
-                </Tooltip>
+                {loggedInUser ? (
+                  <Tooltip title={loggedInUser?.name}>
+                    <UserAvatar user={loggedInUser} />
+                  </Tooltip>
+                ) : (
+                  <CircularProgress />
+                )}
               </IconButton>
 
               <Menu

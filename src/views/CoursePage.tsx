@@ -16,9 +16,9 @@ import {
   useGetEnrolledUsersQuery,
 } from "../services/courses.service";
 import universityLogo from "../assets/university-logo.jpg";
-import courseBanner from "../assets/python-banner.jpg";
-import instructorAvatar from "../assets/instructor.jpg";
+import courseBanner from "../assets/education.jpg";
 import { educationToString } from "../types";
+import UserAvatar from "../components/UserAvatar";
 
 const CoursePage = () => {
   const courseId = useParams().id;
@@ -39,7 +39,7 @@ const CoursePage = () => {
     <Container>
       <Paper square={false} sx={{ overflow: "hidden", mb: 2 }}>
         <img
-          src={courseBanner}
+          src={course.banner || courseBanner}
           width="100%"
           height="250px"
           style={{ overflow: "hidden", objectFit: "cover" }}
@@ -56,7 +56,7 @@ const CoursePage = () => {
           >
             <Stack direction="row" sx={{ alignItems: "center" }}>
               <Typography sx={{ mr: 1 }}>{course.university.name}</Typography>
-              <Avatar src={universityLogo} />
+              <Avatar src={course.university.logo || universityLogo} />
             </Stack>
           </Link>
         </Stack>
@@ -75,9 +75,9 @@ const CoursePage = () => {
             square={false}
           >
             <Stack direction="row" sx={{ alignItems: "center" }}>
-              <Avatar src={instructorAvatar} sx={{ mr: 1 }} />
+              <UserAvatar user={course.instructor} />
 
-              <Box>
+              <Box sx={{ ml: 1 }}>
                 <Typography>
                   {course.instructor.name},{" "}
                   {educationToString(course.instructor.education!)}
@@ -93,7 +93,7 @@ const CoursePage = () => {
         <Stack direction="row" sx={{ alignItems: "center" }}>
           <AvatarGroup max={2} sx={{ mr: 1 }}>
             {enrolledUsers.map((user) => (
-              <Avatar key={user.id}>{user.name.substring(0, 1)}</Avatar>
+              <UserAvatar user={user} />
             ))}
           </AvatarGroup>
 

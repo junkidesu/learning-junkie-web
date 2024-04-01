@@ -2,6 +2,7 @@ export interface University {
   id: number;
   name: string;
   abbreviation?: string;
+  logo?: string;
   url: string;
   year: number;
   joined: string;
@@ -32,6 +33,7 @@ export const educationToString = (education: Education): string => {
 
 export interface User {
   id: number;
+  avatar?: string;
   role: Role;
   name: string;
   email: string;
@@ -51,6 +53,7 @@ export interface Course {
   id: number;
   title: string;
   description: string;
+  banner?: string;
   difficulty: Difficulty;
   instructor: User;
   university: University;
