@@ -43,6 +43,11 @@ export interface User {
   university?: University;
 }
 
+export interface Progress {
+  course: Course;
+  obtainedPoints: number;
+}
+
 export interface NewUser {
   name: string;
   email: string;

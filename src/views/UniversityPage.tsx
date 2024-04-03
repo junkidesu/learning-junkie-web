@@ -130,7 +130,7 @@ const UniversityPage = () => {
             <Stack direction="row" sx={{ alignItems: "center" }}>
               <Avatar
                 sx={{ width: 150, height: 150, mr: 3 }}
-                src={universityLogo || university.logo}
+                src={university.logo || universityLogo}
               />
               <Stack height="100%">
                 <Typography variant="h3">{university.name}</Typography>

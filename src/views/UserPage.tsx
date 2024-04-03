@@ -23,6 +23,8 @@ import CourseCard from "../components/CourseCard";
 import LoadingCourseCard from "../components/LoadingCourseCard";
 import { User } from "../types";
 import universityLogo from "../assets/university-logo.jpg";
+import useAuthUser from "../hooks/useAuthUser";
+import ProgressList from "../components/ProgressList";
 
 function a11yProps(index: number) {
   return {
@@ -54,12 +56,17 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 const UserTabs = ({ user }: { user: User }) => {
-  const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
   const [value, setValue] = useState(0);
+
+  const { authUser } = useAuthUser();
+
+  const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const isSameUser = authUser?.id === user.id;
 
   return (
     <Card sx={{ width: "100%" }} variant="outlined">
@@ -70,8 +77,8 @@ const UserTabs = ({ user }: { user: User }) => {
           aria-label="basic tabs example"
         >
           <Tab label="Enrollments" {...a11yProps(0)} />
-          <Tab label="Progress" {...a11yProps(1)} disabled />
-          <Tab label="Solutions" {...a11yProps(2)} disabled />
+          <Tab label="Progress" {...a11yProps(1)} disabled={!isSameUser} />
+          <Tab label="Solutions" {...a11yProps(2)} disabled={!isSameUser} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -104,7 +111,7 @@ const UserTabs = ({ user }: { user: User }) => {
         </Container>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Typography>Progress</Typography>
+        <ProgressList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <Typography>Solutions</Typography>

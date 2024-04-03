@@ -2,21 +2,25 @@ import { useAppSelector } from "../hooks";
 import {
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
+  useGetUserProgressQuery,
   useGetUserSolutionsQuery,
 } from "../services/users.service";
-import { Course, Exercise, User } from "../types";
+import { Course, Exercise, Progress, User } from "../types";
 
 type AuthUserData = {
   existsId: boolean;
   authUser?: User;
   courses?: Course[];
   solutions?: Exercise[];
+  progress?: Progress[];
   userLoading: boolean;
   coursesLoading: boolean;
   solutionsLoading: boolean;
+  progressLoading: boolean;
   userError: boolean;
   coursesError: boolean;
   solutionsError: boolean;
+  progressError: boolean;
 };
 
 const useAuthUser = (): AuthUserData => {
@@ -40,15 +44,23 @@ const useAuthUser = (): AuthUserData => {
     isError: solutionsError,
   } = useGetUserSolutionsQuery(id!, { skip: !id });
 
+  const {
+    data: progress,
+    isLoading: progressLoading,
+    isError: progressError,
+  } = useGetUserProgressQuery(id!, { skip: !id });
+
   if (!id)
     return {
       existsId: false,
       userLoading: false,
       coursesLoading: false,
       solutionsLoading: false,
+      progressLoading: false,
       userError: false,
       coursesError: false,
       solutionsError: false,
+      progressError: false,
     };
 
   return {
@@ -56,12 +68,15 @@ const useAuthUser = (): AuthUserData => {
     authUser,
     courses,
     solutions,
+    progress,
     userLoading,
     coursesLoading,
     solutionsLoading,
+    progressLoading,
     userError,
     coursesError,
     solutionsError,
+    progressError,
   };
 };
 
