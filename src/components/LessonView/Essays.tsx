@@ -20,9 +20,13 @@ const Essays = ({ lesson }: { lesson: Lesson }) => {
 
   return (
     <Stack gap={2}>
-      {essays.map((e) => (
-        <EssayItem essay={e} key={e.id} />
-      ))}
+      {essays.length === 0 ? (
+        <Typography>
+          This lesson does not appear to have any essays. You may have a rest!
+        </Typography>
+      ) : (
+        essays.map((e) => <EssayItem essay={e} key={e.id} />)
+      )}
     </Stack>
   );
 };

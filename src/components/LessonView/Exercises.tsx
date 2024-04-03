@@ -32,7 +32,7 @@ const Exercises = ({ lesson }: { lesson: Lesson }) => {
           <Essays lesson={lesson} />
         </AccordionDetails>
       </Accordion>
-      <Accordion defaultExpanded>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMore />}
           aria-controls="panel3-content"
