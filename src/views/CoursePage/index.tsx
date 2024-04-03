@@ -1,8 +1,6 @@
 import {
   Avatar,
-  AvatarGroup,
   Box,
-  Button,
   Card,
   CardActionArea,
   Container,
@@ -13,19 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
-import {
-  useGetCourseByIdQuery,
-  useGetEnrolledUsersQuery,
-} from "../services/courses.service";
-import universityLogo from "../assets/university-logo.jpg";
-import courseBanner from "../assets/education.jpg";
-import { educationToString } from "../types";
-import UserAvatar from "../components/UserAvatar";
-import useAuthUser from "../hooks/useAuthUser";
+import { useGetCourseByIdQuery } from "../../services/courses.service";
+import universityLogo from "../../assets/university-logo.jpg";
+import courseBanner from "../../assets/education.jpg";
+import { educationToString } from "../../types";
+import UserAvatar from "../../components/UserAvatar";
+import Enrollments from "./Enrollments";
 
 const CoursePage = () => {
-  const { existsId, authUser } = useAuthUser();
-
   const courseId = useParams().id;
 
   const navigate = useNavigate();
@@ -34,17 +27,9 @@ const CoursePage = () => {
     skip: !courseId,
   });
 
-  const { data: enrolledUsers } = useGetEnrolledUsersQuery(Number(courseId), {
-    skip: !courseId,
-  });
-
   if (!courseId) return null;
 
-  if (isLoading || !course || !enrolledUsers) return <div>Loading...</div>;
-
-  const isEnrolled = authUser
-    ? enrolledUsers.map((u) => u.id).includes(authUser.id)
-    : false;
+  if (isLoading || !course) return <div>Loading...</div>;
 
   return (
     <Container>
@@ -106,27 +91,7 @@ const CoursePage = () => {
         </Box>
       </Paper>
 
-      <Paper square={false} sx={{ p: 2 }}>
-        <Stack direction="row" sx={{ alignItems: "center" }}>
-          <AvatarGroup max={3} sx={{ mr: 1 }}>
-            {enrolledUsers.map((user) => (
-              <UserAvatar key={user.id} user={user} />
-            ))}
-          </AvatarGroup>
-
-          <Typography sx={{ flexGrow: 1 }}>
-            {course.enrollmentsCount} users are already enrolled.
-          </Typography>
-
-          {isEnrolled ? (
-            <Button variant="contained">Continue</Button>
-          ) : (
-            <Button disabled={!existsId}>
-              Enroll
-            </Button>
-          )}
-        </Stack>
-      </Paper>
+      <Enrollments course={course} />
     </Container>
   );
 };

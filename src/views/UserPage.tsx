@@ -150,7 +150,7 @@ const UserPage = () => {
                     bgcolor: stringToColor(user.name),
                   }}
                 >
-                  <Typography variant="h3">
+                  <Typography variant="h2">
                     {nameInitials(user.name)}
                   </Typography>
                 </Avatar>

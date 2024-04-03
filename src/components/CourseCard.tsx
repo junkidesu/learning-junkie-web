@@ -48,12 +48,15 @@ const CourseCard = ({ course }: { course: Course }) => {
       </CardContent>
 
       <CardActions>
-        {existsId &&
-          (isEnrolled ? (
-            <Button>Continue</Button>
-          ) : (
-            <Button onClick={handleEnroll}>Enroll</Button>
-          ))}
+        {isEnrolled ? (
+          <Button onClick={() => navigate(`/courses/${course.id}/lessons`)}>
+            Continue
+          </Button>
+        ) : (
+          <Button onClick={handleEnroll} disabled={!existsId}>
+            Enroll
+          </Button>
+        )}
         <Link to={`/courses/${course.id}`}>
           <Button>Learn More</Button>
         </Link>
