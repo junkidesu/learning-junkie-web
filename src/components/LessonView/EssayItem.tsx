@@ -5,6 +5,8 @@ import {
   TextField,
   Container,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Essay } from "../../types";
 import useAuthUser from "../../hooks/useAuthUser";
@@ -12,6 +14,8 @@ import { useState } from "react";
 import { usePostEssaySolutionMutation } from "../../services/solutions.service";
 
 const EssayItem = ({ essay }: { essay: Essay }) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
   const [answer, setAnswer] = useState("");
 
   const { existsId, solutions } = useAuthUser();
@@ -27,6 +31,17 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
     }).unwrap();
 
     console.log(result);
+
+    setSnackbarOpen(true);
+  };
+
+  const handleClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") return;
+
+    setSnackbarOpen(false);
   };
 
   const isSolved = solutions?.map((e) => e.id).includes(essay.id);
@@ -81,6 +96,21 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
           )}
         </Container>
       </Stack>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={"success"}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Successfully submitted!
+        </Alert>
+      </Snackbar>
     </Card>
   );
 };

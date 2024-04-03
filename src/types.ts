@@ -112,9 +112,9 @@ export interface Solution {
 }
 
 export enum ExerciseStatus {
-  ExerciseSuccess,
-  ExerciseFailure,
-  ExercisePending,
+  ExerciseSuccess = "ExerciseSuccess",
+  ExerciseFailure = "ExerciseFailure",
+  ExercisePending = "ExercisePending",
 }
 
 export interface ExerciseCheckResponse {

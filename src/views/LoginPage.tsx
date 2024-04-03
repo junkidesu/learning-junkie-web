@@ -1,5 +1,7 @@
 import {
+  Alert,
   Button,
+  Collapse,
   Container,
   FormControl,
   FormHelperText,
@@ -13,7 +15,12 @@ import {
   Typography,
 } from "@mui/material";
 import education from "../assets/education.jpg";
-import { LockTwoTone, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  CloseTwoTone,
+  LockTwoTone,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import React, { useState } from "react";
 import { useLoginMutation } from "../services/auth.service";
 import { useAppDispatch } from "../hooks";
@@ -21,6 +28,8 @@ import { setAuth } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const [alertOpen, setAlertOpen] = useState(false);
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -44,11 +53,34 @@ const LoginPage = () => {
       navigate("/");
     } catch (error) {
       console.error(error);
+      setAlertOpen(true);
     }
   };
 
   return (
     <Container sx={{ width: "fit-content" }}>
+      <Collapse in={alertOpen}>
+        <Alert
+          severity="error"
+          variant="filled"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setAlertOpen(false);
+              }}
+            >
+              <CloseTwoTone fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Something went wrong :(
+        </Alert>
+      </Collapse>
+
       <Paper square={false} sx={{ overflow: "hidden", width: "fit-content" }}>
         <Stack direction="row">
           <img

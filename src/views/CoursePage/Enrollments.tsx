@@ -1,4 +1,12 @@
-import { Paper, Stack, AvatarGroup, Typography, Button } from "@mui/material";
+import {
+  Paper,
+  Stack,
+  AvatarGroup,
+  Typography,
+  Button,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import UserAvatar from "../../components/UserAvatar";
 import { Course } from "../../types";
 import {
@@ -7,8 +15,12 @@ import {
 } from "../../services/courses.service";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Enrollments = ({ course }: { course: Course }) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const { data: enrolledUsers, isLoading } = useGetEnrolledUsersQuery(
     Number(course.id)
   );
@@ -26,7 +38,24 @@ const Enrollments = ({ course }: { course: Course }) => {
     : false;
 
   const handleEnroll = async () => {
-    await enroll(course.id);
+    try {
+      await enroll(course.id);
+      setSuccess(true);
+      setSnackbarOpen(true);
+    } catch (error) {
+      setSuccess(false);
+      setSnackbarOpen(true);
+      console.error(error);
+    }
+  };
+
+  const handleClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") return;
+
+    setSnackbarOpen(false);
   };
 
   return (
@@ -59,6 +88,23 @@ const Enrollments = ({ course }: { course: Course }) => {
           </Button>
         )}
       </Stack>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={success ? "success" : "error"}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {success
+            ? `Successfully enrolled in course "${course.title}"!`
+            : "Some error has occurred :("}
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 };

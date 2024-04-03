@@ -5,13 +5,18 @@ import {
   TextField,
   Container,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import { Question } from "../../types";
+import { ExerciseStatus, Question } from "../../types";
 import { usePostQuestionSolutionMutation } from "../../services/solutions.service";
 import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
 
 const QuestionItem = ({ question }: { question: Question }) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [correct, setCorrect] = useState(false);
+
   const { existsId, solutions } = useAuthUser();
 
   const [answer, setAnswer] = useState("");
@@ -26,7 +31,24 @@ const QuestionItem = ({ question }: { question: Question }) => {
       body: { answer },
     }).unwrap();
 
-    console.log(result);
+    if (result.result === ExerciseStatus.ExerciseFailure) {
+      console.log("Failure!");
+      setCorrect(false);
+      setSnackbarOpen(true);
+    } else if (result.result === ExerciseStatus.ExerciseSuccess) {
+      console.log("Success!");
+      setCorrect(true);
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") return;
+
+    setSnackbarOpen(false);
   };
 
   const isSolved = solutions?.map((e) => e.id).includes(question.id);
@@ -78,6 +100,21 @@ const QuestionItem = ({ question }: { question: Question }) => {
           )}
         </Container>
       </Stack>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={correct ? "success" : "error"}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {correct ? "Your answer is correct!" : "Your answer is incorrect!"}
+        </Alert>
+      </Snackbar>
     </Card>
   );
 };
