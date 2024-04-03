@@ -1,4 +1,4 @@
-import { Lesson } from "../types";
+import { Essay, Lesson, Question, Quiz } from "../types";
 import { api } from "./api.service";
 
 export const lessonsApi = api.injectEndpoints({
@@ -8,7 +8,30 @@ export const lessonsApi = api.injectEndpoints({
         url: `courses/${id}/lessons`,
       }),
     }),
+    getLessonQuestions: builder.query<
+      Question[],
+      { id: number; number: number }
+    >({
+      query: ({ id, number }) => ({
+        url: `courses/${id}/lessons/${number}/questions`,
+      }),
+    }),
+    getLessonEssays: builder.query<Essay[], { id: number; number: number }>({
+      query: ({ id, number }) => ({
+        url: `courses/${id}/lessons/${number}/essays`,
+      }),
+    }),
+    getLessonQuizzes: builder.query<Quiz[], { id: number; number: number }>({
+      query: ({ id, number }) => ({
+        url: `courses/${id}/lessons/${number}/quizzes`,
+      }),
+    }),
   }),
 });
 
-export const { useGetCourseLessonsQuery } = lessonsApi;
+export const {
+  useGetCourseLessonsQuery,
+  useGetLessonQuestionsQuery,
+  useGetLessonEssaysQuery,
+  useGetLessonQuizzesQuery,
+} = lessonsApi;

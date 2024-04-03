@@ -74,6 +74,32 @@ export interface Lesson {
   title: string;
   description: string;
   content: string;
+  course: Course;
+}
+
+export interface Exercise {
+  id: number;
+  grade: number;
+  title?: string;
+  course: Course;
+}
+
+export interface Question extends Exercise {
+  question: string;
+}
+
+export interface Essay extends Exercise {
+  task: string;
+}
+
+export interface Quiz extends Exercise {
+  question: string;
+  options: {
+    A: string;
+    B: string;
+    C: string;
+    D: string;
+  };
 }
 
 export interface Credentials {
