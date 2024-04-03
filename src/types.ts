@@ -69,6 +69,13 @@ export interface Course {
   totalPoints: number;
 }
 
+export interface Lesson {
+  number: number;
+  title: string;
+  description: string;
+  content: string;
+}
+
 export interface Credentials {
   email: string;
   password: string;

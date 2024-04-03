@@ -1,13 +1,19 @@
 import { Paper, Stack, AvatarGroup, Typography, Button } from "@mui/material";
 import UserAvatar from "../../components/UserAvatar";
 import { Course } from "../../types";
-import { useEnrollMutation, useGetEnrolledUsersQuery } from "../../services/courses.service";
+import {
+  useEnrollMutation,
+  useGetEnrolledUsersQuery,
+} from "../../services/courses.service";
 import useAuthUser from "../../hooks/useAuthUser";
+import { useNavigate } from "react-router-dom";
 
 const Enrollments = ({ course }: { course: Course }) => {
   const { data: enrolledUsers, isLoading } = useGetEnrolledUsersQuery(
     Number(course.id)
   );
+
+  const navigate = useNavigate();
 
   const [enroll] = useEnrollMutation();
 
@@ -37,7 +43,12 @@ const Enrollments = ({ course }: { course: Course }) => {
         </Typography>
 
         {isEnrolled ? (
-          <Button variant="contained">Continue</Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate(`/courses/${course.id}/lessons`)}
+          >
+            Continue
+          </Button>
         ) : (
           <Button
             variant="contained"
