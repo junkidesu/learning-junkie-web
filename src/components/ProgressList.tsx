@@ -3,13 +3,21 @@ import useAuthUser from "../hooks/useAuthUser";
 import ProgressItem from "./ProgessItem";
 
 const ProgressList = () => {
-  const { existsId, progress, progressLoading, progressError } = useAuthUser();
+  const {
+    existsId,
+    authUser,
+    progress,
+    userLoading,
+    progressLoading,
+    progressError,
+  } = useAuthUser();
 
   if (!existsId) return null;
 
-  if (progressLoading) return <Typography>Loading...</Typography>;
+  if (progressLoading || userLoading)
+    return <Typography>Loading...</Typography>;
 
-  if (progressError || !progress)
+  if (progressError || !progress || !authUser)
     return <Typography>Something went terribly wrong :(</Typography>;
 
   if (progress.length === 0)
@@ -21,7 +29,7 @@ const ProgressList = () => {
   return (
     <Stack gap={1}>
       {progress.map((p) => (
-        <ProgressItem key={p.course.id} progress={p} />
+        <ProgressItem key={p.course.id} progress={p} user={authUser} />
       ))}
     </Stack>
   );

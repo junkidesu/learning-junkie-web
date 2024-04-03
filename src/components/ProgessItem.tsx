@@ -7,15 +7,25 @@ import {
   CircularProgress,
   Button,
 } from "@mui/material";
-import { Progress } from "../types";
+import { Progress, User } from "../types";
 import { useNavigate } from "react-router-dom";
 
-const ProgressItem = ({ progress }: { progress: Progress }) => {
+const ProgressItem = ({
+  progress,
+  user,
+}: {
+  progress: Progress;
+  user: User;
+}) => {
   const navigate = useNavigate();
 
   const isCompleted =
     progress.course.totalPoints &&
     progress.obtainedPoints === progress.course.totalPoints;
+
+  const certificateLink = `${import.meta.env.VITE_BACKEND_URL}/users/${
+    user.id
+  }/courses/${progress.course.id}/certificate`;
 
   return (
     <Paper>
@@ -71,6 +81,7 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
             <Button
               variant="contained"
               color="success"
+              onClick={() => window.open(certificateLink)}
             >
               Certificate
             </Button>
