@@ -74,7 +74,7 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
               sx={{ float: "right" }}
               variant="contained"
               onClick={handleCheck}
-              disabled={!existsId}
+              disabled={!existsId || !answer}
             >
               Submit
             </Button>

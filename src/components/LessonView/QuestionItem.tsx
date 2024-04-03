@@ -71,7 +71,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
               sx={{ float: "right" }}
               variant="contained"
               onClick={handleCheck}
-              disabled={!existsId}
+              disabled={!existsId || !answer}
             >
               Check
             </Button>

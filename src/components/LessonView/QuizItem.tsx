@@ -56,27 +56,32 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             name="radio-buttons-group"
+            defaultValue="A"
             onChange={(e) => setAnswer(e.target.value)}
           >
             <FormControlLabel
               value="A"
               control={<Radio />}
               label={quiz.options.A}
+              disabled={!existsId}
             />
             <FormControlLabel
               value="B"
               control={<Radio />}
               label={quiz.options.B}
+              disabled={!existsId}
             />
             <FormControlLabel
               value="C"
               control={<Radio />}
               label={quiz.options.C}
+              disabled={!existsId}
             />
             <FormControlLabel
               value="D"
               control={<Radio />}
               label={quiz.options.D}
+              disabled={!existsId}
             />
           </RadioGroup>
         </FormControl>

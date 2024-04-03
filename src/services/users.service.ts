@@ -24,6 +24,7 @@ export const usersApi = api.injectEndpoints({
       query: (id) => ({
         url: `users/${id}/progress`,
       }),
+      providesTags: ["UserSolutions"],
     }),
     signUp: builder.mutation<User, NewUser>({
       query: (newUser) => ({
