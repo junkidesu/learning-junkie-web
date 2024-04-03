@@ -7,18 +7,41 @@ import {
   Button,
 } from "@mui/material";
 import { Essay } from "../../types";
+import useAuthUser from "../../hooks/useAuthUser";
+import { useState } from "react";
+import { usePostEssaySolutionMutation } from "../../services/solutions.service";
 
 const EssayItem = ({ essay }: { essay: Essay }) => {
+  const [answer, setAnswer] = useState("");
+
+  const { existsId, solutions } = useAuthUser();
+
+  const [postSolution] = usePostEssaySolutionMutation();
+
+  const handleCheck = async () => {
+    console.log(answer);
+
+    const result = await postSolution({
+      id: essay.id,
+      body: { answer },
+    }).unwrap();
+
+    console.log(result);
+  };
+
+  const isSolved = solutions?.map((e) => e.id).includes(essay.id);
+
   return (
     <Card variant="elevation" elevation={5}>
       <Stack gap={2} sx={{ p: 2 }}>
         <Stack direction="row">
-          <Typography fontWeight="bold" fontStyle="italic" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
             {essay.title || "Essay"}
           </Typography>
 
-          <Typography fontWeight="bold">
-            {essay.grade === 1 ? "1 point" : `${essay.grade} points`}
+          <Typography variant="h6">
+            Grade: {isSolved ? essay.grade : 0} {"/ "}
+            {essay.grade}
           </Typography>
         </Stack>
 
@@ -31,12 +54,31 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
           required
           multiline
           minRows={4}
+          disabled={!existsId}
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
         />
 
         <Container sx={{ width: "100%" }}>
-          <Button sx={{ float: "right" }} variant="contained">
-            Submit
-          </Button>
+          {isSolved ? (
+            <Button
+              sx={{ float: "right" }}
+              variant="contained"
+              color="success"
+              disabled={!existsId}
+            >
+              See Solution
+            </Button>
+          ) : (
+            <Button
+              sx={{ float: "right" }}
+              variant="contained"
+              onClick={handleCheck}
+              disabled={!existsId}
+            >
+              Submit
+            </Button>
+          )}
         </Container>
       </Stack>
     </Card>

@@ -20,9 +20,9 @@ const Quizzes = ({ lesson }: { lesson: Lesson }) => {
 
   return (
     <Stack gap={2}>
-      {quizzes.map((e) => (
-        <QuizItem key={e.id} quiz={e} />
-      ))}
+      {quizzes.length === 0
+        ? <Typography>There does not appear to be any quizzes in this lesson. Enjoy this little break!</Typography>
+        : quizzes.map((e) => <QuizItem key={e.id} quiz={e} />)}
     </Stack>
   );
 };

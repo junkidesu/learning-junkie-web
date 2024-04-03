@@ -12,24 +12,40 @@ import {
 } from "@mui/material";
 import { Quiz } from "../../types";
 import { useState } from "react";
+import useAuthUser from "../../hooks/useAuthUser";
+import { usePostQuizSolutionMutation } from "../../services/solutions.service";
 
 const QuizItem = ({ quiz }: { quiz: Quiz }) => {
-  const [option, setOption] = useState<string>("A");
+  const [answer, setAnswer] = useState<string>("A");
 
-  const handleCheck = () => {
-    console.log(option);
+  const { existsId, solutions } = useAuthUser();
+
+  const [postSolution] = usePostQuizSolutionMutation();
+
+  const handleCheck = async () => {
+    console.log(answer);
+
+    const result = await postSolution({
+      id: quiz.id,
+      body: { answer },
+    }).unwrap();
+
+    console.log(result);
   };
+
+  const isSolved = solutions?.map((e) => e.id).includes(quiz.id);
 
   return (
     <Card variant="elevation" elevation={5}>
       <Stack gap={2} sx={{ p: 2 }}>
         <Stack direction="row">
-          <Typography fontWeight="bold" fontStyle="italic" sx={{ flexGrow: 1 }}>
+          <Typography typography="h6" sx={{ flexGrow: 1 }}>
             {quiz.title || "Quiz"}
           </Typography>
 
-          <Typography fontWeight="bold">
-            {quiz.grade === 1 ? "1 point" : `${quiz.grade} points`}
+          <Typography variant="h6">
+            Grade: {isSolved ? quiz.grade : 0} {"/ "}
+            {quiz.grade}
           </Typography>
         </Stack>
 
@@ -40,7 +56,7 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             name="radio-buttons-group"
-            onChange={(e) => setOption(e.target.value)}
+            onChange={(e) => setAnswer(e.target.value)}
           >
             <FormControlLabel
               value="A"
@@ -66,13 +82,25 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
         </FormControl>
 
         <Container sx={{ width: "100%" }}>
-          <Button
-            sx={{ float: "right" }}
-            variant="contained"
-            onClick={handleCheck}
-          >
-            Check
-          </Button>
+          {isSolved ? (
+            <Button
+              sx={{ float: "right" }}
+              variant="contained"
+              color="success"
+              disabled={!existsId}
+            >
+              See Solution
+            </Button>
+          ) : (
+            <Button
+              sx={{ float: "right" }}
+              variant="contained"
+              onClick={handleCheck}
+              disabled={!existsId}
+            >
+              Check
+            </Button>
+          )}
         </Container>
       </Stack>
     </Card>

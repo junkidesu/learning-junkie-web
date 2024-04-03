@@ -1,4 +1,4 @@
-import { Course, NewUser, User } from "../types";
+import { Course, Exercise, NewUser, User } from "../types";
 import { api } from "./api.service";
 
 export const usersApi = api.injectEndpoints({
@@ -14,6 +14,12 @@ export const usersApi = api.injectEndpoints({
       }),
       providesTags: ["CourseUsers"],
     }),
+    getUserSolutions: builder.query<Exercise[], number>({
+      query: (id) => ({
+        url: `users/${id}/solutions`,
+      }),
+      providesTags: ["UserSolutions"],
+    }),
     signUp: builder.mutation<User, NewUser>({
       query: (newUser) => ({
         url: `users`,
@@ -27,5 +33,6 @@ export const usersApi = api.injectEndpoints({
 export const {
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
+  useGetUserSolutionsQuery,
   useSignUpMutation,
 } = usersApi;

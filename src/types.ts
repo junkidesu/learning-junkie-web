@@ -102,6 +102,21 @@ export interface Quiz extends Exercise {
   };
 }
 
+export interface Solution {
+  answer: string;
+}
+
+export enum ExerciseStatus {
+  ExerciseSuccess,
+  ExerciseFailure,
+  ExercisePending,
+}
+
+export interface ExerciseCheckResponse {
+  result: ExerciseStatus;
+  grade?: number;
+}
+
 export interface Credentials {
   email: string;
   password: string;
