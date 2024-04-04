@@ -27,6 +27,22 @@ export const universitiesApi = api.injectEndpoints({
       query: (id) => ({
         url: `universities/${id}/courses`,
       }),
+      providesTags: ["University"],
+    }),
+    uploadLogo: builder.mutation<University, { id: number; body: FormData }>({
+      query: ({ id, body }) => ({
+        url: `universities/${id}/logo`,
+        method: "POST",
+        formData: true,
+        body,
+      }),
+      invalidatesTags: ["University"],
+    }),
+    deleteLogo: builder.mutation<University, number>({
+      query: (id) => ({
+        url: `universities/${id}/logo`,
+        method: "DELETE",
+      }),
     }),
     deleteUniversity: builder.mutation<void, number>({
       query: (id) => ({
@@ -43,5 +59,7 @@ export const {
   useGetUniversitiesQuery,
   useGetUniversityByIdQuery,
   useGetUniversityCoursesQuery,
+  useUploadLogoMutation,
+  useDeleteLogoMutation,
   useDeleteUniversityMutation,
 } = universitiesApi;

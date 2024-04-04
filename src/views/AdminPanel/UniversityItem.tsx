@@ -5,6 +5,7 @@ import {
   CardActionArea,
   Container,
   Divider,
+  IconButton,
   Link,
   Stack,
   Typography,
@@ -12,10 +13,54 @@ import {
 import { University } from "../../types";
 import { useNavigate } from "react-router-dom";
 import universityLogo from "../../assets/university-logo.jpg";
-import { DeleteForeverOutlined, Edit } from "@mui/icons-material";
-import { useDeleteUniversityMutation } from "../../services/universities.service";
+import { DeleteForeverOutlined } from "@mui/icons-material";
+import {
+  useDeleteLogoMutation,
+  useDeleteUniversityMutation,
+  useUploadLogoMutation,
+} from "../../services/universities.service";
+import { useFilePicker } from "use-file-picker";
+import { useEffect, useState } from "react";
 
 const UniversityItem = ({ university }: { university: University }) => {
+  const [logo, setLogo] = useState<File | undefined>();
+
+  const [uploadLogo] = useUploadLogoMutation();
+  const [deleteLogo] = useDeleteLogoMutation();
+
+  useEffect(() => {
+    const handleUploadLogo = async () => {
+      if (logo) {
+        const formData = new FormData();
+
+        formData.append("file", logo);
+
+        try {
+          console.log("Uploading");
+
+          await uploadLogo({ id: university.id, body: formData }).unwrap();
+
+          console.log("Success!");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    if (logo) {
+      handleUploadLogo();
+    }
+  }, [logo, university.id, uploadLogo]);
+
+  const { openFilePicker } = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    onFilesSuccessfullySelected: (files) => {
+      setLogo(files.plainFiles[0]);
+    },
+  });
+
   const navigate = useNavigate();
 
   const [deleteUniversity] = useDeleteUniversityMutation();
@@ -25,15 +70,25 @@ const UniversityItem = ({ university }: { university: University }) => {
     console.log("Success!");
   };
 
+  const handleDeleteLogo = async () => {
+    await deleteLogo(university.id);
+    console.log("Success!");
+  };
+
   return (
     <Card square={false} elevation={5}>
       <Stack>
         <CardActionArea sx={{ p: 2 }}>
           <Stack direction="row">
-            <Avatar
-              sx={{ height: 80, width: 80 }}
-              src={university.logo || universityLogo}
-            />
+            <IconButton
+              sx={{ p: 0, width: 80, height: 80, mr: 2 }}
+              onClick={() => openFilePicker()}
+            >
+              <Avatar
+                sx={{ height: 80, width: 80 }}
+                src={university.logo || universityLogo}
+              />
+            </IconButton>
 
             <Container>
               <Typography
@@ -62,20 +117,20 @@ const UniversityItem = ({ university }: { university: University }) => {
           </Button>
 
           <Button
+            // sx={{ float: "right" }}
+            color="error"
+            onClick={handleDeleteLogo}
+          >
+            Remove logo
+          </Button>
+
+          <Button
             color="error"
             sx={{ float: "right" }}
             onClick={handleDelete}
             startIcon={<DeleteForeverOutlined />}
           >
             Delete
-          </Button>
-          <Button
-            color="warning"
-            sx={{ float: "right" }}
-            onClick={() => navigate(`/universities/${university.id}/edit`)}
-            startIcon={<Edit />}
-          >
-            Edit
           </Button>
         </Container>
       </Stack>
