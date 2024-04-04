@@ -12,6 +12,7 @@ import LessonsPage from "./views/LessonsPage";
 import AdminPanel from "./views/AdminPanel";
 import NewUniversityPage from "./views/AdminPanel/NewUniversityPage";
 import NewCoursePage from "./views/AdminPanel/NewCoursePage";
+import EditLessonsPage from "./views/AdminPanel/EditLessonsPage";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="courses/new" element={<NewCoursePage />} />
         <Route path="courses/:id" element={<CoursePage />} />
         <Route path="courses/:id/lessons" element={<LessonsPage />} />
+        <Route path="courses/:id/lessons/edit" element={<EditLessonsPage />} />
         <Route path="universities" element={<AllUniversitiesPage />} />
         <Route path="universities/new" element={<NewUniversityPage />} />
         <Route path="universities/:id" element={<UniversityPage />} />

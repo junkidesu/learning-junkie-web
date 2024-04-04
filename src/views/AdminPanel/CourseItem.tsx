@@ -117,6 +117,12 @@ const CourseItem = ({ course }: { course: Course }) => {
           </Button>
 
           <Button
+            onClick={() => navigate(`/courses/${course.id}/lessons/edit`)}
+          >
+            Lessons
+          </Button>
+
+          <Button
             color="error"
             sx={{ float: "right" }}
             onClick={handleDelete}
