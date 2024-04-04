@@ -11,9 +11,17 @@ import { Course } from "../../types";
 import { DeleteForeverOutlined } from "@mui/icons-material";
 import universityLogo from "../../assets/university-logo.jpg";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { useDeleteCourseMutation } from "../../services/courses.service";
 
 const CourseItem = ({ course }: { course: Course }) => {
   const navigate = useNavigate();
+
+  const [deleteCourse] = useDeleteCourseMutation();
+
+  const handleDelete = async () => {
+    await deleteCourse(course.id);
+    console.log("Success!");
+  };
 
   return (
     <Card square={false} elevation={5}>
@@ -66,7 +74,7 @@ const CourseItem = ({ course }: { course: Course }) => {
           <Button
             color="error"
             sx={{ float: "right" }}
-            onClick={() => {}}
+            onClick={handleDelete}
             startIcon={<DeleteForeverOutlined />}
           >
             Delete

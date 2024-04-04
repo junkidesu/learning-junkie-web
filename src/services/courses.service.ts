@@ -9,22 +9,32 @@ export const coursesApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Course"],
     }),
     getCourses: builder.query<Course[], void>({
       query: () => ({
         url: "courses",
       }),
+      providesTags: ["Course"],
     }),
     getCourseById: builder.query<Course, number>({
       query: (id) => ({
         url: `courses/${id}`,
       }),
+      providesTags: ["Course"],
     }),
     getEnrolledUsers: builder.query<User[], number>({
       query: (id) => ({
         url: `courses/${id}/enrollments`,
       }),
       providesTags: ["CourseUsers"],
+    }),
+    deleteCourse: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `courses/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Course"],
     }),
     enroll: builder.mutation<void, number>({
       query: (id) => ({
@@ -41,5 +51,6 @@ export const {
   useGetCoursesQuery,
   useGetCourseByIdQuery,
   useGetEnrolledUsersQuery,
+  useDeleteCourseMutation,
   useEnrollMutation,
 } = coursesApi;
