@@ -3,6 +3,7 @@ import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Role } from "../../types";
 import UniversityList from "./UniversityList";
+import CourseList from "./CourseList";
 
 const a11yProps = (index: number) => {
   return {
@@ -72,7 +73,7 @@ const AdminPanel = () => {
           <UniversityList />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Typography>Courses</Typography>
+          <CourseList />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <Typography>Users</Typography>

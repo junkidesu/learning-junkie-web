@@ -1,4 +1,4 @@
-import { Course, NewUniversity, University } from "../types";
+import { Course, NewUniversity, University, User } from "../types";
 import { api } from "./api.service";
 
 export const universitiesApi = api.injectEndpoints({
@@ -28,6 +28,11 @@ export const universitiesApi = api.injectEndpoints({
         url: `universities/${id}/courses`,
       }),
       providesTags: ["University"],
+    }),
+    getUniversityInsturctors: builder.query<User[], number>({
+      query: (id) => ({
+        url: `universities/${id}/instructors`,
+      }),
     }),
     uploadLogo: builder.mutation<University, { id: number; body: FormData }>({
       query: ({ id, body }) => ({
@@ -59,6 +64,7 @@ export const {
   useGetUniversitiesQuery,
   useGetUniversityByIdQuery,
   useGetUniversityCoursesQuery,
+  useGetUniversityInsturctorsQuery,
   useUploadLogoMutation,
   useDeleteLogoMutation,
   useDeleteUniversityMutation,

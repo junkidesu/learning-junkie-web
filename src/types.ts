@@ -64,9 +64,9 @@ export interface NewUser {
 }
 
 export enum Difficulty {
-  Beginner,
-  Intermediate,
-  Advanced,
+  Beginner = "Beginner",
+  Intermediate = "Intermediate",
+  Advanced = "Advanced",
 }
 
 export interface Course {
@@ -79,6 +79,13 @@ export interface Course {
   university: University;
   enrollmentsCount: number;
   totalPoints: number;
+}
+
+export interface NewCourse {
+  title: string;
+  description: string;
+  difficulty: Difficulty;
+  instructorId: number;
 }
 
 export interface Lesson {
