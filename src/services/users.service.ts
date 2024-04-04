@@ -7,6 +7,7 @@ export const usersApi = api.injectEndpoints({
       query: (id) => ({
         url: `users/${id}`,
       }),
+      providesTags: ["User"],
     }),
     getUserCourses: builder.query<Course[], number>({
       query: (id) => ({
@@ -33,6 +34,15 @@ export const usersApi = api.injectEndpoints({
         method: "POST",
       }),
     }),
+    uploadAvatar: builder.mutation<User, { id: number; body: FormData }>({
+      query: ({ id, body }) => ({
+        url: `users/${id}/avatar`,
+        method: "POST",
+        formData: true,
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -42,4 +52,5 @@ export const {
   useGetUserSolutionsQuery,
   useGetUserProgressQuery,
   useSignUpMutation,
+  useUploadAvatarMutation,
 } = usersApi;

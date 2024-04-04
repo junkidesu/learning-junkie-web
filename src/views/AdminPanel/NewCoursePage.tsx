@@ -111,7 +111,7 @@ const NewCoursePage = () => {
           sx={{ p: 3, alignItems: "center" }}
           onSubmit={handleSubmit}
         >
-          <Typography variant="h5">Add a University</Typography>
+          <Typography variant="h5">Add a Course</Typography>
 
           <TextField
             fullWidth

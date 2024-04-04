@@ -6,6 +6,7 @@ import {
   Container,
   Divider,
   Grid,
+  IconButton,
   Paper,
   Stack,
   Tab,
@@ -16,15 +17,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
+  useUploadAvatarMutation,
 } from "../services/users.service";
 import { nameInitials, stringToColor } from "../util";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
 import LoadingCourseCard from "../components/LoadingCourseCard";
 import { User } from "../types";
 import universityLogo from "../assets/university-logo.jpg";
 import useAuthUser from "../hooks/useAuthUser";
 import ProgressList from "../components/ProgressList";
+import { useFilePicker } from "use-file-picker";
 
 function a11yProps(index: number) {
   return {
@@ -121,14 +124,53 @@ const UserTabs = ({ user }: { user: User }) => {
 };
 
 const UserPage = () => {
+  const [avatar, setAvatar] = useState<File | undefined>();
+
+  const [uploadAvatar] = useUploadAvatarMutation();
+
+  const { openFilePicker } = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    onFilesSuccessfullySelected: (files) => {
+      setAvatar(files.plainFiles[0]);
+    },
+  });
+
   const userId = useParams().id;
   const navigate = useNavigate();
+
+  const { authUser } = useAuthUser();
 
   const {
     data: user,
     isLoading,
     isError,
   } = useGetUserByIdQuery(Number(userId), { skip: !userId });
+
+  useEffect(() => {
+    const handleUploadAvatar = async () => {
+      if (avatar) {
+        const formData = new FormData();
+
+        formData.append("file", avatar);
+
+        try {
+          console.log("Uploading");
+
+          await uploadAvatar({ id: user!.id, body: formData }).unwrap();
+
+          console.log("Success!");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    if (avatar) {
+      handleUploadAvatar();
+    }
+  }, [avatar, user, uploadAvatar]);
 
   if (!userId) return null;
 
@@ -137,31 +179,34 @@ const UserPage = () => {
   if (isError || !user)
     return <Typography>Some error has occurred!</Typography>;
 
+  const isSameUser = authUser?.id === user.id;
+
   return (
     <Container>
       <Stack gap={3}>
         <Paper sx={{ p: 2 }}>
           <Stack gap={2}>
             <Stack direction="row" sx={{ alignItems: "center" }}>
-              {user.avatar ? (
-                <Avatar
-                  sx={{ width: 150, height: 150, mr: 3 }}
-                  src={user.avatar}
-                />
-              ) : (
-                <Avatar
-                  sx={{
-                    width: 150,
-                    height: 150,
-                    mr: 3,
-                    bgcolor: stringToColor(user.name),
-                  }}
-                >
-                  <Typography variant="h2">
-                    {nameInitials(user.name)}
-                  </Typography>
-                </Avatar>
-              )}
+              <IconButton
+                sx={{ width: 150, height: 150, p: 0, mr: 3 }}
+                onClick={isSameUser ? () => openFilePicker() : undefined}
+              >
+                {user.avatar ? (
+                  <Avatar sx={{ width: 150, height: 150 }} src={user.avatar} />
+                ) : (
+                  <Avatar
+                    sx={{
+                      width: 150,
+                      height: 150,
+                      bgcolor: stringToColor(user.name),
+                    }}
+                  >
+                    <Typography variant="h2">
+                      {nameInitials(user.name)}
+                    </Typography>
+                  </Avatar>
+                )}
+              </IconButton>
 
               <Stack sx={{ flexGrow: 1 }}>
                 <Typography variant="h3">{user.name}</Typography>
