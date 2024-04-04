@@ -13,20 +13,25 @@ import { University } from "../../types";
 import { useNavigate } from "react-router-dom";
 import universityLogo from "../../assets/university-logo.jpg";
 import { DeleteForeverOutlined, Edit } from "@mui/icons-material";
+import { useDeleteUniversityMutation } from "../../services/universities.service";
 
 const UniversityItem = ({ university }: { university: University }) => {
   const navigate = useNavigate();
 
+  const [deleteUniversity] = useDeleteUniversityMutation();
+
+  const handleDelete = async () => {
+    await deleteUniversity(university.id);
+    console.log("Success!");
+  };
+
   return (
     <Card square={false} elevation={5}>
       <Stack>
-        <CardActionArea
-          sx={{ p: 2 }}
-          onClick={() => navigate(`/universities/${university.id}`)}
-        >
+        <CardActionArea sx={{ p: 2 }}>
           <Stack direction="row">
             <Avatar
-              sx={{ height: 80, width: 80, mr: 2 }}
+              sx={{ height: 80, width: 80 }}
               src={university.logo || universityLogo}
             />
 
@@ -52,14 +57,20 @@ const UniversityItem = ({ university }: { university: University }) => {
         <Divider />
 
         <Container sx={{ p: 1 }}>
+          <Button onClick={() => navigate(`/universities/${university.id}`)}>
+            Visit
+          </Button>
+
           <Button
             color="error"
             sx={{ float: "right" }}
+            onClick={handleDelete}
             startIcon={<DeleteForeverOutlined />}
           >
             Delete
           </Button>
           <Button
+            color="warning"
             sx={{ float: "right" }}
             onClick={() => navigate(`/universities/${university.id}/edit`)}
             startIcon={<Edit />}

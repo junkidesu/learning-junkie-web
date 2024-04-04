@@ -21,6 +21,7 @@ export const universitiesApi = api.injectEndpoints({
       query: (id) => ({
         url: `universities/${id}`,
       }),
+      providesTags: ["University"],
     }),
     getUniversityCourses: builder.query<Course[], number>({
       query: (id) => ({
@@ -32,6 +33,7 @@ export const universitiesApi = api.injectEndpoints({
         url: `universities/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["University"],
     }),
   }),
 });
