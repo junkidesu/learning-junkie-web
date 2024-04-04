@@ -43,6 +43,20 @@ export const coursesApi = api.injectEndpoints({
       }),
       invalidatesTags: ["CourseUsers"],
     }),
+    uploadBanner: builder.mutation<Course, { id: number; body: FormData }>({
+      query: ({ id, body }) => ({
+        url: `courses/${id}/banner`,
+        method: "POST",
+        formData: true,
+        body,
+      }),
+    }),
+    deleteBanner: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `courses/${id}/banner`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -53,4 +67,6 @@ export const {
   useGetEnrolledUsersQuery,
   useDeleteCourseMutation,
   useEnrollMutation,
+  useUploadBannerMutation,
+  useDeleteBannerMutation,
 } = coursesApi;

@@ -11,15 +11,64 @@ import { Course } from "../../types";
 import { DeleteForeverOutlined } from "@mui/icons-material";
 import universityLogo from "../../assets/university-logo.jpg";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { useDeleteCourseMutation } from "../../services/courses.service";
+import {
+  useDeleteBannerMutation,
+  useDeleteCourseMutation,
+  useUploadBannerMutation,
+} from "../../services/courses.service";
+import { useEffect, useState } from "react";
+import { useFilePicker } from "use-file-picker";
 
 const CourseItem = ({ course }: { course: Course }) => {
+  const [banner, setBanner] = useState<File | undefined>();
+
+  const [uploadBanner] = useUploadBannerMutation();
+  const [deleteBanner] = useDeleteBannerMutation();
+
+  useEffect(() => {
+    const handleUploadBanner = async () => {
+      if (banner) {
+        const formData = new FormData();
+
+        formData.append("file", banner);
+
+        try {
+          console.log("Uploading");
+
+          await uploadBanner({ id: course.id, body: formData }).unwrap();
+
+          console.log("Success!");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    if (banner) {
+      handleUploadBanner();
+    }
+  }, [banner, course.id, uploadBanner]);
+
+  const { openFilePicker } = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    onFilesSuccessfullySelected: (files) => {
+      setBanner(files.plainFiles[0]);
+    },
+  });
+
   const navigate = useNavigate();
 
   const [deleteCourse] = useDeleteCourseMutation();
 
   const handleDelete = async () => {
     await deleteCourse(course.id);
+    console.log("Success!");
+  };
+
+  const handleDeleteBanner = async () => {
+    await deleteBanner(course.id);
     console.log("Success!");
   };
 
@@ -43,6 +92,7 @@ const CourseItem = ({ course }: { course: Course }) => {
 
             <Typography
               component={RouterLink}
+              sx={{ textDecoration: "none" }}
               to={`/universities/${course.university.id}`}
               color="inherit"
             >
@@ -60,14 +110,9 @@ const CourseItem = ({ course }: { course: Course }) => {
             Visit
           </Button>
 
-          <Button onClick={() => navigate(`/courses/${course.id}`)}>
-            Upload Banner
-          </Button>
+          <Button onClick={() => openFilePicker()}>Upload Banner</Button>
 
-          <Button
-            onClick={() => navigate(`/courses/${course.id}`)}
-            color="error"
-          >
+          <Button onClick={handleDeleteBanner} color="error">
             Remove Banner
           </Button>
 
