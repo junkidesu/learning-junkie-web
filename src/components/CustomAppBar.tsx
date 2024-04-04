@@ -4,6 +4,7 @@ import {
   School,
   Login,
   AppRegistration,
+  AdminPanelSettings,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -67,6 +68,12 @@ const CustomAppBar = () => {
             <RouterLink to="/universities">
               <Button startIcon={<School />}>Universities</Button>
             </RouterLink>
+
+            {authUser?.role === "Admin" && (
+              <RouterLink to="/admin">
+                <Button startIcon={<AdminPanelSettings />}>Admin</Button>
+              </RouterLink>
+            )}
           </Stack>
 
           {existsId ? (

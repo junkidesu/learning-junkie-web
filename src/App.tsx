@@ -9,6 +9,8 @@ import UniversityPage from "./views/UniversityPage";
 import UserPage from "./views/UserPage";
 import SignUpPage from "./views/SignUpPage";
 import LessonsPage from "./views/LessonsPage";
+import AdminPanel from "./views/AdminPanel";
+import NewUniversityPage from "./views/AdminPanel/NewUniversityPage";
 
 const App = () => {
   return (
@@ -17,12 +19,14 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<AllCoursesPage />} />
+        <Route path="admin" element={<AdminPanel />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignUpPage />} />
         <Route path="courses" element={<AllCoursesPage />} />
         <Route path="courses/:id" element={<CoursePage />} />
         <Route path="courses/:id/lessons" element={<LessonsPage />} />
         <Route path="universities" element={<AllUniversitiesPage />} />
+        <Route path="universities/new" element={<NewUniversityPage />} />
         <Route path="universities/:id" element={<UniversityPage />} />
         <Route path="users/:id" element={<UserPage />} />
       </Routes>

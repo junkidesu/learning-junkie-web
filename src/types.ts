@@ -8,10 +8,17 @@ export interface University {
   joined: string;
 }
 
+export interface NewUniversity {
+  name: string;
+  abbreviation?: string;
+  url: string;
+  year: number;
+}
+
 export enum Role {
-  Student,
-  Instructor,
-  Admin,
+  Student = "Student",
+  Instructor = "Instructor",
+  Admin = "Admin",
 }
 
 export enum Education {
