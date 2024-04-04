@@ -2,7 +2,6 @@ import {
   Avatar,
   Button,
   Card,
-  CardActionArea,
   Container,
   Divider,
   IconButton,
@@ -78,36 +77,34 @@ const UniversityItem = ({ university }: { university: University }) => {
   return (
     <Card square={false} elevation={5}>
       <Stack>
-        <CardActionArea sx={{ p: 2 }}>
-          <Stack direction="row">
-            <IconButton
-              sx={{ p: 0, width: 80, height: 80, mr: 2 }}
-              onClick={() => openFilePicker()}
-            >
-              <Avatar
-                sx={{ height: 80, width: 80 }}
-                src={university.logo || universityLogo}
-              />
-            </IconButton>
+        <Stack direction="row" sx={{ p: 2 }}>
+          <IconButton
+            sx={{ p: 0, width: 80, height: 80, mr: 2 }}
+            onClick={() => openFilePicker()}
+          >
+            <Avatar
+              sx={{ height: 80, width: 80 }}
+              src={university.logo || universityLogo}
+            />
+          </IconButton>
 
-            <Container>
-              <Typography
-                sx={{ textDecoration: "none" }}
-                variant="h5"
-                color="inherit"
-              >
-                {university.name}
-              </Typography>
-              <Typography>Founded in {university.year}</Typography>
-              <Typography>
-                Member since {new Date(university.joined).toLocaleDateString()}
-              </Typography>
-              <Link component="a" href={university.url}>
-                {university.url}
-              </Link>
-            </Container>
-          </Stack>
-        </CardActionArea>
+          <Container>
+            <Typography
+              sx={{ textDecoration: "none" }}
+              variant="h5"
+              color="inherit"
+            >
+              {university.name}
+            </Typography>
+            <Typography>Founded in {university.year}</Typography>
+            <Typography>
+              Member since {new Date(university.joined).toLocaleDateString()}
+            </Typography>
+            <Link component="a" href={university.url}>
+              {university.url}
+            </Link>
+          </Container>
+        </Stack>
 
         <Divider />
 
@@ -116,11 +113,7 @@ const UniversityItem = ({ university }: { university: University }) => {
             Visit
           </Button>
 
-          <Button
-            // sx={{ float: "right" }}
-            color="error"
-            onClick={handleDeleteLogo}
-          >
+          <Button color="error" onClick={handleDeleteLogo}>
             Remove logo
           </Button>
 

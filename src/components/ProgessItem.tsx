@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Progress, User } from "../types";
 import { useNavigate } from "react-router-dom";
+import universityLogo from "../assets/university-logo.jpg";
 
 const ProgressItem = ({
   progress,
@@ -31,7 +32,7 @@ const ProgressItem = ({
     <Paper>
       <Stack direction="row" sx={{ p: 2, alignItems: "center" }}>
         <Avatar
-          src={progress.course.university.logo}
+          src={progress.course.university.logo || universityLogo}
           sx={{ width: 80, height: 80, mr: 2 }}
         />
 
