@@ -96,6 +96,13 @@ export interface Lesson {
   course: Course;
 }
 
+export interface NewLesson {
+  number: number;
+  title: string;
+  description: string;
+  content: string;
+}
+
 export interface Exercise {
   id: number;
   grade: number;

@@ -1,11 +1,13 @@
-import { Container, Paper, Stack, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Button, Container, Paper, Stack, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetCourseByIdQuery } from "../../services/courses.service";
 import { useGetCourseLessonsQuery } from "../../services/lessons.service";
 import LessonItem from "./LessonItem";
 
 const EditLessonsPage = () => {
   const courseId = useParams().id;
+
+  const navigate = useNavigate();
 
   const { data: course, isLoading: courseLoading } = useGetCourseByIdQuery(
     Number(courseId),
@@ -36,6 +38,16 @@ const EditLessonsPage = () => {
           {lessons.map((l) => (
             <LessonItem lesson={l} key={l.number} />
           ))}
+
+          <Container>
+            <Button
+              variant="contained"
+              sx={{ float: "right" }}
+              onClick={() => navigate(`/courses/${course.id}/lessons/new`)}
+            >
+              Add Lesson
+            </Button>
+          </Container>
         </Stack>
       </Paper>
     </Container>

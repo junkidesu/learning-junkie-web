@@ -1,8 +1,15 @@
-import { Essay, Lesson, Question, Quiz } from "../types";
+import { Essay, Lesson, NewLesson, Question, Quiz } from "../types";
 import { api } from "./api.service";
 
 export const lessonsApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    addLesson: builder.mutation<Lesson, { id: number; body: NewLesson }>({
+      query: ({ id, body }) => ({
+        url: `courses/${id}/lessons`,
+        method: "POST",
+        body,
+      }),
+    }),
     getCourseLessons: builder.query<Lesson[], number>({
       query: (id) => ({
         url: `courses/${id}/lessons`,
@@ -30,6 +37,7 @@ export const lessonsApi = api.injectEndpoints({
 });
 
 export const {
+  useAddLessonMutation,
   useGetCourseLessonsQuery,
   useGetLessonQuestionsQuery,
   useGetLessonEssaysQuery,

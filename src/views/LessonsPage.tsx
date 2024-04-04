@@ -52,6 +52,9 @@ const LessonsPage = () => {
     setActiveLesson(step);
   };
 
+  if (lessons.length === 0)
+    return <Typography>This course does not have any lessons yet!</Typography>;
+
   return (
     <Container>
       <Stack sx={{ gap: 2 }}>
