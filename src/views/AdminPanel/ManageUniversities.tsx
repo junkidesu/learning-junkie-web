@@ -4,7 +4,7 @@ import UniversityItem from "./UniversityItem";
 import { AddHomeTwoTone } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const UniversityList = () => {
+const ManageUniversities = () => {
   const { data: universities, isLoading, isError } = useGetUniversitiesQuery();
 
   const navigate = useNavigate();
@@ -34,4 +34,4 @@ const UniversityList = () => {
   );
 };
 
-export default UniversityList;
+export default ManageUniversities;

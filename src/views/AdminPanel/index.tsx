@@ -2,7 +2,7 @@ import { Box, Container, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Role } from "../../types";
-import UniversityList from "./UniversityList";
+import ManageUniversities from "./ManageUniversities";
 import ManageCourses from "./ManageCourses";
 
 const a11yProps = (index: number) => {
@@ -70,7 +70,7 @@ const AdminPanel = () => {
         </Box>
 
         <CustomTabPanel value={value} index={0}>
-          <UniversityList />
+          <ManageUniversities />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <ManageCourses />

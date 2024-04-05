@@ -18,8 +18,8 @@ import {
   useUploadBannerMutation,
 } from "../../services/courses.service";
 import { useEffect, useState } from "react";
-import { useFilePicker } from "use-file-picker";
 import courseBanner from "../../assets/education.jpg";
+import usePickImage from "../../hooks/usePickImage";
 
 const CourseItem = ({ course }: { course: Course }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
@@ -53,13 +53,9 @@ const CourseItem = ({ course }: { course: Course }) => {
     }
   }, [banner, course.id, uploadBanner]);
 
-  const { openFilePicker } = useFilePicker({
-    readAs: "DataURL",
-    accept: "image/*",
-    multiple: false,
-    onFilesSuccessfullySelected: (files) => {
-      setBanner(files.plainFiles[0]);
-    },
+  const { openImagePicker } = usePickImage({
+    image: banner,
+    setImage: setBanner,
   });
 
   const navigate = useNavigate();
@@ -78,7 +74,7 @@ const CourseItem = ({ course }: { course: Course }) => {
   };
 
   const handleUpdateBanner = () => {
-    openFilePicker();
+    openImagePicker()
     setAnchorEl(null);
   };
 

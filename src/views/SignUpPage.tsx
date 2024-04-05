@@ -1,6 +1,12 @@
-import { VisibilityOff, Visibility, LockTwoTone, CloseTwoTone } from "@mui/icons-material";
+import {
+  VisibilityOff,
+  Visibility,
+  LockTwoTone,
+  CloseTwoTone,
+} from "@mui/icons-material";
 import {
   Alert,
+  Avatar,
   Button,
   Collapse,
   Container,
@@ -9,6 +15,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Menu,
   MenuItem,
   OutlinedInput,
   Paper,
@@ -16,17 +23,24 @@ import {
   SelectChangeEvent,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import { Education, NewUser } from "../types";
-import { useSignUpMutation } from "../services/users.service";
+import {
+  useSignUpMutation,
+  useUploadAvatarMutation,
+} from "../services/users.service";
 import { useAppDispatch } from "../hooks";
 import { useLoginMutation } from "../services/auth.service";
 import { setAuth } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
+import usePickImage from "../hooks/usePickImage";
 
 const SignUpPage = () => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
   const [alertOpen, setAlertOpen] = useState(false);
 
   const [name, setName] = useState("");
@@ -35,13 +49,20 @@ const SignUpPage = () => {
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [avatar, setAvatar] = useState<File | undefined>();
 
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const [signup] = useSignUpMutation();
+  const [uploadAvatar] = useUploadAvatarMutation();
   const [login] = useLoginMutation();
+
+  const { openImagePicker, reset, imageContent } = usePickImage({
+    image: avatar,
+    setImage: setAvatar,
+  });
 
   const handleChange = (event: SelectChangeEvent<typeof education>) => {
     setEducation(event.target.value);
@@ -58,22 +79,45 @@ const SignUpPage = () => {
     };
 
     try {
-      await signup(newUser).unwrap();
+      const addedUser = await signup(newUser).unwrap();
 
-      try {
-        const authData = await login({ email, password }).unwrap();
+      console.log("Successfully signed up!");
 
-        dispatch(setAuth(authData));
+      const authData = await login({ email, password }).unwrap();
 
-        navigate("/");
-      } catch (error) {
-        console.log(error);
+      dispatch(setAuth(authData));
+
+      if (avatar) {
+        console.log("Uploading avatar");
+
+        const body = new FormData();
+
+        body.append("file", avatar);
+
+        await uploadAvatar({ id: addedUser.id, body });
+
+        console.log("Successfully uploaded!");
       }
+
+      navigate("/");
     } catch (error) {
       console.error(error);
       setAlertOpen(true);
     }
   };
+
+  const handleChoose = () => {
+    openImagePicker();
+    setAnchorEl(null);
+  };
+
+  const handleReset = () => {
+    reset();
+    setAvatar(undefined);
+    setAnchorEl(null);
+  };
+
+  const chosenAvatar = avatar && imageContent;
 
   return (
     <Container>
@@ -99,14 +143,13 @@ const SignUpPage = () => {
         </Alert>
       </Collapse>
 
-      <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
-        <Paper sx={{ p: 2, width: "500px" }}>
+      <Stack sx={{ width: "100%" }}>
+        <Paper sx={{ p: 2 }}>
           <Stack
             component="form"
             gap={4}
             sx={{
               p: 3,
-              justifyContent: "center",
               alignItems: "center",
             }}
             onSubmit={handleSubmit}
@@ -115,26 +158,50 @@ const SignUpPage = () => {
 
             <Typography variant="h5">Sign up</Typography>
 
-            <TextField
-              variant="outlined"
-              label="Full name"
-              required
-              fullWidth
-              helperText="Please enter your full name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <Menu
+              open={Boolean(anchorEl)}
+              anchorEl={anchorEl}
+              onClose={() => setAnchorEl(null)}
+            >
+              <MenuItem onClick={handleChoose}>Choose</MenuItem>
+              <MenuItem onClick={handleReset} disabled={!avatar}>
+                Reset
+              </MenuItem>
+            </Menu>
 
-            <TextField
-              variant="outlined"
-              label="Email"
-              type="email"
-              required
-              fullWidth
-              helperText="Please enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <Stack direction="row" sx={{ width: "100%", alignItems: "center" }}>
+              <Tooltip title="Choose Avatar">
+                <IconButton
+                  sx={{ p: 0 }}
+                  onClick={(e) => setAnchorEl(e.currentTarget)}
+                >
+                  <Avatar src={chosenAvatar} sx={{ width: 150, height: 150 }} />
+                </IconButton>
+              </Tooltip>
+
+              <Stack gap={4} sx={{ width: "100%", ml: 2 }}>
+                <TextField
+                  variant="outlined"
+                  label="Full name"
+                  required
+                  fullWidth
+                  helperText="Please enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+
+                <TextField
+                  variant="outlined"
+                  label="Email"
+                  type="email"
+                  required
+                  fullWidth
+                  helperText="Please enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Stack>
+            </Stack>
 
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Education</InputLabel>

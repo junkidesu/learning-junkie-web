@@ -3,6 +3,7 @@ import {
   Avatar,
   Button,
   Collapse,
+  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -104,7 +105,7 @@ const NewUniversityPage = () => {
   const chosenLogo = logo && imageContent;
 
   return (
-    <Stack>
+    <Container>
       <Collapse in={alertOpen}>
         <Alert
           severity="error"
@@ -204,7 +205,7 @@ const NewUniversityPage = () => {
           </Button>
         </Stack>
       </Paper>
-    </Stack>
+    </Container>
   );
 };
 
