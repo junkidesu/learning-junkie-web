@@ -7,6 +7,8 @@ import {
   Divider,
   Grid,
   IconButton,
+  Menu,
+  MenuItem,
   Paper,
   Stack,
   Tab,
@@ -15,6 +17,7 @@ import {
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  useDeleteAvatarMutation,
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
   useUploadAvatarMutation,
@@ -27,7 +30,7 @@ import { User } from "../types";
 import universityLogo from "../assets/university-logo.jpg";
 import useAuthUser from "../hooks/useAuthUser";
 import ProgressList from "../components/ProgressList";
-import { useFilePicker } from "use-file-picker";
+import usePickImage from "../hooks/usePickImage";
 
 function a11yProps(index: number) {
   return {
@@ -124,29 +127,28 @@ const UserTabs = ({ user }: { user: User }) => {
 };
 
 const UserPage = () => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
   const [avatar, setAvatar] = useState<File | undefined>();
 
-  const [uploadAvatar] = useUploadAvatarMutation();
-
-  const { openFilePicker } = useFilePicker({
-    readAs: "DataURL",
-    accept: "image/*",
-    multiple: false,
-    onFilesSuccessfullySelected: (files) => {
-      setAvatar(files.plainFiles[0]);
-    },
-  });
+  const { authUser } = useAuthUser();
 
   const userId = useParams().id;
   const navigate = useNavigate();
-
-  const { authUser } = useAuthUser();
 
   const {
     data: user,
     isLoading,
     isError,
   } = useGetUserByIdQuery(Number(userId), { skip: !userId });
+
+  const [uploadAvatar] = useUploadAvatarMutation();
+  const [deleteAvatar] = useDeleteAvatarMutation();
+
+  const { openImagePicker } = usePickImage({
+    image: avatar,
+    setImage: setAvatar,
+  });
 
   useEffect(() => {
     const handleUploadAvatar = async () => {
@@ -181,6 +183,20 @@ const UserPage = () => {
 
   const isSameUser = authUser?.id === user.id;
 
+  const handleChoose = () => {
+    if (isSameUser) {
+      openImagePicker();
+      setAnchorEl(null);
+    }
+  };
+
+  const handleRemove = async () => {
+    if (isSameUser) {
+      await deleteAvatar(user.id);
+      console.log("Success");
+    }
+  };
+
   return (
     <Container>
       <Stack gap={3}>
@@ -189,7 +205,7 @@ const UserPage = () => {
             <Stack direction="row" sx={{ alignItems: "center" }}>
               <IconButton
                 sx={{ width: 150, height: 150, p: 0, mr: 3 }}
-                onClick={isSameUser ? () => openFilePicker() : undefined}
+                onClick={(e) => setAnchorEl(e.currentTarget)}
               >
                 {user.avatar ? (
                   <Avatar sx={{ width: 150, height: 150 }} src={user.avatar} />
@@ -207,6 +223,17 @@ const UserPage = () => {
                   </Avatar>
                 )}
               </IconButton>
+
+              <Menu
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+                anchorEl={anchorEl}
+              >
+                <MenuItem onClick={handleChoose}>Update</MenuItem>
+                <MenuItem onClick={handleRemove} disabled={!user.avatar}>
+                  <Typography color="error">Remove</Typography>
+                </MenuItem>
+              </Menu>
 
               <Stack sx={{ flexGrow: 1 }}>
                 <Typography variant="h3">{user.name}</Typography>

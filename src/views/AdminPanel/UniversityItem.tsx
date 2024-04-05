@@ -104,7 +104,7 @@ const UniversityItem = ({ university }: { university: University }) => {
             anchorEl={anchorEl}
           >
             <MenuItem onClick={handleUpdateLogo}>Update</MenuItem>
-            <MenuItem onClick={handleDeleteLogo}>
+            <MenuItem onClick={handleDeleteLogo} disabled={!university.logo}>
               <Typography color="error">Remove</Typography>
             </MenuItem>
           </Menu>
