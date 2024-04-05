@@ -15,6 +15,12 @@ export const lessonsApi = api.injectEndpoints({
         url: `courses/${id}/lessons`,
       }),
     }),
+    deleteLesson: builder.mutation<void, { id: number; number: number }>({
+      query: ({ id, number }) => ({
+        url: `courses/${id}/lessons/${number}`,
+        method: "DELETE",
+      }),
+    }),
     getLessonQuestions: builder.query<
       Question[],
       { id: number; number: number }
@@ -39,6 +45,7 @@ export const lessonsApi = api.injectEndpoints({
 export const {
   useAddLessonMutation,
   useGetCourseLessonsQuery,
+  useDeleteLessonMutation,
   useGetLessonQuestionsQuery,
   useGetLessonEssaysQuery,
   useGetLessonQuizzesQuery,

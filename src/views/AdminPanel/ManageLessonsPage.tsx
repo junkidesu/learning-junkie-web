@@ -4,7 +4,7 @@ import { useGetCourseByIdQuery } from "../../services/courses.service";
 import { useGetCourseLessonsQuery } from "../../services/lessons.service";
 import LessonItem from "./LessonItem";
 
-const EditLessonsPage = () => {
+const ManageLessonsPage = () => {
   const courseId = useParams().id;
 
   const navigate = useNavigate();
@@ -54,4 +54,4 @@ const EditLessonsPage = () => {
   );
 };
 
-export default EditLessonsPage;
+export default ManageLessonsPage;
