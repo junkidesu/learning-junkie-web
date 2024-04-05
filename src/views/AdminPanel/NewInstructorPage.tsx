@@ -32,7 +32,7 @@ const NewInstructorPage = () => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [education, setEducation] = useState<Education | string>("");
+  const [education, setEducation] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -66,7 +66,7 @@ const NewInstructorPage = () => {
     const newUser: NewUser = {
       name,
       email,
-      education: typeof education !== "string" ? education : undefined,
+      education: !education ? undefined : (education as Education),
       password,
     };
 
@@ -165,9 +165,9 @@ const NewInstructorPage = () => {
                 <MenuItem value={""}>
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={Education.Bachelor}>Bachelor</MenuItem>
-                <MenuItem value={Education.Master}>Master</MenuItem>
-                <MenuItem value={Education.PhD}>PhD</MenuItem>
+                <MenuItem value={"Bachelor"}>Bachelor</MenuItem>
+                <MenuItem value={"Master"}>Master</MenuItem>
+                <MenuItem value={"PhD"}>PhD</MenuItem>
               </Select>
               <FormHelperText>
                 Please select the level of education
