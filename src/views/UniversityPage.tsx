@@ -71,7 +71,7 @@ const UniversityTabs = ({ university }: { university: University }) => {
           aria-label="basic tabs example"
         >
           <Tab label="Courses" {...a11yProps(0)} />
-          <Tab label="Instructors" {...a11yProps(1)} />
+          <Tab label="Instructors" {...a11yProps(1)} disabled />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

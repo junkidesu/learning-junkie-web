@@ -4,7 +4,7 @@ import CourseItem from "./CourseItem";
 import { PlayLesson } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const CourseList = () => {
+const ManageCourses = () => {
   const { data: courses, isLoading, isError } = useGetCoursesQuery();
 
   const navigate = useNavigate();
@@ -34,4 +34,4 @@ const CourseList = () => {
   );
 };
 
-export default CourseList;
+export default ManageCourses;

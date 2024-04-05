@@ -3,7 +3,7 @@ import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Role } from "../../types";
 import UniversityList from "./UniversityList";
-import CourseList from "./CourseList";
+import ManageCourses from "./ManageCourses";
 
 const a11yProps = (index: number) => {
   return {
@@ -65,7 +65,7 @@ const AdminPanel = () => {
           >
             <Tab label="Universities" {...a11yProps(0)} />
             <Tab label="Courses" {...a11yProps(1)} />
-            <Tab label="Users" {...a11yProps(2)} />
+            <Tab label="Users" {...a11yProps(2)} disabled />
           </Tabs>
         </Box>
 
@@ -73,7 +73,7 @@ const AdminPanel = () => {
           <UniversityList />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <CourseList />
+          <ManageCourses />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <Typography>Users</Typography>

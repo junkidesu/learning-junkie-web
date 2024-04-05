@@ -6,12 +6,14 @@ import {
   FormHelperText,
   IconButton,
   InputLabel,
+  Menu,
   MenuItem,
   Paper,
   Select,
   SelectChangeEvent,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import {
@@ -19,27 +21,70 @@ import {
   useGetUniversityInsturctorsQuery,
 } from "../../services/universities.service";
 import { CloseTwoTone } from "@mui/icons-material";
-import { FormEvent, useState } from "react";
-import { useAddCourseMutation } from "../../services/courses.service";
+import { FormEvent, useEffect, useState } from "react";
+import {
+  useAddCourseMutation,
+  useUploadBannerMutation,
+} from "../../services/courses.service";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Difficulty, Role } from "../../types";
 
+import courseBanner from "../../assets/education.jpg";
+import { useFilePicker } from "use-file-picker";
+import { useNavigate } from "react-router-dom";
+
 const NewCoursePage = () => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
+
+  const [banner, setBanner] = useState<File | undefined>();
+
   const [alertOpen, setAlertOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.Beginner);
-  const [university, setUniversity] = useState<number>(1);
-  const [instructor, setInstructor] = useState<number>(0);
+  const [university, setUniversity] = useState<number>();
+  const [instructor, setInstructor] = useState<number>();
+  const [universitiesLoaded, setUniversitiesLoaded] = useState(false);
+  const [instructorsLoaded, setInstructorsLoaded] = useState(false);
 
   const { existsId, userLoading, authUser, userError } = useAuthUser();
 
   const { data: universities, isError } = useGetUniversitiesQuery();
-  const { data: instructors } = useGetUniversityInsturctorsQuery(university, {
-    skip: !university,
-  });
+  const { data: instructors } = useGetUniversityInsturctorsQuery(
+    Number(university),
+    {
+      skip: !university,
+    }
+  );
+
+  useEffect(() => {
+    if (universities && universities.length > 0) {
+      setUniversity(universities[0].id);
+      setUniversitiesLoaded(true);
+    }
+  }, [universities]);
+
+  useEffect(() => {
+    if (university && instructors && instructors.length > 0) {
+      setInstructor(instructors[0].id);
+      setInstructorsLoaded(true);
+    }
+  }, [university, instructors]);
+
+  const navigate = useNavigate();
 
   const [addCourse] = useAddCourseMutation();
+  const [uploadBanner] = useUploadBannerMutation();
+
+  const { openFilePicker, filesContent, clear } = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    onClear: () => setBanner(undefined),
+    onFilesSuccessfullySelected: (files) => {
+      setBanner(files.plainFiles[0]);
+    },
+  });
 
   if (!existsId) return null;
 
@@ -50,35 +95,59 @@ const NewCoursePage = () => {
 
   if (authUser.role !== Role.Admin) return null;
 
+  if (isError || !universities)
+    return <Typography>Some error has occurred!</Typography>;
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log(title, description);
 
     try {
-      await addCourse({
-        id: university,
+      const addedCourse = await addCourse({
+        id: university as number,
         body: {
           title,
           description,
           difficulty,
-          instructorId: instructor,
+          instructorId: instructor as number,
         },
       }).unwrap();
 
-      console.log("Success!");
+      console.log("Course added!");
+
+      if (banner) {
+        const body = new FormData();
+
+        body.append("file", banner);
+
+        await uploadBanner({ id: addedCourse.id, body });
+      }
+
+      navigate(`/admin`);
     } catch (error) {
       setAlertOpen(true);
       console.error(error);
     }
   };
 
+  const handleChoose = () => {
+    clear();
+    openFilePicker();
+    setAnchorEl(null);
+  };
+
   const handleChange = (e: SelectChangeEvent<typeof difficulty>) => {
     setDifficulty(e.target.value as Difficulty);
   };
 
-  if (isError || !universities)
-    return <Typography>Some error has occurred!</Typography>;
+  const handleReset = () => {
+    clear();
+    setBanner(undefined);
+    setAnchorEl(null);
+  };
+
+  const chosenBanner = banner && filesContent[0].content;
 
   return (
     <Stack>
@@ -104,7 +173,28 @@ const NewCoursePage = () => {
         </Alert>
       </Collapse>
 
-      <Paper sx={{ p: 2 }}>
+      <Paper sx={{ overflow: "hidden" }}>
+        <Tooltip title="Course Banner">
+          <img
+            src={chosenBanner || courseBanner}
+            height={200}
+            width="100%"
+            style={{ objectFit: "cover" }}
+            onClick={(e) => setAnchorEl(e.currentTarget)}
+          />
+        </Tooltip>
+
+        <Menu
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={() => setAnchorEl(null)}
+        >
+          <MenuItem onClick={handleChoose}>Choose</MenuItem>
+          <MenuItem onClick={handleReset} disabled={!banner}>
+            Reset
+          </MenuItem>
+        </Menu>
+
         <Stack
           component="form"
           gap={4}
@@ -133,7 +223,7 @@ const NewCoursePage = () => {
             helperText="Please enter the name of the university"
           />
 
-          <FormControl fullWidth>
+          <FormControl fullWidth required>
             <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -152,8 +242,8 @@ const NewCoursePage = () => {
             </FormHelperText>
           </FormControl>
 
-          {universities && (
-            <FormControl fullWidth>
+          {universitiesLoaded && (
+            <FormControl fullWidth required>
               <InputLabel id="demo-simple-select-label">University</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -175,8 +265,8 @@ const NewCoursePage = () => {
             </FormControl>
           )}
 
-          {instructors && instructors.length > 0 && (
-            <FormControl fullWidth>
+          {instructorsLoaded && instructors && instructors.length > 0 && (
+            <FormControl fullWidth required>
               <InputLabel id="demo-simple-select-label">Instructor</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -188,9 +278,6 @@ const NewCoursePage = () => {
                 }
                 required
               >
-                <MenuItem value={0}>
-                  <em>Instructor</em>
-                </MenuItem>
                 {instructors.map((ins) => (
                   <MenuItem key={ins.id} value={ins.id}>
                     {ins.name}
