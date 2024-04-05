@@ -1,15 +1,16 @@
 import {
-  Avatar,
   Button,
   Card,
+  CardMedia,
   Container,
   Divider,
+  Menu,
+  MenuItem,
   Stack,
   Typography,
 } from "@mui/material";
 import { Course } from "../../types";
 import { DeleteForeverOutlined } from "@mui/icons-material";
-import universityLogo from "../../assets/university-logo.jpg";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   useDeleteBannerMutation,
@@ -18,8 +19,11 @@ import {
 } from "../../services/courses.service";
 import { useEffect, useState } from "react";
 import { useFilePicker } from "use-file-picker";
+import courseBanner from "../../assets/education.jpg";
 
 const CourseItem = ({ course }: { course: Course }) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
+
   const [banner, setBanner] = useState<File | undefined>();
 
   const [uploadBanner] = useUploadBannerMutation();
@@ -70,16 +74,40 @@ const CourseItem = ({ course }: { course: Course }) => {
   const handleDeleteBanner = async () => {
     await deleteBanner(course.id);
     console.log("Success!");
+    setAnchorEl(null);
+  };
+
+  const handleUpdateBanner = () => {
+    openFilePicker();
+    setAnchorEl(null);
   };
 
   return (
     <Card square={false} elevation={5}>
+      <CardMedia
+        component="img"
+        src={course.banner || courseBanner}
+        height={200}
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+      />
+
+      <Menu
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+      >
+        <MenuItem onClick={handleUpdateBanner}>Update</MenuItem>
+        <MenuItem onClick={handleDeleteBanner}>
+          <Typography color="error">Remove</Typography>
+        </MenuItem>
+      </Menu>
+
       <Stack>
         <Stack direction="row" sx={{ p: 2 }}>
-          <Avatar
+          {/* <Avatar
             sx={{ height: 80, width: 80 }}
             src={course.university.logo || universityLogo}
-          />
+          /> */}
 
           <Container>
             <Typography
@@ -108,12 +136,6 @@ const CourseItem = ({ course }: { course: Course }) => {
         <Container sx={{ p: 1 }}>
           <Button onClick={() => navigate(`/courses/${course.id}`)}>
             Visit
-          </Button>
-
-          <Button onClick={() => openFilePicker()}>Upload Banner</Button>
-
-          <Button onClick={handleDeleteBanner} color="error">
-            Remove Banner
           </Button>
 
           <Button
