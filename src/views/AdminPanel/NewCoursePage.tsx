@@ -1,5 +1,6 @@
 import {
   Alert,
+  Avatar,
   Button,
   Collapse,
   FormControl,
@@ -32,6 +33,9 @@ import { Difficulty, Role } from "../../types";
 import courseBanner from "../../assets/education.jpg";
 import { useNavigate } from "react-router-dom";
 import usePickImage from "../../hooks/usePickImage";
+
+import universityLogo from "../../assets/university-logo.jpg";
+import { nameInitials } from "../../util";
 
 const NewCoursePage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
@@ -251,7 +255,14 @@ const NewCoursePage = () => {
               >
                 {universities.map((u) => (
                   <MenuItem key={u.id} value={u.id}>
-                    {u.name}
+                    <Stack direction="row" sx={{ alignItems: "center" }}>
+                      <Avatar
+                        src={u.logo || universityLogo}
+                        sx={{ height: 25, width: 25, mr: 1 }}
+                      />
+
+                      <Typography>{u.name}</Typography>
+                    </Stack>
                   </MenuItem>
                 ))}
               </Select>
@@ -274,7 +285,22 @@ const NewCoursePage = () => {
               >
                 {instructors.map((ins) => (
                   <MenuItem key={ins.id} value={ins.id}>
-                    {ins.name}
+                    <Stack direction="row" sx={{ alignItems: "center" }}>
+                      {ins.avatar ? (
+                        <Avatar
+                          src={ins.avatar}
+                          sx={{ height: 25, width: 25, mr: 1 }}
+                        />
+                      ) : (
+                        <Avatar sx={{ height: 25, width: 25, mr: 1 }}>
+                          <Typography variant="body2">
+                            {nameInitials(ins.name)}
+                          </Typography>
+                        </Avatar>
+                      )}
+
+                      <Typography>{ins.name}</Typography>
+                    </Stack>
                   </MenuItem>
                 ))}
               </Select>
