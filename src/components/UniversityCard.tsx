@@ -53,7 +53,7 @@ const UniversityCard = ({ university }: { university: University }) => {
         <Container sx={{ p: 1 }}>
           <Button
             sx={{ float: "right" }}
-            onClick={() => navigate(`universities/${university.id}`)}
+            onClick={() => navigate(`/universities/${university.id}`)}
           >
             Learn more
           </Button>
