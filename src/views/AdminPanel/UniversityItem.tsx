@@ -135,6 +135,14 @@ const UniversityItem = ({ university }: { university: University }) => {
           </Button>
 
           <Button
+            onClick={() =>
+              navigate(`/universities/${university.id}/instructors/new`)
+            }
+          >
+            Add instructor
+          </Button>
+
+          <Button
             color="error"
             sx={{ float: "right" }}
             onClick={handleDelete}

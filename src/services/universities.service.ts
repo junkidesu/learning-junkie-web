@@ -1,4 +1,4 @@
-import { Course, NewUniversity, University, User } from "../types";
+import { Course, NewUniversity, NewUser, University, User } from "../types";
 import { api } from "./api.service";
 
 export const universitiesApi = api.injectEndpoints({
@@ -56,6 +56,13 @@ export const universitiesApi = api.injectEndpoints({
       }),
       invalidatesTags: ["University"],
     }),
+    addInstructor: builder.mutation<User, { id: number; body: NewUser }>({
+      query: ({ id, body }) => ({
+        url: `universities/${id}/instructors`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -68,4 +75,5 @@ export const {
   useUploadLogoMutation,
   useDeleteLogoMutation,
   useDeleteUniversityMutation,
+  useAddInstructorMutation,
 } = universitiesApi;
