@@ -14,8 +14,18 @@ import NewUniversityPage from "./views/AdminPanel/NewUniversityPage";
 import NewCoursePage from "./views/AdminPanel/NewCoursePage";
 import EditLessonsPage from "./views/AdminPanel/EditLessonsPage";
 import NewLessonPage from "./views/AdminPanel/NewLessonPage";
+import { useEffect } from "react";
+import useInitialization from "./hooks/useInitialization";
 
 const App = () => {
+  const { restoreUser } = useInitialization();
+
+  useEffect(() => {
+    console.log("Restoring user");
+
+    restoreUser();
+  }, [restoreUser]);
+
   return (
     <Container>
       <CustomAppBar />

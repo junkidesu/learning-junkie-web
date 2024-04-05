@@ -25,6 +25,7 @@ import { useState } from "react";
 import { removeAuth } from "../reducers/auth.reducer";
 import UserAvatar from "./UserAvatar";
 import useAuthUser from "../hooks/useAuthUser";
+import storage from "../storage";
 
 const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
@@ -42,6 +43,7 @@ const CustomAppBar = () => {
   const handleLogout = () => {
     handleClose();
     dispatch(removeAuth());
+    storage.removeAuth();
     navigate("/login");
   };
 

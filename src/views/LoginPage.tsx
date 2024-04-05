@@ -26,6 +26,7 @@ import { useLoginMutation } from "../services/auth.service";
 import { useAppDispatch } from "../hooks";
 import { setAuth } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
+import storage from "../storage";
 
 const LoginPage = () => {
   const [alertOpen, setAlertOpen] = useState(false);
@@ -49,6 +50,8 @@ const LoginPage = () => {
       const authData = await login({ email, password }).unwrap();
 
       dispatch(setAuth(authData));
+
+      storage.setAuth(authData);
 
       navigate("/");
     } catch (error) {
