@@ -6,6 +6,8 @@ import {
   Divider,
   IconButton,
   Link,
+  Menu,
+  MenuItem,
   Stack,
   Typography,
 } from "@mui/material";
@@ -22,6 +24,8 @@ import { useFilePicker } from "use-file-picker";
 import { useEffect, useState } from "react";
 
 const UniversityItem = ({ university }: { university: University }) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
+
   const [logo, setLogo] = useState<File | undefined>();
 
   const [uploadLogo] = useUploadLogoMutation();
@@ -72,6 +76,12 @@ const UniversityItem = ({ university }: { university: University }) => {
   const handleDeleteLogo = async () => {
     await deleteLogo(university.id);
     console.log("Success!");
+    setAnchorEl(undefined);
+  };
+
+  const handleUpdateLogo = () => {
+    openFilePicker();
+    setAnchorEl(null);
   };
 
   return (
@@ -80,13 +90,24 @@ const UniversityItem = ({ university }: { university: University }) => {
         <Stack direction="row" sx={{ p: 2 }}>
           <IconButton
             sx={{ p: 0, width: 80, height: 80, mr: 2 }}
-            onClick={() => openFilePicker()}
+            onClick={(e) => setAnchorEl(e.currentTarget)}
           >
             <Avatar
               sx={{ height: 80, width: 80 }}
               src={university.logo || universityLogo}
             />
           </IconButton>
+
+          <Menu
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}
+            anchorEl={anchorEl}
+          >
+            <MenuItem onClick={handleUpdateLogo}>Update</MenuItem>
+            <MenuItem onClick={handleDeleteLogo}>
+              <Typography color="error">Remove</Typography>
+            </MenuItem>
+          </Menu>
 
           <Container>
             <Typography
@@ -111,10 +132,6 @@ const UniversityItem = ({ university }: { university: University }) => {
         <Container sx={{ p: 1 }}>
           <Button onClick={() => navigate(`/universities/${university.id}`)}>
             Visit
-          </Button>
-
-          <Button color="error" onClick={handleDeleteLogo}>
-            Remove logo
           </Button>
 
           <Button
