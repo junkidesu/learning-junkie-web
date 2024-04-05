@@ -131,14 +131,14 @@ const NewCoursePage = () => {
     }
   };
 
+  const handleChange = (e: SelectChangeEvent<typeof difficulty>) => {
+    setDifficulty(e.target.value as Difficulty);
+  };
+
   const handleChoose = () => {
     clear();
     openFilePicker();
     setAnchorEl(null);
-  };
-
-  const handleChange = (e: SelectChangeEvent<typeof difficulty>) => {
-    setDifficulty(e.target.value as Difficulty);
   };
 
   const handleReset = () => {

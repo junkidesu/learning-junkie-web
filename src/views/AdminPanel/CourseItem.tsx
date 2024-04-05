@@ -96,8 +96,10 @@ const CourseItem = ({ course }: { course: Course }) => {
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
       >
-        <MenuItem onClick={handleUpdateBanner}>Update</MenuItem>
-        <MenuItem onClick={handleDeleteBanner}>
+        <MenuItem onClick={handleUpdateBanner}>
+          {course.banner ? "Update" : "Upload"}
+        </MenuItem>
+        <MenuItem onClick={handleDeleteBanner} disabled={!course.banner}>
           <Typography color="error">Remove</Typography>
         </MenuItem>
       </Menu>
