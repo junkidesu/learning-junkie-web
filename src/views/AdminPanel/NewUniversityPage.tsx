@@ -20,9 +20,9 @@ import {
 import { CloseTwoTone } from "@mui/icons-material";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Role } from "../../types";
-import { useFilePicker } from "use-file-picker";
 import universityLogo from "../../assets/university-logo.jpg";
 import { useNavigate } from "react-router-dom";
+import usePickImage from "../../hooks/usePickImage";
 
 const NewUniversityPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
@@ -37,14 +37,9 @@ const NewUniversityPage = () => {
   const [url, setUrl] = useState("");
   const [logo, setLogo] = useState<File | undefined>();
 
-  const { openFilePicker, filesContent, clear } = useFilePicker({
-    readAs: "DataURL",
-    accept: "image/*",
-    multiple: false,
-    onClear: () => setLogo(undefined),
-    onFilesSuccessfullySelected: (files) => {
-      setLogo(files.plainFiles[0]);
-    },
+  const { openImagePicker, reset, imageContent } = usePickImage({
+    image: logo,
+    setImage: setLogo,
   });
 
   const navigate = useNavigate();
@@ -96,18 +91,17 @@ const NewUniversityPage = () => {
   };
 
   const handleChoose = () => {
-    clear();
-    openFilePicker();
+    openImagePicker();
     setAnchorEl(null);
   };
 
   const handleReset = () => {
-    clear();
+    reset();
     setLogo(undefined);
     setAnchorEl(null);
   };
 
-  const chosenLogo = logo && filesContent[0].content;
+  const chosenLogo = logo && imageContent;
 
   return (
     <Stack>

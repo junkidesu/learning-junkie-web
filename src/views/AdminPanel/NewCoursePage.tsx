@@ -30,8 +30,8 @@ import useAuthUser from "../../hooks/useAuthUser";
 import { Difficulty, Role } from "../../types";
 
 import courseBanner from "../../assets/education.jpg";
-import { useFilePicker } from "use-file-picker";
 import { useNavigate } from "react-router-dom";
+import usePickImage from "../../hooks/usePickImage";
 
 const NewCoursePage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
@@ -76,14 +76,9 @@ const NewCoursePage = () => {
   const [addCourse] = useAddCourseMutation();
   const [uploadBanner] = useUploadBannerMutation();
 
-  const { openFilePicker, filesContent, clear } = useFilePicker({
-    readAs: "DataURL",
-    accept: "image/*",
-    multiple: false,
-    onClear: () => setBanner(undefined),
-    onFilesSuccessfullySelected: (files) => {
-      setBanner(files.plainFiles[0]);
-    },
+  const { openImagePicker, reset, imageContent } = usePickImage({
+    image: banner,
+    setImage: setBanner,
   });
 
   if (!existsId) return null;
@@ -136,18 +131,17 @@ const NewCoursePage = () => {
   };
 
   const handleChoose = () => {
-    clear();
-    openFilePicker();
+    openImagePicker();
     setAnchorEl(null);
   };
 
   const handleReset = () => {
-    clear();
+    reset();
     setBanner(undefined);
     setAnchorEl(null);
   };
 
-  const chosenBanner = banner && filesContent[0].content;
+  const chosenBanner = banner && imageContent;
 
   return (
     <Stack>
