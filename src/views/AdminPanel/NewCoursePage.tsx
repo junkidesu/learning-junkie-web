@@ -27,8 +27,7 @@ import {
   useAddCourseMutation,
   useUploadBannerMutation,
 } from "../../services/courses.service";
-import useAuthUser from "../../hooks/useAuthUser";
-import { Difficulty, Role } from "../../types";
+import { Difficulty } from "../../types";
 
 import courseBanner from "../../assets/education.jpg";
 import { useNavigate } from "react-router-dom";
@@ -50,8 +49,6 @@ const NewCoursePage = () => {
   const [instructor, setInstructor] = useState<number>();
   const [universitiesLoaded, setUniversitiesLoaded] = useState(false);
   const [instructorsLoaded, setInstructorsLoaded] = useState(false);
-
-  const { existsId, userLoading, authUser, userError } = useAuthUser();
 
   const { data: universities, isError } = useGetUniversitiesQuery();
   const { data: instructors } = useGetUniversityInsturctorsQuery(
@@ -84,15 +81,6 @@ const NewCoursePage = () => {
     image: banner,
     setImage: setBanner,
   });
-
-  if (!existsId) return null;
-
-  if (userLoading) return <Typography>Loading...</Typography>;
-
-  if (!authUser || userError)
-    return <Typography>Some error has occurred</Typography>;
-
-  if (authUser.role !== Role.Admin) return null;
 
   if (isError || !universities)
     return <Typography>Some error has occurred!</Typography>;

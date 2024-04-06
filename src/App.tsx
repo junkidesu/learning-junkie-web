@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import useInitialization from "./hooks/useInitialization";
 import NewInstructorPage from "./views/AdminPanel/NewInstructorPage";
 import EditLessonPage from "./views/AdminPanel/EditLessonPage";
+import Protected from "./components/Protected";
 
 const App = () => {
   const { restoreUser } = useInitialization();
@@ -34,28 +35,68 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<AllCoursesPage />} />
-        <Route path="admin" element={<AdminPanel />} />
+        <Route
+          path="admin"
+          element={
+            <Protected>
+              <AdminPanel />
+            </Protected>
+          }
+        />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignUpPage />} />
         <Route path="courses" element={<AllCoursesPage />} />
-        <Route path="courses/new" element={<NewCoursePage />} />
+        <Route
+          path="courses/new"
+          element={
+            <Protected>
+              <NewCoursePage />
+            </Protected>
+          }
+        />
         <Route path="courses/:id" element={<CoursePage />} />
         <Route path="courses/:id/lessons" element={<LessonsPage />} />
-        <Route path="courses/:id/lessons/new" element={<NewLessonPage />} />
+        <Route
+          path="courses/:id/lessons/new"
+          element={
+            <Protected instructor>
+              <NewLessonPage />
+            </Protected>
+          }
+        />
         <Route
           path="courses/:id/lessons/edit"
-          element={<ManageLessonsPage />}
+          element={
+            <Protected instructor>
+              <ManageLessonsPage />
+            </Protected>
+          }
         />
         <Route
           path="courses/:id/lessons/:number/edit"
-          element={<EditLessonPage />}
+          element={
+            <Protected instructor>
+              <EditLessonPage />
+            </Protected>
+          }
         />
         <Route path="universities" element={<AllUniversitiesPage />} />
-        <Route path="universities/new" element={<NewUniversityPage />} />
+        <Route
+          path="universities/new"
+          element={
+            <Protected>
+              <NewUniversityPage />
+            </Protected>
+          }
+        />
         <Route path="universities/:id" element={<UniversityPage />} />
         <Route
           path="universities/:id/instructors/new"
-          element={<NewInstructorPage />}
+          element={
+            <Protected>
+              <NewInstructorPage />
+            </Protected>
+          }
         />
         <Route path="users/:id" element={<UserPage />} />
       </Routes>

@@ -19,16 +19,12 @@ import {
   useUploadLogoMutation,
 } from "../../services/universities.service";
 import { CloseTwoTone } from "@mui/icons-material";
-import useAuthUser from "../../hooks/useAuthUser";
-import { Role } from "../../types";
 import universityLogo from "../../assets/university-logo.jpg";
 import { useNavigate } from "react-router-dom";
 import usePickImage from "../../hooks/usePickImage";
 
 const NewUniversityPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
-
-  const { existsId, userLoading, authUser, userError } = useAuthUser();
 
   const [alertOpen, setAlertOpen] = useState(false);
 
@@ -47,15 +43,6 @@ const NewUniversityPage = () => {
 
   const [addUniversity] = useAddUniversityMutation();
   const [uploadLogo] = useUploadLogoMutation();
-
-  if (!existsId) return null;
-
-  if (userLoading) return <Typography>Loading...</Typography>;
-
-  if (!authUser || userError)
-    return <Typography>Some error has occurred</Typography>;
-
-  if (authUser.role !== Role.Admin) return null;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

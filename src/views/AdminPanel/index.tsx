@@ -1,7 +1,5 @@
 import { Box, Container, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
-import useAuthUser from "../../hooks/useAuthUser";
-import { Role } from "../../types";
 import ManageUniversities from "./ManageUniversities";
 import ManageCourses from "./ManageCourses";
 
@@ -36,17 +34,6 @@ const CustomTabPanel = (props: TabPanelProps) => {
 
 const AdminPanel = () => {
   const [value, setValue] = useState(0);
-
-  const { existsId, authUser, userLoading } = useAuthUser();
-
-  if (!existsId) return null;
-
-  if (userLoading) return <Typography>Loading...</Typography>;
-
-  if (!authUser) return <Typography>Some error has occurred!</Typography>;
-
-  if (authUser.role !== Role.Admin)
-    return <Typography>Unauthorized!</Typography>;
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
