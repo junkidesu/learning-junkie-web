@@ -26,7 +26,7 @@ const ProgressItem = ({
 
   const certificateLink = `${import.meta.env.VITE_BACKEND_URL}/users/${
     user.id
-  }/courses/${progress.course.id}/certificate`;
+  }/enrollments/${progress.course.id}/certificate`;
 
   return (
     <Paper>
