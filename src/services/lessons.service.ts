@@ -1,4 +1,5 @@
 import {
+  EditLesson,
   Essay,
   Lesson,
   NewEssay,
@@ -24,10 +25,25 @@ export const lessonsApi = api.injectEndpoints({
         url: `courses/${id}/lessons`,
       }),
     }),
+    getLesson: builder.query<Lesson, { id: number; number: number }>({
+      query: ({ id, number }) => ({
+        url: `courses/${id}/lessons/${number}`,
+      }),
+    }),
     deleteLesson: builder.mutation<void, { id: number; number: number }>({
       query: ({ id, number }) => ({
         url: `courses/${id}/lessons/${number}`,
         method: "DELETE",
+      }),
+    }),
+    editLesson: builder.mutation<
+      Lesson,
+      { id: number; number: number; body: EditLesson }
+    >({
+      query: ({ id, number, body }) => ({
+        url: `courses/${id}/lessons/${number}`,
+        method: "PUT",
+        body,
       }),
     }),
     getLessonQuestions: builder.query<
@@ -84,7 +100,9 @@ export const lessonsApi = api.injectEndpoints({
 export const {
   useAddLessonMutation,
   useGetCourseLessonsQuery,
+  useGetLessonQuery,
   useDeleteLessonMutation,
+  useEditLessonMutation,
   useGetLessonQuestionsQuery,
   useAddQuestionMutation,
   useGetLessonEssaysQuery,

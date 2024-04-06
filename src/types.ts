@@ -103,6 +103,11 @@ export interface NewLesson {
   content: string;
 }
 
+export interface EditLesson {
+  description: string;
+  content: string;
+}
+
 export interface Exercise {
   id: number;
   grade?: number;

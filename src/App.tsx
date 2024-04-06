@@ -17,6 +17,7 @@ import NewLessonPage from "./views/AdminPanel/NewLessonPage";
 import { useEffect } from "react";
 import useInitialization from "./hooks/useInitialization";
 import NewInstructorPage from "./views/AdminPanel/NewInstructorPage";
+import EditLessonPage from "./views/AdminPanel/EditLessonPage";
 
 const App = () => {
   const { restoreUser } = useInitialization();
@@ -44,6 +45,10 @@ const App = () => {
         <Route
           path="courses/:id/lessons/edit"
           element={<ManageLessonsPage />}
+        />
+        <Route
+          path="courses/:id/lessons/:number/edit"
+          element={<EditLessonPage />}
         />
         <Route path="universities" element={<AllUniversitiesPage />} />
         <Route path="universities/new" element={<NewUniversityPage />} />

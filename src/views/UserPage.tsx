@@ -205,7 +205,10 @@ const UserPage = () => {
             <Stack direction="row" sx={{ alignItems: "center" }}>
               <IconButton
                 sx={{ width: 150, height: 150, p: 0, mr: 3 }}
-                onClick={(e) => setAnchorEl(e.currentTarget)}
+                onClick={
+                  isSameUser ? (e) => setAnchorEl(e.currentTarget) : undefined
+                }
+                disabled={!isSameUser}
               >
                 {user.avatar ? (
                   <Avatar sx={{ width: 150, height: 150 }} src={user.avatar} />

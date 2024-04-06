@@ -53,7 +53,7 @@ const AddLessonInformation = ({
             label="Number"
             required
             fullWidth
-            helperText="Please the number of the lesson"
+            helperText="Please enter the number of the lesson"
             value={number}
             onChange={(e) => setNumber(e.target.value)}
           />
@@ -63,7 +63,7 @@ const AddLessonInformation = ({
             label="Title"
             required
             fullWidth
-            helperText="Please the title of the lesson"
+            helperText="Please enter the title of the lesson"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -75,7 +75,7 @@ const AddLessonInformation = ({
             fullWidth
             multiline
             minRows={3}
-            helperText="Please the description of the lesson"
+            helperText="Please enter the description of the lesson"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

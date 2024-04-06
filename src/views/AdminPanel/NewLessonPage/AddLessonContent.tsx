@@ -35,7 +35,7 @@ const AddLessonContent = ({
       >
         <Typography variant="h5">Lesson Content</Typography>
 
-        <FormControl required>
+        <FormControl required fullWidth>
           <MDEditor value={content} onChange={(val) => setContent(val!)} />
           <FormHelperText>
             Please enter the markdown content of the lesson
