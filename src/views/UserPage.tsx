@@ -18,6 +18,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteAvatarMutation,
+  useGetTaughtCoursesQuery,
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
   useUploadAvatarMutation,
@@ -26,7 +27,7 @@ import { nameInitials, stringToColor } from "../util";
 import { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
 import LoadingCourseCard from "../components/LoadingCourseCard";
-import { User } from "../types";
+import { Role, User } from "../types";
 import universityLogo from "../assets/university-logo.jpg";
 import useAuthUser from "../hooks/useAuthUser";
 import ProgressList from "../components/ProgressList";
@@ -61,12 +62,78 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 }
 
+const Enrollments = ({ user }: { user: User }) => {
+  const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
+
+  return (
+    <Container>
+      {isLoading && (
+        <Grid container spacing={3}>
+          {[1, 2, 3].map((n) => (
+            <Grid item key={n} xs={4}>
+              <LoadingCourseCard />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+
+      {courses && (
+        <Grid container spacing={3}>
+          {courses.length === 0 ? (
+            <Typography sx={{ p: 2 }}>
+              This user is not enrolled in any course
+            </Typography>
+          ) : (
+            courses.map((course) => (
+              <Grid item key={course.id} xs={4}>
+                <CourseCard course={course} />
+              </Grid>
+            ))
+          )}
+        </Grid>
+      )}
+    </Container>
+  );
+};
+
+const TaughtCourses = ({ user }: { user: User }) => {
+  const { data: courses, isLoading } = useGetTaughtCoursesQuery(user.id);
+
+  return (
+    <Container>
+      {isLoading && (
+        <Grid container spacing={3}>
+          {[1, 2, 3].map((n) => (
+            <Grid item key={n} xs={4}>
+              <LoadingCourseCard />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+
+      {courses && (
+        <Grid container spacing={3}>
+          {courses.length === 0 ? (
+            <Typography sx={{ p: 2 }}>
+              This user is not enrolled in any course
+            </Typography>
+          ) : (
+            courses.map((course) => (
+              <Grid item key={course.id} xs={4}>
+                <CourseCard course={course} />
+              </Grid>
+            ))
+          )}
+        </Grid>
+      )}
+    </Container>
+  );
+};
+
 const UserTabs = ({ user }: { user: User }) => {
   const [value, setValue] = useState(0);
 
   const { authUser } = useAuthUser();
-
-  const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -85,42 +152,24 @@ const UserTabs = ({ user }: { user: User }) => {
           <Tab label="Enrollments" {...a11yProps(0)} />
           <Tab label="Progress" {...a11yProps(1)} disabled={!isSameUser} />
           <Tab label="Solutions" {...a11yProps(2)} disabled={!isSameUser} />
+          <Tab
+            label="Teaches"
+            {...a11yProps(3)}
+            disabled={user.role !== Role.Instructor}
+          />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Container>
-          {isLoading && (
-            <Grid container spacing={3}>
-              {[1, 2, 3].map((n) => (
-                <Grid item key={n} xs={4}>
-                  <LoadingCourseCard />
-                </Grid>
-              ))}
-            </Grid>
-          )}
-
-          {courses && (
-            <Grid container spacing={3}>
-              {courses.length === 0 ? (
-                <Typography sx={{ p: 2 }}>
-                  This user is not enrolled in any course
-                </Typography>
-              ) : (
-                courses.map((course) => (
-                  <Grid item key={course.id} xs={4}>
-                    <CourseCard course={course} />
-                  </Grid>
-                ))
-              )}
-            </Grid>
-          )}
-        </Container>
+        <Enrollments user={user} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <ProgressList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <Typography>Solutions</Typography>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <TaughtCourses user={user} />
       </CustomTabPanel>
     </Card>
   );

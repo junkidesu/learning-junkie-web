@@ -19,6 +19,7 @@ import useInitialization from "./hooks/useInitialization";
 import NewInstructorPage from "./views/AdminPanel/NewInstructorPage";
 import EditLessonPage from "./views/AdminPanel/EditLessonPage";
 import Protected from "./components/Protected";
+import InstructorPanel from "./views/InstructorPanel";
 
 const App = () => {
   const { restoreUser } = useInitialization();
@@ -40,6 +41,14 @@ const App = () => {
           element={
             <Protected>
               <AdminPanel />
+            </Protected>
+          }
+        />
+        <Route
+          path="instructor"
+          element={
+            <Protected instructor>
+              <InstructorPanel />
             </Protected>
           }
         />

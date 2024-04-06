@@ -11,9 +11,14 @@ export const usersApi = api.injectEndpoints({
     }),
     getUserCourses: builder.query<Course[], number>({
       query: (id) => ({
-        url: `users/${id}/courses`,
+        url: `users/${id}/enrollments`,
       }),
       providesTags: ["CourseUsers"],
+    }),
+    getTaughtCourses: builder.query<Course[], number>({
+      query: (id) => ({
+        url: `users/${id}/courses`,
+      }),
     }),
     getUserSolutions: builder.query<Exercise[], number>({
       query: (id) => ({
@@ -55,6 +60,7 @@ export const usersApi = api.injectEndpoints({
 export const {
   useGetUserByIdQuery,
   useGetUserCoursesQuery,
+  useGetTaughtCoursesQuery,
   useGetUserSolutionsQuery,
   useGetUserProgressQuery,
   useSignUpMutation,

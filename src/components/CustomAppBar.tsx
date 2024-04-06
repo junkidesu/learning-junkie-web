@@ -76,6 +76,12 @@ const CustomAppBar = () => {
                 <Button startIcon={<AdminPanelSettings />}>Admin</Button>
               </RouterLink>
             )}
+
+            {authUser?.role === "Instructor" && (
+              <RouterLink to="/instructor">
+                <Button startIcon={<AdminPanelSettings />}>Instructor</Button>
+              </RouterLink>
+            )}
           </Stack>
 
           {existsId ? (
