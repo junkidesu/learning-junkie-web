@@ -6,27 +6,27 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Question } from "../../../types";
-import { useEditQuestionMutation } from "../../../services/exercises.service";
+import { Essay } from "../../../types";
 import React, { useState } from "react";
+import { useEditEssayMutation } from "../../../services/exercises.service";
 
-const QuestionItem = ({ question }: { question: Question }) => {
-  const [newQuestion, setNewQuestion] = useState(question.question);
-  const [newAnswer, setNewAnswer] = useState("");
+const EssayItem = ({ essay }: { essay: Essay }) => {
+  const [newTask, setNewTask] = useState(essay.task);
+  const [newModel, setNewModel] = useState("");
 
-  const [editQuestion] = useEditQuestionMutation();
+  const [editEssay] = useEditEssayMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("Updating question");
+    console.log("Updating essay");
 
     try {
-      await editQuestion({
-        id: question.id,
+      await editEssay({
+        id: essay.id,
         body: {
-          question: newQuestion,
-          answer: newAnswer,
+          task: newTask,
+          model: newModel,
         },
       });
 
@@ -41,22 +41,24 @@ const QuestionItem = ({ question }: { question: Question }) => {
       <Stack component="form" gap={4} onSubmit={handleSubmit}>
         <Stack direction="row">
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            {question.title}
+            {essay.title}
           </Typography>
-          <Typography>Grade: {question.grade}</Typography>
+          <Typography>Grade: {essay.grade}</Typography>
         </Stack>
 
         <Stack gap={4}>
           <TextField
-            label="Question"
-            value={newQuestion}
-            onChange={(e) => setNewQuestion(e.target.value)}
+            label="Task"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
             required
           />
           <TextField
-            label="New Answer"
-            value={newAnswer}
-            onChange={(e) => setNewAnswer(e.target.value)}
+            label="New Model Answer"
+            value={newModel}
+            onChange={(e) => setNewModel(e.target.value)}
+            multiline
+            minRows={4}
             required
           />
         </Stack>
@@ -72,4 +74,4 @@ const QuestionItem = ({ question }: { question: Question }) => {
   );
 };
 
-export default QuestionItem;
+export default EssayItem;

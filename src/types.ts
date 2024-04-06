@@ -144,6 +144,11 @@ export interface EditQuestion {
   answer: string;
 }
 
+export interface EditEssay {
+  task: string;
+  model: string;
+}
+
 export interface Solution {
   answer: string;
 }
