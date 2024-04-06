@@ -1,4 +1,11 @@
-import { Essay, Lesson, NewLesson, Question, Quiz } from "../types";
+import {
+  Essay,
+  Lesson,
+  NewLesson,
+  NewQuestion,
+  Question,
+  Quiz,
+} from "../types";
 import { api } from "./api.service";
 
 export const lessonsApi = api.injectEndpoints({
@@ -28,6 +35,18 @@ export const lessonsApi = api.injectEndpoints({
       query: ({ id, number }) => ({
         url: `courses/${id}/lessons/${number}/questions`,
       }),
+      providesTags: ["Exercise"],
+    }),
+    addQuestion: builder.mutation<
+      Question,
+      { lesson: Lesson; body: NewQuestion }
+    >({
+      query: ({ lesson, body }) => ({
+        url: `courses/${lesson.course.id}/lessons/${lesson.number}/questions`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Exercise"],
     }),
     getLessonEssays: builder.query<Essay[], { id: number; number: number }>({
       query: ({ id, number }) => ({
@@ -47,6 +66,7 @@ export const {
   useGetCourseLessonsQuery,
   useDeleteLessonMutation,
   useGetLessonQuestionsQuery,
+  useAddQuestionMutation,
   useGetLessonEssaysQuery,
   useGetLessonQuizzesQuery,
 } = lessonsApi;

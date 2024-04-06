@@ -114,6 +114,8 @@ export interface Question extends Exercise {
   question: string;
 }
 
+export type NewQuestion = Omit<Question, "id" | "course"> & { answer: string };
+
 export interface Essay extends Exercise {
   task: string;
 }
