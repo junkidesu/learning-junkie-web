@@ -149,6 +149,17 @@ export interface EditEssay {
   model: string;
 }
 
+export interface EditQuiz {
+  question: string;
+  options: {
+    A: string;
+    B: string;
+    C: string;
+    D: string;
+  };
+  correct: string;
+}
+
 export interface Solution {
   answer: string;
 }

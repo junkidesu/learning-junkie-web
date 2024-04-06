@@ -8,6 +8,7 @@ import { Lesson } from "../../../types";
 import { ExpandMore } from "@mui/icons-material";
 import EditQuestions from "./EditQuestions";
 import EditEssays from "./EditEssays";
+import EditQuizzes from "./EditQuizzes";
 
 const EditExercises = ({ lesson }: { lesson: Lesson }) => {
   return (
@@ -44,7 +45,9 @@ const EditExercises = ({ lesson }: { lesson: Lesson }) => {
         >
           Quizzes
         </AccordionSummary>
-        <AccordionDetails>Quizzes</AccordionDetails>
+        <AccordionDetails>
+          <EditQuizzes lesson={lesson} />
+        </AccordionDetails>
       </Accordion>
     </Stack>
   );

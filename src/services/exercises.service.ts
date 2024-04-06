@@ -1,4 +1,11 @@
-import { EditEssay, EditQuestion, Essay, Question } from "../types";
+import {
+  EditEssay,
+  EditQuestion,
+  EditQuiz,
+  Essay,
+  Question,
+  Quiz,
+} from "../types";
 import { api } from "./api.service";
 
 export const exercisesApi = api.injectEndpoints({
@@ -22,7 +29,18 @@ export const exercisesApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Exercise"],
     }),
+    editQuiz: builder.mutation<Quiz, { id: number; body: EditQuiz }>({
+      query: ({ id, body }) => ({
+        url: `quizzes/${id}`,
+        method: "PUT",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useEditQuestionMutation, useEditEssayMutation } = exercisesApi;
+export const {
+  useEditQuestionMutation,
+  useEditEssayMutation,
+  useEditQuizMutation,
+} = exercisesApi;
