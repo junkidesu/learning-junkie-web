@@ -1,7 +1,8 @@
 import { Stack, Paper, Typography, Divider } from "@mui/material";
 import { Lesson } from "../../types";
-import Markdown from "react-markdown";
+// import Markdown from "react-markdown";
 import Exercises from "./Exercises";
+import MDEditor from "@uiw/react-md-editor";
 
 const LessonView = ({ lesson }: { lesson: Lesson }) => {
   return (
@@ -11,9 +12,12 @@ const LessonView = ({ lesson }: { lesson: Lesson }) => {
           <Typography variant="h5">{lesson.title}</Typography>
           <Typography>{lesson.description}</Typography>
           <Divider />
-        </Stack>
 
-        <Markdown>{lesson.content}</Markdown>
+          <MDEditor.Markdown
+            source={lesson.content}
+            style={{ backgroundColor: "inherit" }}
+          />
+        </Stack>
       </Paper>
 
       <Exercises lesson={lesson} />
