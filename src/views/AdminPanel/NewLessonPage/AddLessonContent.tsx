@@ -16,9 +16,15 @@ interface Props {
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleBack: () => void;
 }
 
-const AddLessonContent = ({ content, setContent, handleSubmit }: Props) => {
+const AddLessonContent = ({
+  content,
+  setContent,
+  handleSubmit,
+  handleBack,
+}: Props) => {
   return (
     <Paper sx={{ p: 2 }}>
       <Stack
@@ -37,6 +43,10 @@ const AddLessonContent = ({ content, setContent, handleSubmit }: Props) => {
         </FormControl>
 
         <Container>
+          <Button variant="contained" onClick={handleBack}>
+            Back
+          </Button>
+
           <Button variant="contained" sx={{ float: "right" }} type="submit">
             Submit
           </Button>

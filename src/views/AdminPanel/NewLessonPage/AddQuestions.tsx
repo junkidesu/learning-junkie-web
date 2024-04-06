@@ -13,6 +13,7 @@ import {
 } from "../../../services/lessons.service";
 import React, { useState } from "react";
 import QuestionItem from "./QuestionItem";
+import { useNavigate } from "react-router-dom";
 
 const AddQuestions = ({ lesson }: { lesson: Lesson }) => {
   const [title, setTitle] = useState("");
@@ -24,6 +25,8 @@ const AddQuestions = ({ lesson }: { lesson: Lesson }) => {
     id: lesson.course.id,
     number: lesson.number,
   });
+
+  const navigate = useNavigate();
 
   const [addQuestion] = useAddQuestionMutation();
 
@@ -53,7 +56,6 @@ const AddQuestions = ({ lesson }: { lesson: Lesson }) => {
               helperText="Please enter the question title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              required
             />
 
             <TextField
@@ -91,11 +93,23 @@ const AddQuestions = ({ lesson }: { lesson: Lesson }) => {
           <Stack gap={2}>
             <Typography variant="h6">Added Questions</Typography>
 
-            {questions.map((q) => (
-              <QuestionItem key={q.id} question={q} />
-            ))}
+            {questions.length === 0 ? (
+              <Typography>No questions so far!</Typography>
+            ) : (
+              questions.map((q) => <QuestionItem key={q.id} question={q} />)
+            )}
           </Stack>
         )}
+        <Container>
+          <Button
+            color="success"
+            variant="contained"
+            sx={{ float: "right" }}
+            onClick={() => navigate(`/courses/${lesson.course.id}/lessons/edit`)}
+          >
+            Finish
+          </Button>
+        </Container>
       </Stack>
     </Paper>
   );

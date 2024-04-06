@@ -2,11 +2,9 @@ import { CloseTwoTone } from "@mui/icons-material";
 import {
   Alert,
   Box,
-  Button,
   Collapse,
   Container,
   IconButton,
-  Stack,
   Step,
   StepLabel,
   Stepper,
@@ -51,21 +49,6 @@ const NewLessonPage = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
   const [alertOpen, setAlertOpen] = useState(false);
   const [number, setNumber] = useState("");
   const [title, setTitle] = useState("");
@@ -104,6 +87,8 @@ const NewLessonPage = () => {
       }).unwrap();
 
       setAddedLesson(addedLesson);
+
+      handleNext();
     } catch (error) {
       console.error(error);
     }
@@ -176,32 +161,13 @@ const NewLessonPage = () => {
               content={content}
               setContent={setContent}
               handleSubmit={handleSubmit}
+              handleBack={handleBack}
             />
           )}
 
           {activeStep === 2 && addedLesson && (
             <AddExercises lesson={addedLesson} />
           )}
-
-          <Stack sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Stack>
         </Container>
       </Box>
     </Container>
