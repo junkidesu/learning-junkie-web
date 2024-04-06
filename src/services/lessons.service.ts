@@ -1,8 +1,10 @@
 import {
   Essay,
   Lesson,
+  NewEssay,
   NewLesson,
   NewQuestion,
+  NewQuiz,
   Question,
   Quiz,
 } from "../types";
@@ -52,11 +54,29 @@ export const lessonsApi = api.injectEndpoints({
       query: ({ id, number }) => ({
         url: `courses/${id}/lessons/${number}/essays`,
       }),
+      providesTags: ["Exercise"],
+    }),
+    addEssay: builder.mutation<Essay, { lesson: Lesson; body: NewEssay }>({
+      query: ({ lesson, body }) => ({
+        url: `courses/${lesson.course.id}/lessons/${lesson.number}/essays`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Exercise"],
     }),
     getLessonQuizzes: builder.query<Quiz[], { id: number; number: number }>({
       query: ({ id, number }) => ({
         url: `courses/${id}/lessons/${number}/quizzes`,
       }),
+      providesTags: ["Exercise"],
+    }),
+    addQuiz: builder.mutation<Quiz, { lesson: Lesson; body: NewQuiz }>({
+      query: ({ lesson, body }) => ({
+        url: `courses/${lesson.course.id}/lessons/${lesson.number}/quizzes`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Exercise"],
     }),
   }),
 });
@@ -68,5 +88,7 @@ export const {
   useGetLessonQuestionsQuery,
   useAddQuestionMutation,
   useGetLessonEssaysQuery,
+  useAddEssayMutation,
   useGetLessonQuizzesQuery,
+  useAddQuizMutation,
 } = lessonsApi;

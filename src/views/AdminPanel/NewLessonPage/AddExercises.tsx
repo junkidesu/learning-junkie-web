@@ -1,7 +1,9 @@
-import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Container, Tab, Tabs } from "@mui/material";
 import { Lesson } from "../../../types";
 import { useState } from "react";
 import AddQuestions from "./AddQuestions";
+import AddEssays from "./AddEssays";
+import AddQuizzes from "./AddQuizzes";
 
 interface Props {
   lesson: Lesson;
@@ -58,10 +60,10 @@ const AddExercises = ({ lesson }: Props) => {
           <AddQuestions lesson={lesson} />
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={1}>
-          <Typography>Essays</Typography>
+          <AddEssays lesson={lesson} />
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2}>
-          <Typography>Quizzes</Typography>
+          <AddQuizzes lesson={lesson} />
         </CustomTabPanel>
       </Box>
     </Container>

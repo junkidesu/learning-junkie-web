@@ -105,7 +105,7 @@ export interface NewLesson {
 
 export interface Exercise {
   id: number;
-  grade: number;
+  grade?: number;
   title?: string;
   course: Course;
 }
@@ -115,6 +115,10 @@ export interface Question extends Exercise {
 }
 
 export type NewQuestion = Omit<Question, "id" | "course"> & { answer: string };
+
+export type NewEssay = Omit<Essay, "id" | "course"> & { model: string };
+
+export type NewQuiz = Omit<Quiz, "id" | "course"> & { correct: string };
 
 export interface Essay extends Exercise {
   task: string;
