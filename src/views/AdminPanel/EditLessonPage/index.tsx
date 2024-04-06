@@ -1,8 +1,17 @@
-import { Box, Container, Stack, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useGetLessonQuery } from "../../../services/lessons.service";
 import { useState } from "react";
 import EditInformationAndContent from "./EditInformationAndContent";
+import EditExercises from "./EditExercises";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -62,24 +71,26 @@ const EditLessonPage = () => {
 
   return (
     <Container>
-      <Stack>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs onChange={handleChange} value={activeTab}>
-            <Tab label="Information and Content" {...a11yProps(0)} />
-            <Tab label="Exercises" {...a11yProps(1)} />
-          </Tabs>
-        </Box>
+      <Paper sx={{ p: 2 }}>
+        <Stack>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs onChange={handleChange} value={activeTab}>
+              <Tab label="Information and Content" {...a11yProps(0)} />
+              <Tab label="Exercises" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
 
-        <Box>
-          <CustomTabPanel index={0} value={activeTab}>
-            <EditInformationAndContent lesson={lesson} />
-          </CustomTabPanel>
+          <Box>
+            <CustomTabPanel index={0} value={activeTab}>
+              <EditInformationAndContent lesson={lesson} />
+            </CustomTabPanel>
 
-          <CustomTabPanel index={1} value={activeTab}>
-            <Typography>Exercises</Typography>
-          </CustomTabPanel>
-        </Box>
-      </Stack>
+            <CustomTabPanel index={1} value={activeTab}>
+              <EditExercises lesson={lesson} />
+            </CustomTabPanel>
+          </Box>
+        </Stack>
+      </Paper>
     </Container>
   );
 };

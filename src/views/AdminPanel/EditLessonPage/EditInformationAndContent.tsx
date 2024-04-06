@@ -3,10 +3,8 @@ import {
   Container,
   FormControl,
   FormHelperText,
-  Paper,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Lesson } from "../../../types";
 import { useState } from "react";
@@ -41,44 +39,40 @@ const EditInformationAndContent = ({ lesson }: { lesson: Lesson }) => {
   };
 
   return (
-    <Paper sx={{ p: 2 }}>
-      <Stack
-        component="form"
-        gap={4}
-        sx={{
-          p: 3,
-          alignItems: "center",
-        }}
-        onSubmit={handleUpdate}
-      >
-        <Typography variant="h6">Edit Information and Content</Typography>
+    <Stack
+      component="form"
+      gap={4}
+      sx={{
+        p: 3,
+        alignItems: "center",
+      }}
+      onSubmit={handleUpdate}
+    >
+      <TextField
+        variant="outlined"
+        label="Description"
+        required
+        fullWidth
+        multiline
+        minRows={3}
+        helperText="Please enter the description of the lesson"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
 
-        <TextField
-          variant="outlined"
-          label="Description"
-          required
-          fullWidth
-          multiline
-          minRows={3}
-          helperText="Please enter the description of the lesson"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+      <FormControl required fullWidth>
+        <MDEditor value={content} onChange={(val) => setContent(val!)} />
+        <FormHelperText>
+          Please enter the markdown content of the lesson
+        </FormHelperText>
+      </FormControl>
 
-        <FormControl required fullWidth>
-          <MDEditor value={content} onChange={(val) => setContent(val!)} />
-          <FormHelperText>
-            Please enter the markdown content of the lesson
-          </FormHelperText>
-        </FormControl>
-
-        <Container>
-          <Button variant="contained" sx={{ float: "right" }} type="submit">
-            Update
-          </Button>
-        </Container>
-      </Stack>
-    </Paper>
+      <Container>
+        <Button variant="contained" sx={{ float: "right" }} type="submit">
+          Update
+        </Button>
+      </Container>
+    </Stack>
   );
 };
 

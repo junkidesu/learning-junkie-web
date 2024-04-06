@@ -139,6 +139,11 @@ export interface Quiz extends Exercise {
   };
 }
 
+export interface EditQuestion {
+  question: string;
+  answer: string;
+}
+
 export interface Solution {
   answer: string;
 }
