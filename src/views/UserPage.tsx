@@ -25,13 +25,13 @@ import {
 } from "../services/users.service";
 import { nameInitials, stringToColor } from "../util";
 import { useEffect, useState } from "react";
-import CourseCard from "../components/CourseCard";
 import LoadingCourseCard from "../components/LoadingCourseCard";
 import { Role, User } from "../types";
 import universityLogo from "../assets/university-logo.jpg";
 import useAuthUser from "../hooks/useAuthUser";
 import ProgressList from "../components/ProgressList";
 import usePickImage from "../hooks/usePickImage";
+import CoursesGrid from "../components/CoursesGrid";
 
 function a11yProps(index: number) {
   return {
@@ -81,24 +81,7 @@ const Enrollments = ({ user }: { user: User }) => {
         (courses.length === 0 ? (
           <Typography>This user is not enrolled in any course.</Typography>
         ) : (
-          <Grid container spacing={3} columns={{ xs: 12, sm: 8, md: 12 }}>
-            {courses.map((course) => (
-              <Grid
-                item
-                key={course.id}
-                xs={12}
-                sm={4}
-                md={4}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CourseCard course={course} />
-              </Grid>
-            ))}
-          </Grid>
+          <CoursesGrid courses={courses} />
         ))}
     </Container>
   );
@@ -123,24 +106,7 @@ const TaughtCourses = ({ user }: { user: User }) => {
         (courses.length === 0 ? (
           <Typography>This user does not teach any course.</Typography>
         ) : (
-          <Grid container spacing={3} columns={{ xs: 12, sm: 8, md: 12 }}>
-            {courses.map((course) => (
-              <Grid
-                item
-                key={course.id}
-                xs={12}
-                sm={4}
-                md={4}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CourseCard course={course} />
-              </Grid>
-            ))}
-          </Grid>
+          <CoursesGrid courses={courses} />
         ))}
     </Container>
   );
@@ -267,26 +233,40 @@ const UserPage = () => {
     <Container>
       <Stack gap={3}>
         <Paper sx={{ p: 2 }}>
-          <Stack gap={2}>
-            <Stack direction="row" sx={{ alignItems: "center" }}>
+          <Stack gap={3}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              sx={{ alignItems: "center" }}
+              gap={2}
+            >
               <IconButton
-                sx={{ width: 150, height: 150, p: 0, mr: 3 }}
+                sx={{
+                  width: { xs: 80, sm: 115, md: 115 },
+                  height: { xs: 80, sm: 115, md: 115 },
+                  p: 0,
+                }}
                 onClick={
                   isSameUser ? (e) => setAnchorEl(e.currentTarget) : undefined
                 }
                 disabled={!isSameUser}
               >
                 {user.avatar ? (
-                  <Avatar sx={{ width: 150, height: 150 }} src={user.avatar} />
+                  <Avatar
+                    sx={{
+                      width: { xs: 80, sm: 115, md: 115 },
+                      height: { xs: 80, sm: 115, md: 115 },
+                    }}
+                    src={user.avatar}
+                  />
                 ) : (
                   <Avatar
                     sx={{
-                      width: 150,
-                      height: 150,
+                      width: { xs: 80, sm: 115, md: 115 },
+                      height: { xs: 80, sm: 115, md: 115 },
                       bgcolor: stringToColor(user.name),
                     }}
                   >
-                    <Typography variant="h2">
+                    <Typography variant="h3">
                       {nameInitials(user.name)}
                     </Typography>
                   </Avatar>
@@ -304,13 +284,21 @@ const UserPage = () => {
                 </MenuItem>
               </Menu>
 
-              <Stack sx={{ flexGrow: 1 }}>
+              <Stack
+                sx={{
+                  flexGrow: 1,
+                  alignItems: { xs: "center", md: "initial" },
+                }}
+              >
                 <Typography variant="h3">{user.name}</Typography>
                 <Typography variant="h6">{user.role}</Typography>
               </Stack>
 
               {user.university && (
-                <Card elevation={5}>
+                <Card
+                  elevation={5}
+                  sx={{ width: { xs: "100%", md: "fit-content" } }}
+                >
                   <CardActionArea
                     sx={{ p: 1 }}
                     onClick={() =>

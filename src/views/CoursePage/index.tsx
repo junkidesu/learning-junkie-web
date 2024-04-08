@@ -41,7 +41,10 @@ const CoursePage = () => {
           style={{ overflow: "hidden", objectFit: "cover" }}
         />
 
-        <Stack direction="row" sx={{ alignItems: "center", p: 2 }}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          sx={{ alignItems: { md: "center" }, p: 2 }}
+        >
           <Typography variant="h4" sx={{ flexGrow: 1 }}>
             {course.title}
           </Typography>
