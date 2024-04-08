@@ -126,13 +126,20 @@ const UniversityPage = () => {
       <Stack gap={3}>
         <Paper sx={{ p: 2 }}>
           <Stack sx={{ gap: 2 }}>
-            <Stack direction="row" sx={{ alignItems: "center" }}>
+            <Stack
+              direction={{ md: "row", xs: "column" }}
+              sx={{ alignItems: "center" }}
+              gap={3}
+            >
               <Avatar
-                sx={{ width: 150, height: 150, mr: 3 }}
+                sx={{ width: 150, height: 150 }}
                 src={university.logo || universityLogo}
               />
-              <Stack height="100%">
-                <Typography variant="h3">{university.name}</Typography>
+              <Stack
+                height="100%"
+                sx={{ alignItems: { xs: "center", md: "initial" } }}
+              >
+                <Typography variant="h5">{university.name}</Typography>
                 <Typography>{university.year}</Typography>
                 <Link component="a" href={university.url}>
                   {university.url}
