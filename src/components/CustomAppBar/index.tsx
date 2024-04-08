@@ -3,6 +3,8 @@ import {
   PlayLesson,
   School,
   AdminPanelSettings,
+  LightMode,
+  DarkMode,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -11,6 +13,7 @@ import {
   Button,
   Typography,
   Stack,
+  IconButton,
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +21,12 @@ import useAuthUser from "../../hooks/useAuthUser";
 import ProfileMenu from "./ProfileMenu";
 import NavMenu from "./NavMenu";
 
-const CustomAppBar = () => {
+interface Props {
+  theme: "dark" | "light";
+  toggleTheme: () => void;
+}
+
+const CustomAppBar = ({ theme, toggleTheme }: Props) => {
   const { authUser } = useAuthUser();
 
   const navigate = useNavigate();
@@ -76,8 +84,17 @@ const CustomAppBar = () => {
               </Button>
             )}
 
-            <Box sx={{ flexGrow: 1 }}>
-              <ProfileMenu />
+            <Box flexGrow={1}>
+              <Stack
+                direction="row"
+                gap={2}
+                sx={{ width: "fit-content", float: "right" }}
+              >
+                <IconButton onClick={toggleTheme} color="inherit">
+                  {theme === "dark" ? <LightMode /> : <DarkMode />}
+                </IconButton>
+                <ProfileMenu />
+              </Stack>
             </Box>
           </Stack>
 
@@ -100,7 +117,12 @@ const CustomAppBar = () => {
               Learning Junkie
             </Button>
 
-            <ProfileMenu />
+            <Stack direction="row" gap={2}>
+              <IconButton onClick={toggleTheme} color="inherit">
+                {theme === "dark" ? <LightMode /> : <DarkMode />}
+              </IconButton>
+              <ProfileMenu />
+            </Stack>
           </Stack>
         </Toolbar>
       </Container>
