@@ -57,7 +57,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 2 }}>{children}</Box>}
     </div>
   );
 }
@@ -66,10 +66,10 @@ const Enrollments = ({ user }: { user: User }) => {
   const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
 
   return (
-    <Container>
+    <Container sx={{ alignItems: "center" }}>
       {isLoading && (
         <Grid container spacing={3}>
-          {[1, 2, 3].map((n) => (
+          {Array(6).map((n) => (
             <Grid item key={n} xs={4}>
               <LoadingCourseCard />
             </Grid>
@@ -77,21 +77,29 @@ const Enrollments = ({ user }: { user: User }) => {
         </Grid>
       )}
 
-      {courses && (
-        <Grid container spacing={3}>
-          {courses.length === 0 ? (
-            <Typography sx={{ p: 2 }}>
-              This user is not enrolled in any course
-            </Typography>
-          ) : (
-            courses.map((course) => (
-              <Grid item key={course.id} xs={4}>
+      {courses &&
+        (courses.length === 0 ? (
+          <Typography>This user is not enrolled in any course.</Typography>
+        ) : (
+          <Grid container spacing={3} columns={{ xs: 12, sm: 8, md: 12 }}>
+            {courses.map((course) => (
+              <Grid
+                item
+                key={course.id}
+                xs={12}
+                sm={4}
+                md={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <CourseCard course={course} />
               </Grid>
-            ))
-          )}
-        </Grid>
-      )}
+            ))}
+          </Grid>
+        ))}
     </Container>
   );
 };
@@ -100,10 +108,10 @@ const TaughtCourses = ({ user }: { user: User }) => {
   const { data: courses, isLoading } = useGetTaughtCoursesQuery(user.id);
 
   return (
-    <Container>
+    <Container sx={{ alignItems: "center" }}>
       {isLoading && (
         <Grid container spacing={3}>
-          {[1, 2, 3].map((n) => (
+          {Array(6).map((n) => (
             <Grid item key={n} xs={4}>
               <LoadingCourseCard />
             </Grid>
@@ -111,21 +119,29 @@ const TaughtCourses = ({ user }: { user: User }) => {
         </Grid>
       )}
 
-      {courses && (
-        <Grid container spacing={3}>
-          {courses.length === 0 ? (
-            <Typography sx={{ p: 2 }}>
-              This user is not enrolled in any course
-            </Typography>
-          ) : (
-            courses.map((course) => (
-              <Grid item key={course.id} xs={4}>
+      {courses &&
+        (courses.length === 0 ? (
+          <Typography>This user does not teach any course.</Typography>
+        ) : (
+          <Grid container spacing={3} columns={{ xs: 12, sm: 8, md: 12 }}>
+            {courses.map((course) => (
+              <Grid
+                item
+                key={course.id}
+                xs={12}
+                sm={4}
+                md={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <CourseCard course={course} />
               </Grid>
-            ))
-          )}
-        </Grid>
-      )}
+            ))}
+          </Grid>
+        ))}
     </Container>
   );
 };
@@ -148,10 +164,11 @@ const UserTabs = ({ user }: { user: User }) => {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
+          variant="scrollable"
         >
           <Tab label="Enrollments" {...a11yProps(0)} />
           <Tab label="Progress" {...a11yProps(1)} disabled={!isSameUser} />
-          <Tab label="Solutions" {...a11yProps(2)} disabled={!isSameUser} />
+          <Tab label="Solutions" {...a11yProps(2)} disabled />
           <Tab
             label="Teaches"
             {...a11yProps(3)}

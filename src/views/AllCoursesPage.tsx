@@ -7,10 +7,10 @@ const AllCoursesPage = () => {
   const { data: courses, isLoading } = useGetCoursesQuery();
 
   return (
-    <Container>
+    <Container sx={{ alignItems: "center" }}>
       {isLoading && (
         <Grid container spacing={3}>
-          {[1, 2, 3, 4, 5, 6].map((n) => (
+          {Array(6).map((n) => (
             <Grid item key={n} xs={4}>
               <LoadingCourseCard />
             </Grid>
@@ -19,9 +19,19 @@ const AllCoursesPage = () => {
       )}
 
       {courses && (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} columns={{ xs: 12, sm: 8, md: 12 }}>
           {courses.map((course) => (
-            <Grid item key={course.id} xs={4}>
+            <Grid
+              item
+              key={course.id}
+              xs={12}
+              sm={4}
+              md={4}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <CourseCard course={course} />
             </Grid>
           ))}

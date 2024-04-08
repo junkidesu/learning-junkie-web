@@ -50,7 +50,7 @@ const CourseCard = ({ course }: { course: Course }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: "345px", height: "100%" }}>
+    <Card sx={{ height: "100%", width: "100%" }}>
       <CardActionArea onClick={() => navigate(`/courses/${course.id}`)}>
         <CardMedia
           component="img"

@@ -40,7 +40,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 2 }}>{children}</Box>}
     </div>
   );
 }
@@ -75,10 +75,10 @@ const UniversityTabs = ({ university }: { university: University }) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Container>
+        <Container sx={{ alignItems: "center" }}>
           {isLoading && (
             <Grid container spacing={3}>
-              {[1, 2, 3].map((n) => (
+              {Array(6).map((n) => (
                 <Grid item key={n} xs={4}>
                   <LoadingCourseCard />
                 </Grid>
@@ -86,15 +86,31 @@ const UniversityTabs = ({ university }: { university: University }) => {
             </Grid>
           )}
 
-          {courses && (
-            <Grid container spacing={3}>
-              {courses.map((course) => (
-                <Grid item key={course.id} xs={4}>
-                  <CourseCard course={course} />
-                </Grid>
-              ))}
-            </Grid>
-          )}
+          {courses &&
+            (courses.length === 0 ? (
+              <Typography>
+                This university does not offer any course.
+              </Typography>
+            ) : (
+              <Grid container spacing={3} columns={{ xs: 12, sm: 8, md: 12 }}>
+                {courses.map((course) => (
+                  <Grid
+                    item
+                    key={course.id}
+                    xs={12}
+                    sm={4}
+                    md={4}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CourseCard course={course} />
+                  </Grid>
+                ))}
+              </Grid>
+            ))}
         </Container>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>

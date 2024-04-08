@@ -44,7 +44,10 @@ const NavMenu = () => {
           <Button
             startIcon={<PlayLesson />}
             color="inherit"
-            onClick={() => navigate(`/courses`)}
+            onClick={() => {
+              navigate(`/courses`);
+              handleClose();
+            }}
           >
             Courses
           </Button>
@@ -54,7 +57,10 @@ const NavMenu = () => {
           <Button
             startIcon={<School />}
             color="inherit"
-            onClick={() => navigate(`/universities`)}
+            onClick={() => {
+              navigate(`/universities`);
+              handleClose();
+            }}
           >
             Universities
           </Button>
