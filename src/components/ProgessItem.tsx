@@ -6,6 +6,9 @@ import {
   Box,
   CircularProgress,
   Button,
+  useTheme,
+  useMediaQuery,
+  LinearProgress,
 } from "@mui/material";
 import { Progress, User } from "../types";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +21,9 @@ const ProgressItem = ({
   progress: Progress;
   user: User;
 }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+
   const navigate = useNavigate();
 
   const isCompleted =
@@ -27,6 +33,75 @@ const ProgressItem = ({
   const certificateLink = `${import.meta.env.VITE_BACKEND_URL}/users/${
     user.id
   }/enrollments/${progress.course.id}/certificate`;
+
+  if (matches)
+    return (
+      <Paper>
+        <Stack sx={{ p: 2 }} gap={3}>
+          <Stack direction="row" gap={2} sx={{ alignItems: "center" }}>
+            <Avatar
+              src={progress.course.university.logo || universityLogo}
+              sx={{ width: 80, height: 80 }}
+            />
+
+            <Stack sx={{ flexGrow: 1 }}>
+              <Typography variant="h6">{progress.course.title}</Typography>
+              <Typography>{progress.course.difficulty}</Typography>
+            </Stack>
+          </Stack>
+
+          <Stack gap={1}>
+            <LinearProgress
+              variant="determinate"
+              value={
+                !progress.course.totalPoints
+                  ? 0
+                  : (100 * progress.obtainedPoints) /
+                    progress.course.totalPoints
+              }
+            />
+
+            <Box>
+              <Typography
+                variant="caption"
+                component="div"
+                color="text.secondary"
+                sx={{ float: "right" }}
+              >
+                Progress:{" "}
+                {`${Math.round(
+                  !progress.course.totalPoints
+                    ? 0
+                    : (100 * progress.obtainedPoints) /
+                        progress.course.totalPoints
+                )}%`}
+              </Typography>
+            </Box>
+          </Stack>
+
+          {isCompleted ? (
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => window.open(certificateLink)}
+            >
+              Certificate
+            </Button>
+          ) : (
+            <Box>
+              <Button
+                sx={{ float: "right" }}
+                onClick={() =>
+                  navigate(`/courses/${progress.course.id}/lessons`)
+                }
+              >
+                Continue
+              </Button>
+            </Box>
+          )}
+        </Stack>
+      </Paper>
+    );
 
   return (
     <Paper>
