@@ -2,7 +2,7 @@ import {
   Box,
   Button,
   Container,
-  Paper,
+  MobileStepper,
   Stack,
   Step,
   StepButton,
@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { useGetCourseLessonsQuery } from "../services/lessons.service";
 import { useState } from "react";
 import LessonView from "../components/LessonView";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 const LessonsPage = () => {
   const courseId = useParams().id;
@@ -56,23 +57,31 @@ const LessonsPage = () => {
     return <Typography>This course does not have any lessons yet!</Typography>;
 
   return (
-    <Container>
+    <Container sx={{ p: 0 }}>
       <Stack sx={{ gap: 2 }}>
-        <Paper sx={{ p: 2 }}>
-          <Stepper nonLinear activeStep={activeLesson}>
-            {lessons.map((lesson, index) => (
-              <Step key={lesson.number}>
-                <StepButton color="inherit" onClick={handleLesson(index)}>
-                  {lesson.title}
-                </StepButton>
-              </Step>
-            ))}
-          </Stepper>
-        </Paper>
+        <Stepper
+          nonLinear
+          activeStep={activeLesson}
+          sx={{ display: { xs: "none", md: "flex" } }}
+        >
+          {lessons.map((lesson, index) => (
+            <Step key={lesson.number}>
+              <StepButton color="inherit" onClick={handleLesson(index)}>
+                {lesson.title}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
 
-        <Container sx={{ width: "100%" }}>
+        <Container sx={{ width: "100%", p: 0 }}>
           <LessonView lesson={lessons[activeLesson]} />
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Box
+            sx={{
+              display: { md: "flex", xs: "none" },
+              flexDirection: "row",
+              pt: 2,
+            }}
+          >
             <Button
               disabled={activeLesson === 0}
               onClick={handleBack}
@@ -89,6 +98,34 @@ const LessonsPage = () => {
               Next
             </Button>
           </Box>
+
+          <MobileStepper
+            variant="text"
+            steps={totalLessons()}
+            position="static"
+            activeStep={activeLesson}
+            nextButton={
+              <Button
+                size="small"
+                onClick={handleNext}
+                disabled={activeLesson === totalLessons() - 1}
+              >
+                Next
+                <KeyboardArrowRight />
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={handleBack}
+                disabled={activeLesson === 0}
+              >
+                <KeyboardArrowLeft />
+                Back
+              </Button>
+            }
+            sx={{ display: { xs: "flex", md: "none" } }}
+          />
         </Container>
       </Stack>
     </Container>
