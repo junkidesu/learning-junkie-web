@@ -22,6 +22,8 @@ import Protected from "./components/Protected";
 import InstructorPanel from "./views/InstructorPanel";
 
 const App = () => {
+  document.documentElement.setAttribute("data-color-mode", "light");
+
   const { restoreUser } = useInitialization();
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const App = () => {
   }, [restoreUser]);
 
   return (
-    <Container>
+    <Container sx={{ p: 0 }}>
       <CustomAppBar />
 
       <Routes>

@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./store.ts";
 import { BrowserRouter } from "react-router-dom";
 
-const darkTheme = createTheme({ palette: { mode: "dark" } });
+const darkTheme = createTheme({ palette: { mode: "light" } });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
