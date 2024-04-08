@@ -9,6 +9,7 @@ import {
   useTheme,
   useMediaQuery,
   LinearProgress,
+  Divider,
 } from "@mui/material";
 import { Progress, User } from "../types";
 import { useNavigate } from "react-router-dom";
@@ -78,6 +79,8 @@ const ProgressItem = ({
               </Typography>
             </Box>
           </Stack>
+
+          <Divider />
 
           {isCompleted ? (
             <Button
