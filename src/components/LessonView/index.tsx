@@ -15,7 +15,7 @@ const LessonView = ({ lesson }: { lesson: Lesson }) => {
 
           <MDEditor.Markdown
             source={lesson.content}
-            style={{ backgroundColor: "inherit" }}
+            style={{ backgroundColor: "inherit", color: "inherit" }}
           />
         </Stack>
       </Paper>
