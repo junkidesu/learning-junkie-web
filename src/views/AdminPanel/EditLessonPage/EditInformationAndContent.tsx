@@ -5,6 +5,8 @@ import {
   FormHelperText,
   Stack,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Lesson } from "../../../types";
 import { useState } from "react";
@@ -12,6 +14,11 @@ import MDEditor from "@uiw/react-md-editor";
 import { useEditLessonMutation } from "../../../services/lessons.service";
 
 const EditInformationAndContent = ({ lesson }: { lesson: Lesson }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+
+  console.log(matches);
+
   const [description, setDescription] = useState(lesson.description);
   const [content, setContent] = useState(lesson.content);
 
@@ -61,7 +68,11 @@ const EditInformationAndContent = ({ lesson }: { lesson: Lesson }) => {
       />
 
       <FormControl required fullWidth>
-        <MDEditor value={content} onChange={(val) => setContent(val!)} />
+        <MDEditor
+          value={content}
+          onChange={(val) => setContent(val!)}
+          preview={matches ? "live" : "edit"}
+        />
         <FormHelperText>
           Please enter the markdown content of the lesson
         </FormHelperText>

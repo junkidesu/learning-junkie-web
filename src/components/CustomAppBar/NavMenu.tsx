@@ -1,16 +1,29 @@
-import { MenuRounded, PlayLesson, School } from "@mui/icons-material";
+import {
+  AdminPanelSettings,
+  MenuRounded,
+  PlayLesson,
+  School,
+} from "@mui/icons-material";
 import { Box, Button, IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuthUser from "../../hooks/useAuthUser";
 
 const NavMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
+
+  const { authUser } = useAuthUser();
 
   const open = Boolean(anchorEl);
 
   const navigate = useNavigate();
 
   const handleClose = () => {
+    setAnchorEl(undefined);
+  };
+
+  const navigateAndClose = (to: string) => {
+    navigate(to);
     setAnchorEl(undefined);
   };
 
@@ -44,10 +57,7 @@ const NavMenu = () => {
           <Button
             startIcon={<PlayLesson />}
             color="inherit"
-            onClick={() => {
-              navigate(`/courses`);
-              handleClose();
-            }}
+            onClick={() => navigateAndClose("/courses")}
           >
             Courses
           </Button>
@@ -57,14 +67,35 @@ const NavMenu = () => {
           <Button
             startIcon={<School />}
             color="inherit"
-            onClick={() => {
-              navigate(`/universities`);
-              handleClose();
-            }}
+            onClick={() => navigateAndClose("/universities")}
           >
             Universities
           </Button>
         </MenuItem>
+
+        {authUser?.role === "Admin" && (
+          <MenuItem>
+            <Button
+              startIcon={<AdminPanelSettings />}
+              color="inherit"
+              onClick={() => navigateAndClose(`/admin`)}
+            >
+              Admin
+            </Button>
+          </MenuItem>
+        )}
+
+        {authUser?.role === "Instructor" && (
+          <MenuItem>
+            <Button
+              startIcon={<AdminPanelSettings />}
+              color="inherit"
+              onClick={() => navigateAndClose(`/instructor`)}
+            >
+              Instructor
+            </Button>
+          </MenuItem>
+        )}
       </Menu>
     </Box>
   );

@@ -6,6 +6,8 @@ import {
   Paper,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Course } from "../../../types";
 import MDEditor from "@uiw/react-md-editor";
@@ -25,6 +27,11 @@ const AddLessonContent = ({
   handleSubmit,
   handleBack,
 }: Props) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+
+  console.log(matches);
+
   return (
     <Paper sx={{ p: 2 }}>
       <Stack
@@ -36,7 +43,11 @@ const AddLessonContent = ({
         <Typography variant="h5">Lesson Content</Typography>
 
         <FormControl required fullWidth>
-          <MDEditor value={content} onChange={(val) => setContent(val!)} />
+          <MDEditor
+            value={content}
+            onChange={(val) => setContent(val!)}
+            preview={matches ? "live" : "edit"}
+          />
           <FormHelperText>
             Please enter the markdown content of the lesson
           </FormHelperText>
