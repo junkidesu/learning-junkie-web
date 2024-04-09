@@ -56,7 +56,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
   return (
     <Card variant="elevation" elevation={5}>
       <Stack gap={2} sx={{ p: 2 }}>
-        <Stack direction="row">
+        <Stack direction={{ xs: "column", md: "row" }}>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             {question.title || "Question"}
           </Typography>

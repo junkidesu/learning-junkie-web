@@ -62,7 +62,7 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
   return (
     <Card variant="elevation" elevation={5}>
       <Stack gap={2} sx={{ p: 2 }}>
-        <Stack direction="row">
+        <Stack direction={{ md: "row", xs: "column" }}>
           <Typography typography="h6" sx={{ flexGrow: 1 }}>
             {quiz.title || "Quiz"}
           </Typography>
