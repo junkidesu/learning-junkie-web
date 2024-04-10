@@ -13,7 +13,6 @@ const AllUniversitiesPage = () => {
         {universities?.map((u) => (
           <UniversityCard key={u.id} university={u} />
         ))}
-        <LoadingUniversityCard />
       </Stack>
     </Container>
   );
