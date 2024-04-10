@@ -9,7 +9,7 @@ import {
 
 const LoadingCourseCard = () => {
   return (
-    <Card sx={{ maxWidth: "345px", height: "100%" }}>
+    <Card sx={{ maxWidth: "400px", width: "100%", height: "100%" }}>
       <CardActionArea>
         <Skeleton variant="rectangular" height={200} />
       </CardActionArea>

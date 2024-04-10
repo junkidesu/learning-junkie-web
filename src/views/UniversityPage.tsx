@@ -4,7 +4,6 @@ import {
   Card,
   Container,
   Divider,
-  Grid,
   Link,
   Paper,
   Stack,
@@ -20,8 +19,8 @@ import {
 import universityLogo from "../assets/university-logo.jpg";
 import { useState } from "react";
 import { University } from "../types";
-import LoadingCourseCard from "../components/LoadingCourseCard";
 import CoursesGrid from "../components/CoursesGrid";
+import LoadingCoursesGrid from "../components/LoadingCoursesGrid";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -76,15 +75,7 @@ const UniversityTabs = ({ university }: { university: University }) => {
       </Box>
       <CustomTabPanel value={value} index={0}>
         <Container sx={{ alignItems: "center" }}>
-          {isLoading && (
-            <Grid container spacing={3}>
-              {Array(6).map((n) => (
-                <Grid item key={n} xs={4}>
-                  <LoadingCourseCard />
-                </Grid>
-              ))}
-            </Grid>
-          )}
+          {isLoading && <LoadingCoursesGrid />}
 
           {courses &&
             (courses.length === 0 ? (

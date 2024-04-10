@@ -5,7 +5,6 @@ import {
   CardActionArea,
   Container,
   Divider,
-  Grid,
   IconButton,
   Menu,
   MenuItem,
@@ -25,13 +24,13 @@ import {
 } from "../services/users.service";
 import { nameInitials, stringToColor } from "../util";
 import { useEffect, useState } from "react";
-import LoadingCourseCard from "../components/LoadingCourseCard";
 import { Role, User } from "../types";
 import universityLogo from "../assets/university-logo.jpg";
 import useAuthUser from "../hooks/useAuthUser";
 import ProgressList from "../components/ProgressList";
 import usePickImage from "../hooks/usePickImage";
 import CoursesGrid from "../components/CoursesGrid";
+import LoadingCoursesGrid from "../components/LoadingCoursesGrid";
 
 function a11yProps(index: number) {
   return {
@@ -67,15 +66,7 @@ const Enrollments = ({ user }: { user: User }) => {
 
   return (
     <Container sx={{ alignItems: "center" }}>
-      {isLoading && (
-        <Grid container spacing={3}>
-          {Array(6).map((n) => (
-            <Grid item key={n} xs={4}>
-              <LoadingCourseCard />
-            </Grid>
-          ))}
-        </Grid>
-      )}
+      {isLoading && <LoadingCoursesGrid />}
 
       {courses &&
         (courses.length === 0 ? (
@@ -92,15 +83,7 @@ const TaughtCourses = ({ user }: { user: User }) => {
 
   return (
     <Container sx={{ alignItems: "center" }}>
-      {isLoading && (
-        <Grid container spacing={3}>
-          {Array(6).map((n) => (
-            <Grid item key={n} xs={4}>
-              <LoadingCourseCard />
-            </Grid>
-          ))}
-        </Grid>
-      )}
+      {isLoading && <LoadingCoursesGrid />}
 
       {courses &&
         (courses.length === 0 ? (
