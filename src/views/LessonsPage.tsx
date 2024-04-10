@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   MobileStepper,
   Stack,
@@ -29,7 +30,12 @@ const LessonsPage = () => {
 
   if (!courseId) return null;
 
-  if (isLoading) return <Typography>Loading...</Typography>;
+  if (isLoading)
+    return (
+      <Stack sx={{ alignItems: "center", justifyContent: "center" }}>
+        <CircularProgress size={40} />
+      </Stack>
+    );
 
   if (!lessons) return <Typography>Some error has occurred!</Typography>;
 
