@@ -31,6 +31,7 @@ import ProgressList from "../components/ProgressList";
 import usePickImage from "../hooks/usePickImage";
 import CoursesGrid from "../components/CoursesGrid";
 import LoadingCoursesGrid from "../components/LoadingCoursesGrid";
+import LoadingUserPage from "./LoadingUserPage";
 
 function a11yProps(index: number) {
   return {
@@ -191,7 +192,7 @@ const UserPage = () => {
 
   if (!userId) return null;
 
-  if (isLoading) return <Typography>Loading...</Typography>;
+  if (isLoading) return <LoadingUserPage />;
 
   if (isError || !user)
     return <Typography>Some error has occurred!</Typography>;
