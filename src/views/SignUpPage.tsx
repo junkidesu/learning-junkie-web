@@ -169,17 +169,27 @@ const SignUpPage = () => {
               </MenuItem>
             </Menu>
 
-            <Stack direction="row" sx={{ width: "100%", alignItems: "center" }}>
+            <Stack
+              direction={{ md: "row", xs: "column" }}
+              sx={{ width: "100%", alignItems: "center" }}
+              gap={2}
+            >
               <Tooltip title="Choose Avatar">
                 <IconButton
                   sx={{ p: 0 }}
                   onClick={(e) => setAnchorEl(e.currentTarget)}
                 >
-                  <Avatar src={chosenAvatar} sx={{ width: 150, height: 150 }} />
+                  <Avatar
+                    src={chosenAvatar}
+                    sx={{
+                      width: { xs: 100, md: 150 },
+                      height: { xs: 100, md: 150 },
+                    }}
+                  />
                 </IconButton>
               </Tooltip>
 
-              <Stack gap={4} sx={{ width: "100%", ml: 2 }}>
+              <Stack gap={4} sx={{ width: "100%" }}>
                 <TextField
                   variant="outlined"
                   label="Full name"

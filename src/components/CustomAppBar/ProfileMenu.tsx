@@ -71,7 +71,11 @@ const ProfileMenu = () => {
           <Lock />
         </IconButton>
 
-        <Menu open={open} anchorEl={anchorEl}>
+        <Menu
+          open={open}
+          anchorEl={anchorEl}
+          onClose={() => setAnchorEl(undefined)}
+        >
           <MenuItem>
             <Button
               startIcon={<Login />}

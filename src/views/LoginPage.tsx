@@ -13,6 +13,8 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import education from "../assets/education.jpg";
 import {
@@ -29,6 +31,10 @@ import { useNavigate } from "react-router-dom";
 import storage from "../storage";
 
 const LoginPage = () => {
+  const theme = useTheme();
+
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+
   const [alertOpen, setAlertOpen] = useState(false);
 
   const [email, setEmail] = useState<string>("");
@@ -85,10 +91,14 @@ const LoginPage = () => {
       </Collapse>
 
       <Paper square={false} sx={{ overflow: "hidden", width: "fit-content" }}>
-        <Stack direction="row">
+        <Stack direction={{ xs: "column", md: "row" }}>
           <img
             src={education}
-            style={{ maxWidth: "400px", objectFit: "cover" }}
+            style={{
+              maxWidth: "400px",
+              width: matches ? "100%" : "initial",
+              objectFit: "cover",
+            }}
           />
 
           <Stack
