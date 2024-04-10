@@ -29,7 +29,7 @@ const UniversityCard = ({ university }: { university: University }) => {
               src={university.logo || universityLogo}
             />
 
-            <Container>
+            <Stack>
               <Typography
                 sx={{ textDecoration: "none" }}
                 variant="h5"
@@ -44,7 +44,7 @@ const UniversityCard = ({ university }: { university: University }) => {
               <Link component="a" href={university.url}>
                 {university.url}
               </Link>
-            </Container>
+            </Stack>
           </Stack>
         </CardActionArea>
 
