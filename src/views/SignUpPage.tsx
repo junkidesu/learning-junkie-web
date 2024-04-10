@@ -7,7 +7,9 @@ import {
 import {
   Alert,
   Avatar,
+  Box,
   Button,
+  CircularProgress,
   Collapse,
   Container,
   FormControl,
@@ -55,9 +57,9 @@ const SignUpPage = () => {
 
   const navigate = useNavigate();
 
-  const [signup] = useSignUpMutation();
+  const [signup, { isLoading: signingUp }] = useSignUpMutation();
   const [uploadAvatar] = useUploadAvatarMutation();
-  const [login] = useLoginMutation();
+  const [login, { isLoading: signingIn }] = useLoginMutation();
 
   const { openImagePicker, reset, imageContent } = usePickImage({
     image: avatar,
@@ -119,6 +121,8 @@ const SignUpPage = () => {
 
   const chosenAvatar = avatar && imageContent;
 
+  const isLoading = signingUp || signingIn;
+
   return (
     <Container>
       <Collapse in={alertOpen}>
@@ -178,6 +182,7 @@ const SignUpPage = () => {
                 <IconButton
                   sx={{ p: 0 }}
                   onClick={(e) => setAnchorEl(e.currentTarget)}
+                  disabled={isLoading}
                 >
                   <Avatar
                     src={chosenAvatar}
@@ -198,6 +203,7 @@ const SignUpPage = () => {
                   helperText="Please enter your full name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  disabled={isLoading}
                 />
 
                 <TextField
@@ -209,11 +215,12 @@ const SignUpPage = () => {
                   helperText="Please enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
                 />
               </Stack>
             </Stack>
 
-            <FormControl fullWidth>
+            <FormControl fullWidth disabled={isLoading}>
               <InputLabel id="demo-simple-select-label">Education</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -237,7 +244,12 @@ const SignUpPage = () => {
               </FormHelperText>
             </FormControl>
 
-            <FormControl variant="outlined" required fullWidth>
+            <FormControl
+              variant="outlined"
+              required
+              fullWidth
+              disabled={isLoading}
+            >
               <InputLabel htmlFor="password">Password</InputLabel>
               <OutlinedInput
                 id="password"
@@ -261,9 +273,24 @@ const SignUpPage = () => {
               <FormHelperText>Please enter your password</FormHelperText>
             </FormControl>
 
-            <Button type="submit" variant="contained">
-              Sign up
-            </Button>
+            <Box sx={{ position: "relative" }}>
+              <Button type="submit" variant="contained" disabled={isLoading}>
+                Sign up
+              </Button>
+
+              {isLoading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )}
+            </Box>
           </Stack>
         </Paper>
       </Stack>

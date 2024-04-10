@@ -1,6 +1,8 @@
 import {
   Alert,
+  Box,
   Button,
+  CircularProgress,
   Collapse,
   Container,
   FormControl,
@@ -123,9 +125,15 @@ const LoginPage = () => {
               type="email"
               helperText="Please enter your email"
               fullWidth
+              disabled={isLoading}
             />
 
-            <FormControl variant="outlined" required fullWidth>
+            <FormControl
+              variant="outlined"
+              required
+              fullWidth
+              disabled={isLoading}
+            >
               <InputLabel htmlFor="password">Password</InputLabel>
               <OutlinedInput
                 id="password"
@@ -149,9 +157,24 @@ const LoginPage = () => {
               <FormHelperText>Please enter your password</FormHelperText>
             </FormControl>
 
-            <Button type="submit" variant="contained" disabled={isLoading}>
-              Login
-            </Button>
+            <Box sx={{ position: "relative" }}>
+              <Button type="submit" variant="contained" disabled={isLoading}>
+                Login
+              </Button>
+
+              {isLoading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )}
+            </Box>
           </Stack>
         </Stack>
       </Paper>
