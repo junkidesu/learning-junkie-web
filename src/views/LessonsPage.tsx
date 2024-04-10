@@ -42,10 +42,14 @@ const LessonsPage = () => {
   };
 
   const handleNext = () => {
-    if (!isLastLesson()) setActiveLesson((prev) => prev + 1);
+    if (!isLastLesson()) {
+      setActiveLesson((prev) => prev + 1);
+      window.scrollTo({ top: 0 });
+    }
   };
 
   const handleBack = () => {
+    window.scrollTo({ top: 0 });
     setActiveLesson((prevActiveLesson) => prevActiveLesson - 1);
   };
 
