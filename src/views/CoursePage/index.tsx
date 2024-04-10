@@ -17,19 +17,27 @@ import courseBanner from "../../assets/education.jpg";
 import { educationToString } from "../../types";
 import UserAvatar from "../../components/UserAvatar";
 import Enrollments from "./Enrollments";
+import LoadingCoursePage from "../LoadingCoursePage";
 
 const CoursePage = () => {
   const courseId = useParams().id;
 
   const navigate = useNavigate();
 
-  const { data: course, isLoading } = useGetCourseByIdQuery(Number(courseId), {
+  const {
+    data: course,
+    isLoading,
+    isError,
+  } = useGetCourseByIdQuery(Number(courseId), {
     skip: !courseId,
   });
 
   if (!courseId) return null;
 
-  if (isLoading || !course) return <div>Loading...</div>;
+  if (isLoading) return <LoadingCoursePage />;
+
+  if (isError || !course)
+    return <Typography>Some error has occurred!</Typography>;
 
   return (
     <Container>

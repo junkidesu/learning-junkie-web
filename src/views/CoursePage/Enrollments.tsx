@@ -6,6 +6,8 @@ import {
   Button,
   Snackbar,
   Alert,
+  CircularProgress,
+  Box,
 } from "@mui/material";
 import UserAvatar from "../../components/UserAvatar";
 import { Course } from "../../types";
@@ -27,7 +29,7 @@ const Enrollments = ({ course }: { course: Course }) => {
 
   const navigate = useNavigate();
 
-  const [enroll] = useEnrollMutation();
+  const [enroll, { isLoading: enrolling }] = useEnrollMutation();
 
   const { existsId, authUser } = useAuthUser();
 
@@ -79,13 +81,29 @@ const Enrollments = ({ course }: { course: Course }) => {
             Continue
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            disabled={!existsId}
-            onClick={handleEnroll}
-          >
-            Enroll
-          </Button>
+          <Box sx={{ position: "relative" }}>
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={handleEnroll}
+              disabled={!existsId || enrolling}
+            >
+              Enroll
+            </Button>
+
+            {isLoading && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  marginTop: "-12px",
+                  marginLeft: "-12px",
+                }}
+              />
+            )}
+          </Box>
         )}
       </Stack>
 
