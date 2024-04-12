@@ -97,6 +97,7 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
             aria-labelledby="demo-radio-buttons-group-label"
             name="radio-buttons-group"
             defaultValue="A"
+            value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           >
             <FormControlLabel
