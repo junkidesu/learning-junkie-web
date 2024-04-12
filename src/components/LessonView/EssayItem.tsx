@@ -5,23 +5,23 @@ import {
   TextField,
   Container,
   Button,
-  Snackbar,
-  Alert,
 } from "@mui/material";
-import { Essay } from "../../types";
+import { Essay, ExerciseStatus } from "../../types";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useState } from "react";
 import {
   useGetEssaySolutionQuery,
   usePostEssaySolutionMutation,
 } from "../../services/solutions.service";
+import useAlert from "../../hooks/useAlert";
+import SnackbarAlert from "../SnackbarAlert";
 
 const EssayItem = ({ essay }: { essay: Essay }) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
   const [answer, setAnswer] = useState("");
 
   const { existsId, solutions } = useAuthUser();
+
+  const { showAlert } = useAlert();
 
   const isSolved = solutions?.map((e) => e.id).includes(essay.id);
 
@@ -42,16 +42,13 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
 
     console.log(result);
 
-    setSnackbarOpen(true);
-  };
-
-  const handleClose = (
-    _event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-
-    setSnackbarOpen(false);
+    if (result.result === ExerciseStatus.ExerciseFailure) {
+      console.log("Failure!");
+      showAlert({ message: "Your answer is wrong!", severity: "error" });
+    } else if (result.result === ExerciseStatus.ExerciseSuccess) {
+      console.log("Success!");
+      showAlert({ message: "Your answer is correct!", severity: "success" });
+    }
   };
 
   const showSolution = () => {
@@ -112,20 +109,7 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
         </Container>
       </Stack>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity={"success"}
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          Successfully submitted!
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert />
     </Card>
   );
 };

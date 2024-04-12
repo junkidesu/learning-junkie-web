@@ -1,16 +1,9 @@
+import { VisibilityOff, Visibility, LockTwoTone } from "@mui/icons-material";
 import {
-  VisibilityOff,
-  Visibility,
-  LockTwoTone,
-  CloseTwoTone,
-} from "@mui/icons-material";
-import {
-  Alert,
   Avatar,
   Box,
   Button,
   CircularProgress,
-  Collapse,
   Container,
   FormControl,
   FormHelperText,
@@ -39,11 +32,11 @@ import { useLoginMutation } from "../services/auth.service";
 import { setAuth } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
 import usePickImage from "../hooks/usePickImage";
+import CollapseAlert from "../components/CollapseAlert";
+import useAlert from "../hooks/useAlert";
 
 const SignUpPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-
-  const [alertOpen, setAlertOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,6 +49,8 @@ const SignUpPage = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
+
+  const { showAlert } = useAlert();
 
   const [signup, { isLoading: signingUp }] = useSignUpMutation();
   const [uploadAvatar] = useUploadAvatarMutation();
@@ -104,7 +99,7 @@ const SignUpPage = () => {
       navigate("/");
     } catch (error) {
       console.error(error);
-      setAlertOpen(true);
+      showAlert({ severity: "error" });
     }
   };
 
@@ -125,27 +120,7 @@ const SignUpPage = () => {
 
   return (
     <Container>
-      <Collapse in={alertOpen}>
-        <Alert
-          severity="error"
-          variant="filled"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setAlertOpen(false);
-              }}
-            >
-              <CloseTwoTone fontSize="inherit" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          Something went wrong :(
-        </Alert>
-      </Collapse>
+      <CollapseAlert />
 
       <Stack sx={{ width: "100%" }}>
         <Paper sx={{ p: 2 }}>

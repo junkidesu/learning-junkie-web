@@ -5,8 +5,6 @@ import {
   TextField,
   Container,
   Button,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import { ExerciseStatus, Question } from "../../types";
 import {
@@ -15,11 +13,10 @@ import {
 } from "../../services/solutions.service";
 import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
+import useAlert from "../../hooks/useAlert";
+import SnackbarAlert from "../SnackbarAlert";
 
 const QuestionItem = ({ question }: { question: Question }) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [correct, setCorrect] = useState(false);
-
   const { existsId, solutions } = useAuthUser();
 
   const isSolved = solutions?.map((e) => e.id).includes(question.id);
@@ -29,6 +26,8 @@ const QuestionItem = ({ question }: { question: Question }) => {
   });
 
   const [answer, setAnswer] = useState("");
+
+  const { showAlert } = useAlert();
 
   const [postSolution, { isLoading: postingSolution }] =
     usePostQuestionSolutionMutation();
@@ -43,22 +42,11 @@ const QuestionItem = ({ question }: { question: Question }) => {
 
     if (result.result === ExerciseStatus.ExerciseFailure) {
       console.log("Failure!");
-      setCorrect(false);
-      setSnackbarOpen(true);
+      showAlert({ message: "Your answer is wrong!", severity: "error" });
     } else if (result.result === ExerciseStatus.ExerciseSuccess) {
       console.log("Success!");
-      setCorrect(true);
-      setSnackbarOpen(true);
+      showAlert({ message: "Your answer is correct!", severity: "success" });
     }
-  };
-
-  const handleClose = (
-    _event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-
-    setSnackbarOpen(false);
   };
 
   const showSolution = () => {
@@ -116,20 +104,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
         </Container>
       </Stack>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity={correct ? "success" : "error"}
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          {correct ? "Your answer is correct!" : "Your answer is incorrect!"}
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert />
     </Card>
   );
 };

@@ -9,8 +9,6 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import { ExerciseStatus, Quiz } from "../../types";
 import { useState } from "react";
@@ -19,16 +17,17 @@ import {
   useGetQuizSolutionQuery,
   usePostQuizSolutionMutation,
 } from "../../services/solutions.service";
+import useAlert from "../../hooks/useAlert";
+import SnackbarAlert from "../SnackbarAlert";
 
 const QuizItem = ({ quiz }: { quiz: Quiz }) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [correct, setCorrect] = useState(false);
-
   const [answer, setAnswer] = useState<string>("A");
 
   const { existsId, solutions } = useAuthUser();
 
   const isSolved = solutions?.map((e) => e.id).includes(quiz.id);
+
+  const { showAlert } = useAlert();
 
   const [postSolution, { isLoading: postingSolution }] =
     usePostQuizSolutionMutation();
@@ -49,22 +48,11 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
 
     if (result.result === ExerciseStatus.ExerciseFailure) {
       console.log("Failure!");
-      setCorrect(false);
-      setSnackbarOpen(true);
+      showAlert({ message: "Your answer is wrong!", severity: "error" });
     } else if (result.result === ExerciseStatus.ExerciseSuccess) {
       console.log("Success!");
-      setCorrect(true);
-      setSnackbarOpen(true);
+      showAlert({ message: "Your answer is correct!", severity: "success" });
     }
-  };
-
-  const handleClose = (
-    _event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-
-    setSnackbarOpen(false);
   };
 
   const showSolution = () => {
@@ -151,20 +139,7 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
         </Container>
       </Stack>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity={correct ? "success" : "error"}
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          {correct ? "Your answer is correct!" : "Your answer is incorrect!"}
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert />
     </Card>
   );
 };

@@ -1,9 +1,7 @@
 import {
-  Alert,
   Box,
   Button,
   CircularProgress,
-  Collapse,
   Container,
   FormControl,
   FormHelperText,
@@ -19,25 +17,20 @@ import {
   useTheme,
 } from "@mui/material";
 import education from "../assets/education.jpg";
-import {
-  CloseTwoTone,
-  LockTwoTone,
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
+import { LockTwoTone, Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useLoginMutation } from "../services/auth.service";
 import { useAppDispatch } from "../hooks";
 import { setAuth } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
 import storage from "../storage";
+import useAlert from "../hooks/useAlert";
+import CollapseAlert from "../components/CollapseAlert";
 
 const LoginPage = () => {
   const theme = useTheme();
 
   const matches = useMediaQuery(theme.breakpoints.down("md"));
-
-  const [alertOpen, setAlertOpen] = useState(false);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -46,6 +39,7 @@ const LoginPage = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -64,33 +58,13 @@ const LoginPage = () => {
       navigate("/");
     } catch (error) {
       console.error(error);
-      setAlertOpen(true);
+      showAlert({ severity: "error" });
     }
   };
 
   return (
     <Container sx={{ width: "fit-content" }}>
-      <Collapse in={alertOpen}>
-        <Alert
-          severity="error"
-          variant="filled"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setAlertOpen(false);
-              }}
-            >
-              <CloseTwoTone fontSize="inherit" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          Something went wrong :(
-        </Alert>
-      </Collapse>
+      <CollapseAlert />
 
       <Paper square={false} sx={{ overflow: "hidden", width: "fit-content" }}>
         <Stack direction={{ xs: "column", md: "row" }}>
@@ -158,7 +132,11 @@ const LoginPage = () => {
             </FormControl>
 
             <Box sx={{ position: "relative" }}>
-              <Button type="submit" variant="contained" disabled={isLoading}>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={isLoading}
+              >
                 Login
               </Button>
 

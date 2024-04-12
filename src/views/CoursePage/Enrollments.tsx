@@ -4,8 +4,6 @@ import {
   AvatarGroup,
   Typography,
   Button,
-  Snackbar,
-  Alert,
   CircularProgress,
   Box,
 } from "@mui/material";
@@ -17,17 +15,17 @@ import {
 } from "../../services/courses.service";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import SnackbarAlert from "../../components/SnackbarAlert";
+import useAlert from "../../hooks/useAlert";
 
 const Enrollments = ({ course }: { course: Course }) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [success, setSuccess] = useState(false);
-
   const { data: enrolledUsers, isLoading } = useGetEnrolledUsersQuery(
     Number(course.id)
   );
 
   const navigate = useNavigate();
+
+  const { showAlert } = useAlert();
 
   const [enroll, { isLoading: enrolling }] = useEnrollMutation();
 
@@ -42,22 +40,11 @@ const Enrollments = ({ course }: { course: Course }) => {
   const handleEnroll = async () => {
     try {
       await enroll(course.id);
-      setSuccess(true);
-      setSnackbarOpen(true);
+      showAlert({ severity: "success", message: "Successfully enrolled!" });
     } catch (error) {
-      setSuccess(false);
-      setSnackbarOpen(true);
       console.error(error);
+      showAlert({ severity: "error" });
     }
-  };
-
-  const handleClose = (
-    _event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-
-    setSnackbarOpen(false);
   };
 
   return (
@@ -107,22 +94,7 @@ const Enrollments = ({ course }: { course: Course }) => {
         )}
       </Stack>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity={success ? "success" : "error"}
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          {success
-            ? `Successfully enrolled in course "${course.title}"!`
-            : "Some error has occurred :("}
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert />
     </Paper>
   );
 };
