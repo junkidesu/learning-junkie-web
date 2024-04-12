@@ -11,7 +11,10 @@ import {
 import { Essay } from "../../types";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useState } from "react";
-import { usePostEssaySolutionMutation } from "../../services/solutions.service";
+import {
+  useGetEssaySolutionQuery,
+  usePostEssaySolutionMutation,
+} from "../../services/solutions.service";
 
 const EssayItem = ({ essay }: { essay: Essay }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -20,7 +23,14 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
 
   const { existsId, solutions } = useAuthUser();
 
-  const [postSolution] = usePostEssaySolutionMutation();
+  const isSolved = solutions?.map((e) => e.id).includes(essay.id);
+
+  const [postSolution, { isLoading: postingSolution }] =
+    usePostEssaySolutionMutation();
+
+  const { data: solution } = useGetEssaySolutionQuery(essay.id, {
+    skip: !isSolved,
+  });
 
   const handleCheck = async () => {
     console.log(answer);
@@ -44,7 +54,11 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
     setSnackbarOpen(false);
   };
 
-  const isSolved = solutions?.map((e) => e.id).includes(essay.id);
+  const showSolution = () => {
+    if (solution) {
+      setAnswer(solution?.answer);
+    }
+  };
 
   return (
     <Card variant="elevation" elevation={5}>
@@ -69,7 +83,7 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
           required
           multiline
           minRows={4}
-          disabled={!existsId}
+          disabled={!existsId || isSolved || postingSolution}
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
         />
@@ -81,6 +95,7 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
               variant="contained"
               color="success"
               disabled={!existsId}
+              onClick={showSolution}
             >
               See Solution
             </Button>
@@ -89,7 +104,7 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
               sx={{ float: "right" }}
               variant="contained"
               onClick={handleCheck}
-              disabled={!existsId || !answer}
+              disabled={!existsId || !answer || postingSolution}
             >
               Submit
             </Button>

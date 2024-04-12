@@ -15,7 +15,10 @@ import {
 import { ExerciseStatus, Quiz } from "../../types";
 import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
-import { usePostQuizSolutionMutation } from "../../services/solutions.service";
+import {
+  useGetQuizSolutionQuery,
+  usePostQuizSolutionMutation,
+} from "../../services/solutions.service";
 
 const QuizItem = ({ quiz }: { quiz: Quiz }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -25,7 +28,14 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
 
   const { existsId, solutions } = useAuthUser();
 
-  const [postSolution] = usePostQuizSolutionMutation();
+  const isSolved = solutions?.map((e) => e.id).includes(quiz.id);
+
+  const [postSolution, { isLoading: postingSolution }] =
+    usePostQuizSolutionMutation();
+
+  const { data: solution } = useGetQuizSolutionQuery(quiz.id, {
+    skip: !isSolved,
+  });
 
   const handleCheck = async () => {
     console.log(answer);
@@ -57,7 +67,13 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
     setSnackbarOpen(false);
   };
 
-  const isSolved = solutions?.map((e) => e.id).includes(quiz.id);
+  const showSolution = () => {
+    if (solution) {
+      setAnswer(solution.answer);
+
+      console.log(answer);
+    }
+  };
 
   return (
     <Card variant="elevation" elevation={5}>
@@ -87,25 +103,25 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
               value="A"
               control={<Radio />}
               label={quiz.options.A}
-              disabled={!existsId}
+              disabled={!existsId || isSolved || postingSolution}
             />
             <FormControlLabel
               value="B"
               control={<Radio />}
               label={quiz.options.B}
-              disabled={!existsId}
+              disabled={!existsId || isSolved || postingSolution}
             />
             <FormControlLabel
               value="C"
               control={<Radio />}
               label={quiz.options.C}
-              disabled={!existsId}
+              disabled={!existsId || isSolved || postingSolution}
             />
             <FormControlLabel
               value="D"
               control={<Radio />}
               label={quiz.options.D}
-              disabled={!existsId}
+              disabled={!existsId || isSolved || postingSolution}
             />
           </RadioGroup>
         </FormControl>
@@ -117,6 +133,7 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
               variant="contained"
               color="success"
               disabled={!existsId}
+              onClick={showSolution}
             >
               See Solution
             </Button>
@@ -125,7 +142,7 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
               sx={{ float: "right" }}
               variant="contained"
               onClick={handleCheck}
-              disabled={!existsId}
+              disabled={!existsId || postingSolution}
             >
               Check
             </Button>

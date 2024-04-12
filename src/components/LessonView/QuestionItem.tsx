@@ -9,7 +9,10 @@ import {
   Alert,
 } from "@mui/material";
 import { ExerciseStatus, Question } from "../../types";
-import { usePostQuestionSolutionMutation } from "../../services/solutions.service";
+import {
+  useGetQuestionSolutionQuery,
+  usePostQuestionSolutionMutation,
+} from "../../services/solutions.service";
 import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
 
@@ -19,9 +22,16 @@ const QuestionItem = ({ question }: { question: Question }) => {
 
   const { existsId, solutions } = useAuthUser();
 
+  const isSolved = solutions?.map((e) => e.id).includes(question.id);
+
+  const { data: solution } = useGetQuestionSolutionQuery(question.id, {
+    skip: !isSolved,
+  });
+
   const [answer, setAnswer] = useState("");
 
-  const [postSolution] = usePostQuestionSolutionMutation();
+  const [postSolution, { isLoading: postingSolution }] =
+    usePostQuestionSolutionMutation();
 
   const handleCheck = async () => {
     console.log(answer);
@@ -51,7 +61,11 @@ const QuestionItem = ({ question }: { question: Question }) => {
     setSnackbarOpen(false);
   };
 
-  const isSolved = solutions?.map((e) => e.id).includes(question.id);
+  const showSolution = () => {
+    if (solution) {
+      setAnswer(solution?.answer);
+    }
+  };
 
   return (
     <Card variant="elevation" elevation={5}>
@@ -74,7 +88,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
           fullWidth
           required
           value={answer}
-          disabled={!existsId}
+          disabled={!existsId || isSolved || postingSolution}
           onChange={(e) => setAnswer(e.target.value)}
         />
 
@@ -84,6 +98,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
               sx={{ float: "right" }}
               variant="contained"
               disabled={!existsId}
+              onClick={showSolution}
               color="success"
             >
               See Solution
@@ -93,7 +108,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
               sx={{ float: "right" }}
               variant="contained"
               onClick={handleCheck}
-              disabled={!existsId || !answer}
+              disabled={!existsId || !answer || postingSolution}
             >
               Check
             </Button>
