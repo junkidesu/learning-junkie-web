@@ -16,6 +16,7 @@ const usePickImage = ({ image, setImage }: Props) => {
   });
 
   const openImagePicker = () => {
+    setImage(undefined);
     clear();
     openFilePicker();
   };

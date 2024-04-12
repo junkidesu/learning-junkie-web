@@ -209,6 +209,7 @@ const UserPage = () => {
   const handleRemove = async () => {
     if (isSameUser) {
       await deleteAvatar(user.id);
+      setAnchorEl(null);
       console.log("Success");
     }
   };

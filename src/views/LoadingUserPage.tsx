@@ -31,7 +31,7 @@ const LoadingUserPage = () => {
                   flexGrow: 1,
                   alignItems: { xs: "center", md: "initial" },
                 }}
-                width="100%"
+                // width="100%"
               >
                 <Skeleton
                   variant="text"
