@@ -35,6 +35,10 @@ const App = () => {
   const { restoreUser } = useInitialization();
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-color-mode", "dark");
+  }, []);
+
+  useEffect(() => {
     console.log("Restoring user");
 
     restoreUser();
