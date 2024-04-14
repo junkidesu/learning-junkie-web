@@ -19,13 +19,10 @@ import {
 import education from "../assets/education.jpg";
 import { LockTwoTone, Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
-import { useLoginMutation } from "../services/auth.service";
-import { useAppDispatch } from "../hooks";
-import { setAuth } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
-import storage from "../storage";
 import useAlert from "../hooks/useAlert";
 import CollapseAlert from "../components/CollapseAlert";
+import useAuthentication from "../hooks/useAuthentication";
 
 const LoginPage = () => {
   const theme = useTheme();
@@ -37,11 +34,10 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { showAlert } = useAlert();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const { authenticate, signingIn } = useAuthentication();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,11 +45,7 @@ const LoginPage = () => {
     console.log("Logging in!");
 
     try {
-      const authData = await login({ email, password }).unwrap();
-
-      dispatch(setAuth(authData));
-
-      storage.setAuth(authData);
+      await authenticate({ email, password });
 
       navigate("/");
     } catch (error) {
@@ -99,14 +91,14 @@ const LoginPage = () => {
               type="email"
               helperText="Please enter your email"
               fullWidth
-              disabled={isLoading}
+              disabled={signingIn}
             />
 
             <FormControl
               variant="outlined"
               required
               fullWidth
-              disabled={isLoading}
+              disabled={signingIn}
             >
               <InputLabel htmlFor="password">Password</InputLabel>
               <OutlinedInput
@@ -132,15 +124,11 @@ const LoginPage = () => {
             </FormControl>
 
             <Box sx={{ position: "relative" }}>
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={isLoading}
-              >
+              <Button type="submit" variant="contained" disabled={signingIn}>
                 Login
               </Button>
 
-              {isLoading && (
+              {signingIn && (
                 <CircularProgress
                   size={24}
                   sx={{

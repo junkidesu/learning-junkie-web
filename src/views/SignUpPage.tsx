@@ -27,13 +27,11 @@ import {
   useSignUpMutation,
   useUploadAvatarMutation,
 } from "../services/users.service";
-import { useAppDispatch } from "../hooks";
-import { useLoginMutation } from "../services/auth.service";
-import { setAuth } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
 import usePickImage from "../hooks/usePickImage";
 import CollapseAlert from "../components/CollapseAlert";
 import useAlert from "../hooks/useAlert";
+import useAuthentication from "../hooks/useAuthentication";
 
 const SignUpPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -46,15 +44,14 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [avatar, setAvatar] = useState<File | undefined>();
 
-  const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   const { showAlert } = useAlert();
 
   const [signup, { isLoading: signingUp }] = useSignUpMutation();
-  const [uploadAvatar] = useUploadAvatarMutation();
-  const [login, { isLoading: signingIn }] = useLoginMutation();
+  const [uploadAvatar, { isLoading: uploadingAvatar }] =
+    useUploadAvatarMutation();
+  const { authenticate, signingIn } = useAuthentication();
 
   const { openImagePicker, reset, imageContent } = usePickImage({
     image: avatar,
@@ -80,9 +77,7 @@ const SignUpPage = () => {
 
       console.log("Successfully signed up!");
 
-      const authData = await login({ email, password }).unwrap();
-
-      dispatch(setAuth(authData));
+      await authenticate({ email, password });
 
       if (avatar) {
         console.log("Uploading avatar");
@@ -116,7 +111,7 @@ const SignUpPage = () => {
 
   const chosenAvatar = avatar && imageContent;
 
-  const isLoading = signingUp || signingIn;
+  const isLoading = signingUp || signingIn || uploadingAvatar;
 
   return (
     <Container>

@@ -12,29 +12,38 @@ import UserAvatar from "../UserAvatar";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Login, AppRegistration, Lock } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useAppDispatch } from "../../hooks";
-import { removeAuth } from "../../reducers/auth.reducer";
-import storage from "../../storage";
+import { useEffect, useState } from "react";
+import useAuthentication from "../../hooks/useAuthentication";
+import useAlert from "../../hooks/useAlert";
 
 const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
 
   const open = Boolean(anchorEl);
 
-  const { existsId, authUser, userLoading } = useAuthUser();
+  const { existsId, authUser, userLoading, userError } = useAuthUser();
 
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const { showAlert } = useAlert();
+
+  const { logout } = useAuthentication();
+
+  useEffect(() => {
+    if (userError) {
+      logout();
+
+      showAlert({ message: "Invalid session. Please sign in again", severity: "warning" });
+    }
+  }, [userError, logout, navigate, showAlert]);
 
   const handleClose = () => {
     setAnchorEl(undefined);
   };
 
   const handleLogout = () => {
-    handleClose();
-    dispatch(removeAuth());
-    storage.removeAuth();
+    logout();
+    setAnchorEl(undefined);
     navigate("/login");
   };
 
@@ -135,7 +144,7 @@ const ProfileMenu = () => {
         }}
       >
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Account</MenuItem>
+        {/* <MenuItem onClick={handleClose}>Account</MenuItem> */}
         <MenuItem onClick={handleLogout}>Log out</MenuItem>
       </Menu>
     </Box>
