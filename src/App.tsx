@@ -5,26 +5,26 @@ import {
   createTheme,
 } from "@mui/material";
 import CustomAppBar from "./components/CustomAppBar";
-import AllCoursesPage from "./views/AllCoursesPage";
+import AllCoursesPage from "./views/courses/AllCoursesPage";
 import { Route, Routes } from "react-router-dom";
-import CoursePage from "./views/CoursePage";
-import LoginPage from "./views/LoginPage";
-import AllUniversitiesPage from "./views/AllUniversitiesPage";
-import UniversityPage from "./views/UniversityPage";
-import UserPage from "./views/UserPage";
-import SignUpPage from "./views/SignUpPage";
-import LessonsPage from "./views/LessonsPage";
-import AdminPanel from "./views/AdminPanel";
-import NewUniversityPage from "./views/AdminPanel/NewUniversityPage";
-import NewCoursePage from "./views/AdminPanel/NewCoursePage";
-import ManageLessonsPage from "./views/AdminPanel/ManageLessonsPage";
-import NewLessonPage from "./views/AdminPanel/NewLessonPage";
+import CoursePage from "./views/courses/CoursePage";
+import LoginPage from "./views/auth/LoginPage";
+import AllUniversitiesPage from "./views/universities/AllUniversitiesPage";
+import UniversityPage from "./views/universities/UniversityPage";
+import UserPage from "./views/users/UserPage";
+import SignUpPage from "./views/auth/SignUpPage";
+import LessonsPage from "./views/courses/LessonsPage";
+import AdminPanel from "./views/protected/AdminPanel";
+import NewUniversityPage from "./views/protected/AdminPanel/NewUniversityPage";
+import NewCoursePage from "./views/protected/AdminPanel/NewCoursePage";
+import ManageLessonsPage from "./views/protected/AdminPanel/ManageLessonsPage";
+import NewLessonPage from "./views/protected/NewLessonPage";
 import { useEffect, useState } from "react";
 import useInitialization from "./hooks/useInitialization";
-import NewInstructorPage from "./views/AdminPanel/NewInstructorPage";
-import EditLessonPage from "./views/AdminPanel/EditLessonPage";
-import Protected from "./components/Protected";
-import InstructorPanel from "./views/InstructorPanel";
+import NewInstructorPage from "./views/protected/AdminPanel/NewInstructorPage";
+import EditLessonPage from "./views/protected/EditLessonPage";
+import Protected from "./components/custom/Protected";
+import InstructorPanel from "./views/protected/InstructorPanel";
 
 const darkTheme = createTheme({ palette: { mode: "dark" } });
 const lightTheme = createTheme({ palette: { mode: "light" } });
@@ -39,8 +39,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Restoring user");
-
     restoreUser();
   }, [restoreUser]);
 

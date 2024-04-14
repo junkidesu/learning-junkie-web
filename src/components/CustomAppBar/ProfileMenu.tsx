@@ -8,14 +8,14 @@ import {
   Button,
   Stack,
 } from "@mui/material";
-import UserAvatar from "../UserAvatar";
+import UserAvatar from "../users/UserAvatar";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Login, AppRegistration, Lock } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuthentication from "../../hooks/useAuthentication";
 import useAlert from "../../hooks/useAlert";
-import SnackbarAlert from "../SnackbarAlert";
+import SnackbarAlert from "../custom/SnackbarAlert";
 
 const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();

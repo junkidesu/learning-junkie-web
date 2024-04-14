@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
 import useAlert from "../../hooks/useAlert";
-import SnackbarAlert from "../SnackbarAlert";
+import SnackbarAlert from "../custom/SnackbarAlert";
 
 const QuestionItem = ({ question }: { question: Question }) => {
   const { existsId, solutions } = useAuthUser();

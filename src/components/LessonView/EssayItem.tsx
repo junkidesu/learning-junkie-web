@@ -14,7 +14,7 @@ import {
   usePostEssaySolutionMutation,
 } from "../../services/solutions.service";
 import useAlert from "../../hooks/useAlert";
-import SnackbarAlert from "../SnackbarAlert";
+import SnackbarAlert from "../custom/SnackbarAlert";
 
 const EssayItem = ({ essay }: { essay: Essay }) => {
   const [answer, setAnswer] = useState("");

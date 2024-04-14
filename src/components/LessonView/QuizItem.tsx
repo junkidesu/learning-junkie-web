@@ -18,7 +18,7 @@ import {
   usePostQuizSolutionMutation,
 } from "../../services/solutions.service";
 import useAlert from "../../hooks/useAlert";
-import SnackbarAlert from "../SnackbarAlert";
+import SnackbarAlert from "../custom/SnackbarAlert";
 
 const QuizItem = ({ quiz }: { quiz: Quiz }) => {
   const [answer, setAnswer] = useState<string>("A");
