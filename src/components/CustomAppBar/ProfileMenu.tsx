@@ -15,13 +15,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuthentication from "../../hooks/useAuthentication";
 import useAlert from "../../hooks/useAlert";
+import SnackbarAlert from "../SnackbarAlert";
 
 const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
 
   const open = Boolean(anchorEl);
 
-  const { existsId, authUser, userLoading, userError } = useAuthUser();
+  const { existsId, authUser, userLoading, progressError } = useAuthUser();
 
   const navigate = useNavigate();
 
@@ -30,12 +31,15 @@ const ProfileMenu = () => {
   const { logout } = useAuthentication();
 
   useEffect(() => {
-    if (userError) {
+    if (progressError) {
       logout();
 
-      showAlert({ message: "Invalid session. Please sign in again", severity: "warning" });
+      showAlert({
+        message: "Invalid session. Please sign in again",
+        severity: "warning",
+      });
     }
-  }, [userError, logout, navigate, showAlert]);
+  }, [progressError, logout, navigate, showAlert]);
 
   const handleClose = () => {
     setAnchorEl(undefined);
@@ -55,6 +59,8 @@ const ProfileMenu = () => {
   if (!existsId)
     return (
       <Box sx={{ float: "right" }}>
+        <SnackbarAlert />
+
         <Stack direction="row" sx={{ display: { xs: "none", md: "flex" } }}>
           <Button
             startIcon={<Login />}
