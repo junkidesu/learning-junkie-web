@@ -17,7 +17,7 @@ import {
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import useAuthUser from "../../hooks/useAuthUser";
+import useAuthUser from "../../../hooks/useAuthUser";
 import ProfileMenu from "./ProfileMenu";
 import NavMenu from "./NavMenu";
 

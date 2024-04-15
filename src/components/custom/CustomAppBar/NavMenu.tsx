@@ -7,7 +7,7 @@ import {
 import { Box, Button, IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthUser from "../../hooks/useAuthUser";
+import useAuthUser from "../../../hooks/useAuthUser";
 
 const NavMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();

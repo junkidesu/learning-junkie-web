@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
-import { Lesson } from "../../types";
-import { useGetLessonEssaysQuery } from "../../services/lessons.service";
+import { Lesson } from "../../../types";
+import { useGetLessonEssaysQuery } from "../../../services/lessons.service";
 import EssayItem from "./EssayItem";
 
 const Essays = ({ lesson }: { lesson: Lesson }) => {

@@ -1,5 +1,5 @@
 import { Stack, Paper, Typography, Divider } from "@mui/material";
-import { Lesson } from "../../types";
+import { Lesson } from "../../../types";
 import Exercises from "./Exercises";
 import MDEditor from "@uiw/react-md-editor";
 

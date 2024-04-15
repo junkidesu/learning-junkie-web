@@ -13,7 +13,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useGetCourseLessonsQuery } from "../../services/lessons.service";
 import { useState } from "react";
-import LessonView from "../../components/LessonView";
+import LessonView from "../../components/courses/LessonView";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 const LessonsPage = () => {

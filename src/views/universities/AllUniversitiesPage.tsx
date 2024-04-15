@@ -8,8 +8,8 @@ const AllUniversitiesPage = () => {
 
   return (
     <Container>
-      {isLoading && [1, 2, 3].map((i) => <LoadingUniversityCard key={i} />)}
       <Stack sx={{ gap: 3 }}>
+        {isLoading && [1, 2, 3].map((i) => <LoadingUniversityCard key={i} />)}
         {universities?.map((u) => (
           <UniversityCard key={u.id} university={u} />
         ))}

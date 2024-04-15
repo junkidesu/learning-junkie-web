@@ -1,6 +1,6 @@
 import { ExpandMore } from "@mui/icons-material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import { Lesson } from "../../types";
+import { Lesson } from "../../../types";
 import Essays from "./Essays";
 import Questions from "./Questions";
 import Quizzes from "./Quizzes";

@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
-import { Lesson } from "../../types";
-import { useGetLessonQuestionsQuery } from "../../services/lessons.service";
+import { Lesson } from "../../../types";
+import { useGetLessonQuestionsQuery } from "../../../services/lessons.service";
 import QuestionItem from "./QuestionItem";
 
 const Questions = ({ lesson }: { lesson: Lesson }) => {

@@ -10,15 +10,15 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { ExerciseStatus, Quiz } from "../../types";
+import { ExerciseStatus, Quiz } from "../../../types";
 import { useState } from "react";
-import useAuthUser from "../../hooks/useAuthUser";
+import useAuthUser from "../../../hooks/useAuthUser";
 import {
   useGetQuizSolutionQuery,
   usePostQuizSolutionMutation,
-} from "../../services/solutions.service";
-import useAlert from "../../hooks/useAlert";
-import SnackbarAlert from "../custom/SnackbarAlert";
+} from "../../../services/solutions.service";
+import useAlert from "../../../hooks/useAlert";
+import SnackbarAlert from "../../custom/SnackbarAlert";
 
 const QuizItem = ({ quiz }: { quiz: Quiz }) => {
   const [answer, setAnswer] = useState<string>("A");

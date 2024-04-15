@@ -4,7 +4,7 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
-import CustomAppBar from "./components/CustomAppBar";
+import CustomAppBar from "./components/custom/CustomAppBar";
 import AllCoursesPage from "./views/courses/AllCoursesPage";
 import { Route, Routes } from "react-router-dom";
 import CoursePage from "./views/courses/CoursePage";

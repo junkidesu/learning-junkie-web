@@ -6,41 +6,39 @@ import {
   Container,
   Button,
 } from "@mui/material";
-import { Essay, ExerciseStatus } from "../../types";
-import useAuthUser from "../../hooks/useAuthUser";
-import { useState } from "react";
+import { ExerciseStatus, Question } from "../../../types";
 import {
-  useGetEssaySolutionQuery,
-  usePostEssaySolutionMutation,
-} from "../../services/solutions.service";
-import useAlert from "../../hooks/useAlert";
-import SnackbarAlert from "../custom/SnackbarAlert";
+  useGetQuestionSolutionQuery,
+  usePostQuestionSolutionMutation,
+} from "../../../services/solutions.service";
+import { useState } from "react";
+import useAuthUser from "../../../hooks/useAuthUser";
+import useAlert from "../../../hooks/useAlert";
+import SnackbarAlert from "../../custom/SnackbarAlert";
 
-const EssayItem = ({ essay }: { essay: Essay }) => {
-  const [answer, setAnswer] = useState("");
-
+const QuestionItem = ({ question }: { question: Question }) => {
   const { existsId, solutions } = useAuthUser();
+
+  const isSolved = solutions?.map((e) => e.id).includes(question.id);
+
+  const { data: solution } = useGetQuestionSolutionQuery(question.id, {
+    skip: !isSolved,
+  });
+
+  const [answer, setAnswer] = useState("");
 
   const { showAlert } = useAlert();
 
-  const isSolved = solutions?.map((e) => e.id).includes(essay.id);
-
   const [postSolution, { isLoading: postingSolution }] =
-    usePostEssaySolutionMutation();
-
-  const { data: solution } = useGetEssaySolutionQuery(essay.id, {
-    skip: !isSolved,
-  });
+    usePostQuestionSolutionMutation();
 
   const handleCheck = async () => {
     console.log(answer);
 
     const result = await postSolution({
-      id: essay.id,
+      id: question.id,
       body: { answer },
     }).unwrap();
-
-    console.log(result);
 
     if (result.result === ExerciseStatus.ExerciseFailure) {
       console.log("Failure!");
@@ -60,28 +58,25 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
   return (
     <Card variant="elevation" elevation={5}>
       <Stack gap={2} sx={{ p: 2 }}>
-        <Stack direction={{ md: "row", xs: "column" }}>
+        <Stack direction={{ xs: "column", md: "row" }}>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            {essay.title || "Essay"}
+            {question.title || "Question"}
           </Typography>
 
           <Typography variant="h6">
-            Grade: {isSolved ? essay.grade : 0} {"/ "}
-            {essay.grade}
+            Grade: {isSolved ? question.grade : 0} {"/ "}
+            {question.grade}
           </Typography>
         </Stack>
 
-        <Typography>{essay.task}</Typography>
+        <Typography>{question.question}</Typography>
 
         <TextField
           label="Answer"
-          variant="filled"
           fullWidth
           required
-          multiline
-          minRows={4}
-          disabled={!existsId || isSolved || postingSolution}
           value={answer}
+          disabled={!existsId || isSolved || postingSolution}
           onChange={(e) => setAnswer(e.target.value)}
         />
 
@@ -90,9 +85,9 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
             <Button
               sx={{ float: "right" }}
               variant="contained"
-              color="success"
               disabled={!existsId}
               onClick={showSolution}
+              color="success"
             >
               See Solution
             </Button>
@@ -103,7 +98,7 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
               onClick={handleCheck}
               disabled={!existsId || !answer || postingSolution}
             >
-              Submit
+              Check
             </Button>
           )}
         </Container>
@@ -114,4 +109,4 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
   );
 };
 
-export default EssayItem;
+export default QuestionItem;
