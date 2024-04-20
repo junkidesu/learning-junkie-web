@@ -1,118 +1,29 @@
 import {
-  Avatar,
-  Box,
-  Card,
-  CardActionArea,
   Container,
-  Divider,
+  Typography,
+  Card,
+  Stack,
+  Paper,
   IconButton,
+  Avatar,
   Menu,
   MenuItem,
-  Paper,
-  Stack,
-  Tab,
-  Tabs,
-  Typography,
+  CardActionArea,
+  Divider,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { defaultUniversityLogo } from "../../../assets";
+import useAuthUser from "../../../hooks/useAuthUser";
+import usePickImage from "../../../hooks/usePickImage";
 import {
-  useDeleteAvatarMutation,
-  useGetTaughtCoursesQuery,
   useGetUserByIdQuery,
-  useGetUserCoursesQuery,
   useUploadAvatarMutation,
-} from "../../services/users.service";
-import { a11yProps, nameInitials, stringToColor } from "../../util";
-import { useEffect, useState } from "react";
-import { Role, User } from "../../types";
-import { defaultUniversityLogo } from "../../assets";
-import useAuthUser from "../../hooks/useAuthUser";
-import ProgressList from "../../components/users/ProgressList";
-import usePickImage from "../../hooks/usePickImage";
-import CoursesGrid from "../../components/courses/CoursesGrid";
-import LoadingCoursesGrid from "../../components/loading/LoadingCoursesGrid";
-import LoadingUserPage from "../loading/LoadingUserPage";
-import TabPanel from "../../components/custom/TabPanel";
-
-const Enrollments = ({ user }: { user: User }) => {
-  const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
-
-  return (
-    <Container sx={{ alignItems: "center" }}>
-      {isLoading && <LoadingCoursesGrid />}
-
-      {courses &&
-        (courses.length === 0 ? (
-          <Typography>This user is not enrolled in any course.</Typography>
-        ) : (
-          <CoursesGrid courses={courses} />
-        ))}
-    </Container>
-  );
-};
-
-const TaughtCourses = ({ user }: { user: User }) => {
-  const { data: courses, isLoading } = useGetTaughtCoursesQuery(user.id);
-
-  return (
-    <Container sx={{ alignItems: "center" }}>
-      {isLoading && <LoadingCoursesGrid />}
-
-      {courses &&
-        (courses.length === 0 ? (
-          <Typography>This user does not teach any course.</Typography>
-        ) : (
-          <CoursesGrid courses={courses} />
-        ))}
-    </Container>
-  );
-};
-
-const UserTabs = ({ user }: { user: User }) => {
-  const [value, setValue] = useState(0);
-
-  const { authUser } = useAuthUser();
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const isSameUser = authUser?.id === user.id;
-
-  return (
-    <Card sx={{ width: "100%" }} variant="outlined">
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          variant="scrollable"
-        >
-          <Tab label="Enrollments" {...a11yProps(0)} />
-          <Tab label="Progress" {...a11yProps(1)} disabled={!isSameUser} />
-          <Tab label="Solutions" {...a11yProps(2)} disabled />
-          <Tab
-            label="Teaches"
-            {...a11yProps(3)}
-            disabled={user.role !== Role.Instructor}
-          />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <Enrollments user={user} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <ProgressList />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Typography>Solutions</Typography>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <TaughtCourses user={user} />
-      </TabPanel>
-    </Card>
-  );
-};
+  useDeleteAvatarMutation,
+} from "../../../services/users.service";
+import { stringToColor, nameInitials } from "../../../util";
+import LoadingUserPage from "../../loading/LoadingUserPage";
+import UserTabs from "./UserTabs";
 
 const UserPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
