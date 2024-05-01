@@ -9,6 +9,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  Box,
 } from "@mui/material";
 import { ExerciseStatus, Quiz } from "../../../types";
 import { useState } from "react";
@@ -19,6 +20,7 @@ import {
 } from "../../../services/solutions.service";
 import useAlert from "../../../hooks/useAlert";
 import SnackbarAlert from "../../custom/SnackbarAlert";
+import ProgressButton from "../../custom/ProgressButton";
 
 const QuizItem = ({ quiz }: { quiz: Quiz }) => {
   const [answer, setAnswer] = useState<string>("A");
@@ -116,26 +118,26 @@ const QuizItem = ({ quiz }: { quiz: Quiz }) => {
         </FormControl>
 
         <Container sx={{ width: "100%" }}>
-          {isSolved ? (
-            <Button
-              sx={{ float: "right" }}
-              variant="contained"
-              color="success"
-              disabled={!existsId}
-              onClick={showSolution}
-            >
-              See Solution
-            </Button>
-          ) : (
-            <Button
-              sx={{ float: "right" }}
-              variant="contained"
-              onClick={handleCheck}
-              disabled={!existsId || postingSolution}
-            >
-              Check
-            </Button>
-          )}
+          <Box sx={{ float: "right" }}>
+            {isSolved ? (
+              <Button
+                variant="contained"
+                disabled={!existsId}
+                onClick={showSolution}
+                color="success"
+              >
+                See Solution
+              </Button>
+            ) : (
+              <ProgressButton
+                onClick={handleCheck}
+                disabled={!existsId || !answer}
+                isLoading={postingSolution}
+              >
+                Check
+              </ProgressButton>
+            )}
+          </Box>
         </Container>
       </Stack>
 

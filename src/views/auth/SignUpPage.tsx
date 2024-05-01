@@ -1,9 +1,6 @@
 import { VisibilityOff, Visibility, LockTwoTone } from "@mui/icons-material";
 import {
   Avatar,
-  Box,
-  Button,
-  CircularProgress,
   Container,
   FormControl,
   FormHelperText,
@@ -32,6 +29,7 @@ import usePickImage from "../../hooks/usePickImage";
 import CollapseAlert from "../../components/custom/CollapseAlert";
 import useAlert from "../../hooks/useAlert";
 import useAuthentication from "../../hooks/useAuthentication";
+import ProgressButton from "../../components/custom/ProgressButton";
 
 const SignUpPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -243,24 +241,9 @@ const SignUpPage = () => {
               <FormHelperText>Please enter your password</FormHelperText>
             </FormControl>
 
-            <Box sx={{ position: "relative" }}>
-              <Button type="submit" variant="contained" disabled={isLoading}>
-                Sign up
-              </Button>
-
-              {isLoading && (
-                <CircularProgress
-                  size={24}
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    marginTop: "-12px",
-                    marginLeft: "-12px",
-                  }}
-                />
-              )}
-            </Box>
+            <ProgressButton type="submit" isLoading={isLoading}>
+              Sign up
+            </ProgressButton>
           </Stack>
         </Paper>
       </Stack>

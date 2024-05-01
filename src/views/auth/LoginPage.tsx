@@ -1,7 +1,4 @@
 import {
-  Box,
-  Button,
-  CircularProgress,
   Container,
   FormControl,
   FormHelperText,
@@ -23,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import useAlert from "../../hooks/useAlert";
 import CollapseAlert from "../../components/custom/CollapseAlert";
 import useAuthentication from "../../hooks/useAuthentication";
+import ProgressButton from "../../components/custom/ProgressButton";
 
 const LoginPage = () => {
   const theme = useTheme();
@@ -123,24 +121,9 @@ const LoginPage = () => {
               <FormHelperText>Please enter your password</FormHelperText>
             </FormControl>
 
-            <Box sx={{ position: "relative" }}>
-              <Button type="submit" variant="contained" disabled={signingIn}>
-                Login
-              </Button>
-
-              {signingIn && (
-                <CircularProgress
-                  size={24}
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    marginTop: "-12px",
-                    marginLeft: "-12px",
-                  }}
-                />
-              )}
-            </Box>
+            <ProgressButton type="submit" isLoading={signingIn}>
+              Log in
+            </ProgressButton>
           </Stack>
         </Stack>
       </Paper>

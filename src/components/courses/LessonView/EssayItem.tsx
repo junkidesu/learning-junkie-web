@@ -5,6 +5,7 @@ import {
   TextField,
   Container,
   Button,
+  Box,
 } from "@mui/material";
 import { Essay, ExerciseStatus } from "../../../types";
 import useAuthUser from "../../../hooks/useAuthUser";
@@ -15,6 +16,7 @@ import {
 } from "../../../services/solutions.service";
 import useAlert from "../../../hooks/useAlert";
 import SnackbarAlert from "../../custom/SnackbarAlert";
+import ProgressButton from "../../custom/ProgressButton";
 
 const EssayItem = ({ essay }: { essay: Essay }) => {
   const [answer, setAnswer] = useState("");
@@ -86,26 +88,26 @@ const EssayItem = ({ essay }: { essay: Essay }) => {
         />
 
         <Container sx={{ width: "100%" }}>
-          {isSolved ? (
-            <Button
-              sx={{ float: "right" }}
-              variant="contained"
-              color="success"
-              disabled={!existsId}
-              onClick={showSolution}
-            >
-              See Solution
-            </Button>
-          ) : (
-            <Button
-              sx={{ float: "right" }}
-              variant="contained"
-              onClick={handleCheck}
-              disabled={!existsId || !answer || postingSolution}
-            >
-              Submit
-            </Button>
-          )}
+          <Box sx={{ float: "right" }}>
+            {isSolved ? (
+              <Button
+                variant="contained"
+                disabled={!existsId}
+                onClick={showSolution}
+                color="success"
+              >
+                See Solution
+              </Button>
+            ) : (
+              <ProgressButton
+                onClick={handleCheck}
+                disabled={!existsId || !answer}
+                isLoading={postingSolution}
+              >
+                Check
+              </ProgressButton>
+            )}
+          </Box>
         </Container>
       </Stack>
 

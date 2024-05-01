@@ -5,6 +5,7 @@ import {
   TextField,
   Container,
   Button,
+  Box,
 } from "@mui/material";
 import { ExerciseStatus, Question } from "../../../types";
 import {
@@ -15,6 +16,7 @@ import { useState } from "react";
 import useAuthUser from "../../../hooks/useAuthUser";
 import useAlert from "../../../hooks/useAlert";
 import SnackbarAlert from "../../custom/SnackbarAlert";
+import ProgressButton from "../../custom/ProgressButton";
 
 const QuestionItem = ({ question }: { question: Question }) => {
   const { existsId, solutions } = useAuthUser();
@@ -81,26 +83,26 @@ const QuestionItem = ({ question }: { question: Question }) => {
         />
 
         <Container sx={{ width: "100%" }}>
-          {isSolved ? (
-            <Button
-              sx={{ float: "right" }}
-              variant="contained"
-              disabled={!existsId}
-              onClick={showSolution}
-              color="success"
-            >
-              See Solution
-            </Button>
-          ) : (
-            <Button
-              sx={{ float: "right" }}
-              variant="contained"
-              onClick={handleCheck}
-              disabled={!existsId || !answer || postingSolution}
-            >
-              Check
-            </Button>
-          )}
+          <Box sx={{ float: "right" }}>
+            {isSolved ? (
+              <Button
+                variant="contained"
+                disabled={!existsId}
+                onClick={showSolution}
+                color="success"
+              >
+                See Solution
+              </Button>
+            ) : (
+              <ProgressButton
+                onClick={handleCheck}
+                disabled={!existsId || !answer}
+                isLoading={postingSolution}
+              >
+                Check
+              </ProgressButton>
+            )}
+          </Box>
         </Container>
       </Stack>
 

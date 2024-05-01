@@ -1,12 +1,4 @@
-import {
-  Paper,
-  Stack,
-  AvatarGroup,
-  Typography,
-  Button,
-  CircularProgress,
-  Box,
-} from "@mui/material";
+import { Paper, Stack, AvatarGroup, Typography, Button } from "@mui/material";
 import UserAvatar from "../../../components/users/UserAvatar";
 import { Course } from "../../../types";
 import {
@@ -17,6 +9,7 @@ import useAuthUser from "../../../hooks/useAuthUser";
 import { useNavigate } from "react-router-dom";
 import SnackbarAlert from "../../../components/custom/SnackbarAlert";
 import useAlert from "../../../hooks/useAlert";
+import ProgressButton from "../../../components/custom/ProgressButton";
 
 const Enrollments = ({ course }: { course: Course }) => {
   const { data: enrolledUsers, isLoading } = useGetEnrolledUsersQuery(
@@ -68,29 +61,13 @@ const Enrollments = ({ course }: { course: Course }) => {
             Continue
           </Button>
         ) : (
-          <Box sx={{ position: "relative" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              onClick={handleEnroll}
-              disabled={!existsId || enrolling}
-            >
-              Enroll
-            </Button>
-
-            {isLoading && (
-              <CircularProgress
-                size={24}
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  marginTop: "-12px",
-                  marginLeft: "-12px",
-                }}
-              />
-            )}
-          </Box>
+          <ProgressButton
+            isLoading={enrolling}
+            onClick={handleEnroll}
+            disabled={!existsId}
+          >
+            Enroll
+          </ProgressButton>
         )}
       </Stack>
 
