@@ -1,4 +1,10 @@
-import { Paper, Stack, AvatarGroup, Typography, Button } from "@mui/material";
+import {
+  Paper,
+  Stack,
+  AvatarGroup,
+  Typography,
+  Button,
+} from "@mui/material";
 import UserAvatar from "../../../components/users/UserAvatar";
 import { Course } from "../../../types";
 import {
@@ -10,11 +16,14 @@ import { useNavigate } from "react-router-dom";
 import SnackbarAlert from "../../../components/custom/SnackbarAlert";
 import useAlert from "../../../hooks/useAlert";
 import ProgressButton from "../../../components/custom/ProgressButton";
+import LoadingEnrollments from "../../../components/loading/LoadingEnrollments";
 
 const Enrollments = ({ course }: { course: Course }) => {
-  const { data: enrolledUsers, isLoading } = useGetEnrolledUsersQuery(
-    Number(course.id)
-  );
+  const {
+    data: enrolledUsers,
+    isLoading,
+    isError,
+  } = useGetEnrolledUsersQuery(Number(course.id));
 
   const navigate = useNavigate();
 
@@ -24,7 +33,10 @@ const Enrollments = ({ course }: { course: Course }) => {
 
   const { existsId, authUser } = useAuthUser();
 
-  if (isLoading || !enrolledUsers) return <Typography>Loading...</Typography>;
+  if (isLoading) return <LoadingEnrollments />;
+
+  if (isError || !enrolledUsers)
+    return <Typography>Some error has occurred :(</Typography>;
 
   const isEnrolled = authUser
     ? enrolledUsers.map((u) => u.id).includes(authUser.id)

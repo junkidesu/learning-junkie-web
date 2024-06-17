@@ -1,4 +1,5 @@
 import { Box, Container, Divider, Paper, Skeleton, Stack } from "@mui/material";
+import LoadingEnrollments from "../../components/loading/LoadingEnrollments";
 
 const LoadingCoursePage = () => {
   return (
@@ -36,7 +37,7 @@ const LoadingCoursePage = () => {
         </Box>
       </Paper>
 
-      {/* <Enrollments course={course} /> */}
+      <LoadingEnrollments />
     </Container>
   );
 };
