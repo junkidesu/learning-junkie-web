@@ -51,8 +51,10 @@ export interface User {
 }
 
 export interface Progress {
+  user: User;
   course: Course;
-  obtainedPoints: number;
+  completedLessonsNum: number;
+  completedExercisesNum: number;
 }
 
 export interface NewUser {
@@ -77,8 +79,15 @@ export interface Course {
   difficulty: Difficulty;
   instructor: User;
   university: University;
+  totalExercisesNum: number;
+  totalLessonsNum: number;
   enrollmentsCount: number;
-  totalPoints: number;
+}
+
+export interface Enrollment {
+  user: User;
+  course: Course;
+  time: string;
 }
 
 export interface NewCourse {

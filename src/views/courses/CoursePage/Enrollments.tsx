@@ -39,7 +39,7 @@ const Enrollments = ({ course }: { course: Course }) => {
     return <Typography>Some error has occurred :(</Typography>;
 
   const isEnrolled = authUser
-    ? enrolledUsers.map((u) => u.id).includes(authUser.id)
+    ? enrolledUsers.map(({ user: u }) => u.id).includes(authUser.id)
     : false;
 
   const handleEnroll = async () => {
@@ -56,8 +56,8 @@ const Enrollments = ({ course }: { course: Course }) => {
     <Paper square={false} sx={{ p: 2 }}>
       <Stack direction="row" sx={{ alignItems: "center" }}>
         <AvatarGroup max={3} sx={{ mr: 1 }}>
-          {enrolledUsers.map((user) => (
-            <UserAvatar key={user.id} user={user} />
+          {enrolledUsers.map((enrollment) => (
+            <UserAvatar key={enrollment.user.id} user={enrollment.user} />
           ))}
         </AvatarGroup>
 

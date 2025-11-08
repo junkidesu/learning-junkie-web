@@ -20,9 +20,9 @@ const CourseCard = ({ course }: { course: Course }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const { existsId, courses } = useAuthUser();
+  const { existsId, enrollments } = useAuthUser();
 
-  const isEnrolled = courses?.map((c) => c.id).includes(course.id);
+  const isEnrolled = enrollments?.map(({ course: c }) => c.id).includes(course.id);
 
   const navigate = useNavigate();
 

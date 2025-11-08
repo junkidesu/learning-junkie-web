@@ -1,4 +1,4 @@
-import { Course, NewCourse, User } from "../types";
+import { Course, Enrollment, NewCourse } from "../types";
 import { api } from "./api.service";
 
 export const coursesApi = api.injectEndpoints({
@@ -23,7 +23,7 @@ export const coursesApi = api.injectEndpoints({
       }),
       providesTags: ["Course"],
     }),
-    getEnrolledUsers: builder.query<User[], number>({
+    getEnrolledUsers: builder.query<Enrollment[], number>({
       query: (id) => ({
         url: `courses/${id}/enrollments`,
       }),

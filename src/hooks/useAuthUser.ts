@@ -1,25 +1,21 @@
 import { useAppSelector } from "../hooks";
+import { useGetSelfProgressQuery } from "../services/self.service";
 import {
   useGetUserByIdQuery,
-  useGetUserCoursesQuery,
-  useGetUserProgressQuery,
-  useGetUserSolutionsQuery,
+  useGetUserEnrollmentsQuery,
 } from "../services/users.service";
-import { Course, Exercise, Progress, User } from "../types";
+import { Enrollment, Progress, User } from "../types";
 
 type AuthUserData = {
   existsId: boolean;
   authUser?: User;
-  courses?: Course[];
-  solutions?: Exercise[];
+  enrollments?: Enrollment[];
   progress?: Progress[];
   userLoading: boolean;
   coursesLoading: boolean;
-  solutionsLoading: boolean;
   progressLoading: boolean;
   userError: boolean;
   coursesError: boolean;
-  solutionsError: boolean;
   progressError: boolean;
 };
 
@@ -33,49 +29,38 @@ const useAuthUser = (): AuthUserData => {
   } = useGetUserByIdQuery(id!, { skip: !id });
 
   const {
-    data: courses,
-    isLoading: coursesLoading,
-    isError: coursesError,
-  } = useGetUserCoursesQuery(id!, { skip: !id });
-
-  const {
-    data: solutions,
-    isLoading: solutionsLoading,
-    isError: solutionsError,
-  } = useGetUserSolutionsQuery(id!, { skip: !id });
+    data: enrollments,
+    isLoading: enrollmentsLoading,
+    isError: enrollmentsError,
+  } = useGetUserEnrollmentsQuery(id!, { skip: !id });
 
   const {
     data: progress,
     isLoading: progressLoading,
     isError: progressError,
-  } = useGetUserProgressQuery(id!, { skip: !id });
+  } = useGetSelfProgressQuery(id!, { skip: !id });
 
   if (!id)
     return {
       existsId: false,
       userLoading: false,
       coursesLoading: false,
-      solutionsLoading: false,
       progressLoading: false,
       userError: false,
       coursesError: false,
-      solutionsError: false,
       progressError: false,
     };
 
   return {
     existsId: true,
     authUser,
-    courses,
-    solutions,
+    enrollments,
     progress,
     userLoading,
-    coursesLoading,
-    solutionsLoading,
+    coursesLoading: enrollmentsLoading,
     progressLoading,
     userError,
-    coursesError,
-    solutionsError,
+    coursesError: enrollmentsError,
     progressError,
   };
 };
