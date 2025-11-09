@@ -1,22 +1,28 @@
 import { useAppSelector } from "../hooks";
-import { useGetSelfProgressQuery } from "../services/self.service";
+import {
+  useGetSelfLessonCompletionsQuery,
+  useGetSelfProgressQuery,
+} from "../services/self.service";
 import {
   useGetUserByIdQuery,
   useGetUserEnrollmentsQuery,
 } from "../services/users.service";
-import { Enrollment, Progress, User } from "../types";
+import { Enrollment, LessonCompletion, Progress, User } from "../types";
 
 type AuthUserData = {
   existsId: boolean;
   authUser?: User;
   enrollments?: Enrollment[];
   progress?: Progress[];
+  lessonCompletions?: LessonCompletion[];
   userLoading: boolean;
   coursesLoading: boolean;
   progressLoading: boolean;
+  lessonCompletionsLoading: boolean;
   userError: boolean;
   coursesError: boolean;
   progressError: boolean;
+  lessonCompletionsError: boolean;
 };
 
 const useAuthUser = (): AuthUserData => {
@@ -38,7 +44,13 @@ const useAuthUser = (): AuthUserData => {
     data: progress,
     isLoading: progressLoading,
     isError: progressError,
-  } = useGetSelfProgressQuery(id!, { skip: !id });
+  } = useGetSelfProgressQuery(undefined, { skip: !id });
+
+  const {
+    data: lessonCompletions,
+    isLoading: lessonCompletionsLoading,
+    isError: lessonCompletionsError,
+  } = useGetSelfLessonCompletionsQuery(undefined, { skip: !id });
 
   if (!id)
     return {
@@ -49,6 +61,8 @@ const useAuthUser = (): AuthUserData => {
       userError: false,
       coursesError: false,
       progressError: false,
+      lessonCompletionsLoading: false,
+      lessonCompletionsError: false,
     };
 
   return {
@@ -56,12 +70,15 @@ const useAuthUser = (): AuthUserData => {
     authUser,
     enrollments,
     progress,
+    lessonCompletions,
     userLoading,
     coursesLoading: enrollmentsLoading,
     progressLoading,
     userError,
     coursesError: enrollmentsError,
     progressError,
+    lessonCompletionsLoading,
+    lessonCompletionsError,
   };
 };
 

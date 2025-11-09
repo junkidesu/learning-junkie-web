@@ -14,7 +14,7 @@ import LoadingCoursesGrid from "../../../components/loading/LoadingCoursesGrid";
 import ProgressList from "../../../components/users/ProgressList";
 import useAuthUser from "../../../hooks/useAuthUser";
 import {
-  useGetUserCoursesQuery,
+  useGetUserEnrollmentsQuery,
   useGetTaughtCoursesQuery,
   useGetUserSolutionsQuery,
 } from "../../../services/users.service";
@@ -23,14 +23,17 @@ import { a11yProps } from "../../../util";
 import SolutionItem from "../../../components/users/SolutionItem";
 
 const Enrollments = ({ user }: { user: User }) => {
-  const { data: courses, isLoading } = useGetUserCoursesQuery(user.id);
+  const { data: enrollments, isLoading } = useGetUserEnrollmentsQuery(user.id);
+
+  const courses = enrollments?.map((e) => e.course);
 
   return (
     <Container sx={{ alignItems: "center" }}>
       {isLoading && <LoadingCoursesGrid />}
 
-      {courses &&
-        (courses.length === 0 ? (
+      {enrollments &&
+        courses &&
+        (enrollments.length === 0 ? (
           <Typography>This user is not enrolled in any course.</Typography>
         ) : (
           <CoursesGrid courses={courses} />

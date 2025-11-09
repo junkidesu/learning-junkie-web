@@ -1,10 +1,4 @@
-import {
-  Paper,
-  Stack,
-  AvatarGroup,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Paper, Stack, AvatarGroup, Typography, Button } from "@mui/material";
 import UserAvatar from "../../../components/users/UserAvatar";
 import { Course } from "../../../types";
 import {
@@ -53,7 +47,7 @@ const Enrollments = ({ course }: { course: Course }) => {
   };
 
   return (
-    <Paper square={false} sx={{ p: 2 }}>
+    <Paper square={false} sx={{ p: 3, mb: 2 }}>
       <Stack direction="row" sx={{ alignItems: "center" }}>
         <AvatarGroup max={3} sx={{ mr: 1 }}>
           {enrolledUsers.map((enrollment) => (
@@ -66,11 +60,8 @@ const Enrollments = ({ course }: { course: Course }) => {
         </Typography>
 
         {isEnrolled ? (
-          <Button
-            variant="contained"
-            onClick={() => navigate(`/courses/${course.id}/lessons`)}
-          >
-            Continue
+          <Button variant="contained" disabled>
+            Already Enrolled!
           </Button>
         ) : (
           <ProgressButton

@@ -18,6 +18,7 @@ export interface NewUniversity {
 export enum Role {
   Student = "Student",
   Instructor = "Instructor",
+  UniversityRep = "UniversityRep",
   Admin = "Admin",
 }
 
@@ -94,15 +95,41 @@ export interface NewCourse {
   title: string;
   description: string;
   difficulty: Difficulty;
-  instructorId: number;
 }
 
+export interface Chapter {
+  banner?: string;
+  description: string;
+  number: number;
+  title: string;
+  course: Course;
+}
+
+export type Component =
+  | {
+      tag: "Markdown";
+      content: string;
+    }
+  | {
+      tag: "Video";
+      description: string;
+      source: string;
+      title: string;
+    };
+
 export interface Lesson {
+  id: number;
   number: number;
   title: string;
   description: string;
-  content: string;
-  course: Course;
+  chapter: Chapter;
+  components: Component[];
+}
+
+export interface LessonCompletion {
+  user: User;
+  lesson: Lesson;
+  time: string;
 }
 
 export interface NewLesson {
@@ -117,60 +144,85 @@ export interface EditLesson {
   content: string;
 }
 
+export enum Environment {
+  Node = "Node",
+  Haskell = "Haskell",
+  Python = "Python",
+}
+
+export type ExerciseContent =
+  | {
+      tag: "TypeAnswer";
+      question: string;
+    }
+  | {
+      tag: "TrueFalse";
+      question: string;
+    }
+  | {
+      tag: "Essay";
+      task: string;
+    }
+  | {
+      tag: "Quiz";
+      options: {
+        A: string;
+        B: string;
+        C: string;
+        D: string;
+      };
+      question: string;
+    }
+  | {
+      tag: "Coding";
+      environment: Environment;
+      requirements: string;
+    };
+
 export interface Exercise {
   id: number;
+  maxGrade: number;
+  title: string;
+  description: string;
+  content: ExerciseContent;
+}
+
+export enum SubmissionState {
+  Pending = "Pending",
+  Failure = "Failure",
+  PartialSuccess = "PartialSuccess",
+  Success = "Success",
+}
+
+export interface Submission {
+  id: number;
+  user: User;
+  exercise: Exercise;
+  status: SubmissionState;
+  submitted: string;
   grade?: number;
-  title?: string;
-  course: Course;
-}
-
-export interface Question extends Exercise {
-  question: string;
-}
-
-export type NewQuestion = Omit<Question, "id" | "course"> & { answer: string };
-
-export type NewEssay = Omit<Essay, "id" | "course"> & { model: string };
-
-export type NewQuiz = Omit<Quiz, "id" | "course"> & { correct: string };
-
-export interface Essay extends Exercise {
-  task: string;
-}
-
-export interface Quiz extends Exercise {
-  question: string;
-  options: {
-    A: string;
-    B: string;
-    C: string;
-    D: string;
-  };
-}
-
-export interface EditQuestion {
-  question: string;
-  answer: string;
-}
-
-export interface EditEssay {
-  task: string;
-  model: string;
-}
-
-export interface EditQuiz {
-  question: string;
-  options: {
-    A: string;
-    B: string;
-    C: string;
-    D: string;
-  };
-  correct: string;
-}
-
-export interface Solution {
-  answer: string;
+  comment?: string;
+  content:
+    | {
+        tag: "TypeAnswer";
+        typedAnswer: string;
+      }
+    | {
+        tag: "TrueFalse";
+        trueFalseAnswer: string;
+      }
+    | {
+        tag: "Essay";
+        essayAnswer: string;
+      }
+    | {
+        tag: "QuizAnswer";
+        quizAnswer: string;
+      }
+    | {
+        tag: "Coding";
+        program: string;
+      };
 }
 
 export enum ExerciseStatus {

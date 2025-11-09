@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useGetCourseLessonsQuery } from "../../services/lessons.service";
+import { useGetChapterLessonsQuery } from "../../services/lessons.service";
 import { useState } from "react";
 import LessonView from "../../components/courses/LessonView";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
@@ -21,8 +21,8 @@ const LessonsPage = () => {
 
   const [activeLesson, setActiveLesson] = useState(0);
 
-  const { data: lessons, isLoading } = useGetCourseLessonsQuery(
-    Number(courseId),
+  const { data: lessons, isLoading } = useGetChapterLessonsQuery(
+    { chapterNumber: 0, id: Number(courseId) },
     {
       skip: !courseId,
     }

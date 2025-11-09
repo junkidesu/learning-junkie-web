@@ -1,4 +1,11 @@
-import { Course, Enrollment, Exercise, NewUser, Progress, User } from "../types";
+import {
+  Course,
+  Enrollment,
+  Exercise,
+  NewUser,
+  Progress,
+  User,
+} from "../types";
 import { api } from "./api.service";
 
 export const usersApi = api.injectEndpoints({

@@ -22,7 +22,9 @@ const CourseCard = ({ course }: { course: Course }) => {
 
   const { existsId, enrollments } = useAuthUser();
 
-  const isEnrolled = enrollments?.map(({ course: c }) => c.id).includes(course.id);
+  const isEnrolled = enrollments
+    ?.map(({ course: c }) => c.id)
+    .includes(course.id);
 
   const navigate = useNavigate();
 
@@ -72,7 +74,7 @@ const CourseCard = ({ course }: { course: Course }) => {
 
       <CardActions>
         {isEnrolled ? (
-          <Button onClick={() => navigate(`/courses/${course.id}/lessons`)}>
+          <Button onClick={() => navigate(`/courses/${course.id}`)}>
             Continue
           </Button>
         ) : (

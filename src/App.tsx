@@ -13,18 +13,15 @@ import AllUniversitiesPage from "./views/universities/AllUniversitiesPage";
 import UniversityPage from "./views/universities/UniversityPage";
 import UserPage from "./views/users/UserPage";
 import SignUpPage from "./views/auth/SignUpPage";
-import LessonsPage from "./views/courses/LessonsPage";
 import AdminPanel from "./views/protected/AdminPanel";
 import NewUniversityPage from "./views/protected/AdminPanel/NewUniversityPage";
 import NewCoursePage from "./views/protected/AdminPanel/NewCoursePage";
-import ManageLessonsPage from "./views/protected/AdminPanel/ManageLessonsPage";
-import NewLessonPage from "./views/protected/NewLessonPage";
 import { useEffect, useState } from "react";
 import useInitialization from "./hooks/useInitialization";
 import NewInstructorPage from "./views/protected/AdminPanel/NewInstructorPage";
-import EditLessonPage from "./views/protected/EditLessonPage";
 import Protected from "./components/custom/Protected";
 import InstructorPanel from "./views/protected/InstructorPanel";
+import LessonPage from "./views/lessons/LessonPage";
 
 const darkTheme = createTheme({ palette: { mode: "dark" } });
 const lightTheme = createTheme({ palette: { mode: "light" } });
@@ -88,31 +85,9 @@ const App = () => {
             }
           />
           <Route path="courses/:id" element={<CoursePage />} />
-          <Route path="courses/:id/lessons" element={<LessonsPage />} />
-          <Route
-            path="courses/:id/lessons/new"
-            element={
-              <Protected instructor>
-                <NewLessonPage />
-              </Protected>
-            }
-          />
-          <Route
-            path="courses/:id/lessons/edit"
-            element={
-              <Protected instructor>
-                <ManageLessonsPage />
-              </Protected>
-            }
-          />
-          <Route
-            path="courses/:id/lessons/:number/edit"
-            element={
-              <Protected instructor>
-                <EditLessonPage />
-              </Protected>
-            }
-          />
+
+          <Route path="lessons/:id" element={<LessonPage />} />
+
           <Route path="universities" element={<AllUniversitiesPage />} />
           <Route
             path="universities/new"
