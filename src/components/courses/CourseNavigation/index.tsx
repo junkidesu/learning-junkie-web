@@ -26,7 +26,7 @@ const CourseNavigation = ({
   );
 
   const handleChange = (item: string) => () => {
-    setOpen(item == open ? false : item);
+    setOpen(item === open ? false : item);
   };
 
   const {

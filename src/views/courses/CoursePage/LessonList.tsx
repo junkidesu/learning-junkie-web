@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import { useGetChapterLessonsQuery } from "../../../services/lessons.service";
+import { Container, List, Typography } from "@mui/material";
 import { Chapter } from "../../../types";
-import { List, Typography } from "@mui/material";
+import { useGetChapterLessonsQuery } from "../../../services/lessons.service";
+import LessonItem from "./LessonItem";
 
 const LessonList = ({ chapter }: { chapter: Chapter }) => {
   const {
@@ -12,14 +12,21 @@ const LessonList = ({ chapter }: { chapter: Chapter }) => {
     id: chapter.course.id,
     chapterNumber: chapter.number,
   });
-  const navigate = useNavigate();
 
   if (isLoading) return <Typography>Loading...</Typography>;
 
   if (isError || !lessons)
     return <Typography>Some error has occurred!</Typography>;
 
-  return <List></List>;
+  return (
+    <Container>
+      <List component="nav">
+        {lessons.map((lesson) => (
+          <LessonItem key={lesson.id} lesson={lesson} />
+        ))}
+      </List>
+    </Container>
+  );
 };
 
 export default LessonList;

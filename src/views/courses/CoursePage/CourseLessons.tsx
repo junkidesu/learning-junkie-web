@@ -1,14 +1,16 @@
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
+  Collapse,
+  Container,
+  List,
+  ListItemButton,
+  ListItemText,
   Paper,
   Typography,
 } from "@mui/material";
 import { Course } from "../../../types";
 import { useGetChaptersByCourseIdQuery } from "../../../services/chapter.service";
-import ChapterLessons from "../../../components/courses/CourseNavigation/ChapterLessons";
 import { useState } from "react";
+import LessonList from "./LessonList";
 
 const CourseLessons = ({ course }: { course: Course }) => {
   const {
@@ -16,12 +18,11 @@ const CourseLessons = ({ course }: { course: Course }) => {
     isLoading,
     isError,
   } = useGetChaptersByCourseIdQuery(course.id);
-  const [expanded, setExpanded] = useState<string | boolean>(false);
+  const [open, setOpen] = useState<string | boolean>(false);
 
-  const handleChange =
-    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
+  const handleChange = (panel: string) => () => {
+    setOpen(panel === open ? false : panel);
+  };
 
   if (isLoading) return <Typography>Loading chapters...</Typography>;
 
@@ -29,30 +30,35 @@ const CourseLessons = ({ course }: { course: Course }) => {
     return <Typography>Some error has occurred!</Typography>;
 
   return (
-    <Paper id="chapters-and-lessons" square={false} sx={{ p: 2 }}>
-      <Typography variant="h5">Chapters and Lessons</Typography>
-
-      {chapters.map((chapter) => (
-        <Accordion
-          key={chapter.number}
-          elevation={4}
-          expanded={chapter.title === expanded}
-          onChange={handleChange(chapter.title)}
-        >
-          <AccordionSummary>
-            <Typography component="span" sx={{ width: "33%", flexShrink: 0 }}>
-              {chapter.number}. {chapter.title}
-            </Typography>
-            <Typography component="span" sx={{ color: "text.secondary" }}>
-              {chapter.description}
-            </Typography>
-          </AccordionSummary>
-
-          <AccordionDetails sx={{ p: 0 }}>
-            <ChapterLessons chapter={chapter} />
-          </AccordionDetails>
-        </Accordion>
-      ))}
+    <Paper sx={{ p: 2 }}>
+      <Typography variant="h5">Course Syllabus</Typography>
+      <List component="nav" id="chapters-and-lessons">
+        {chapters.map((chapter) => (
+          <Container>
+            <ListItemButton
+              key={chapter.number}
+              onClick={handleChange(chapter.title)}
+            >
+              <ListItemText>
+                <Typography
+                  component="span"
+                  fontSize={20}
+                  variant="h6"
+                  // sx={{ mb: 1, fontWeight: "bold" }}
+                >
+                  Chapter {chapter.number} {chapter.title}
+                </Typography>
+                <Typography component="div" sx={{ color: "text.secondary" }}>
+                  {chapter.description}
+                </Typography>
+              </ListItemText>
+            </ListItemButton>
+            <Collapse in={chapter.title === open} sx={{ p: 0 }}>
+              <LessonList chapter={chapter} />
+            </Collapse>
+          </Container>
+        ))}
+      </List>
     </Paper>
   );
 };
