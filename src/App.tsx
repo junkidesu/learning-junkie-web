@@ -22,6 +22,7 @@ import NewInstructorPage from "./views/protected/AdminPanel/NewInstructorPage";
 import Protected from "./components/custom/Protected";
 import InstructorPanel from "./views/protected/InstructorPanel";
 import LessonPage from "./views/lessons/LessonPage";
+import CourseEditPage from "./views/protected/AdminPanel/CourseEditPage";
 
 const darkTheme = createTheme({ palette: { mode: "dark" } });
 const lightTheme = createTheme({ palette: { mode: "light" } });
@@ -70,6 +71,14 @@ const App = () => {
             element={
               <Protected instructor>
                 <InstructorPanel />
+              </Protected>
+            }
+          />
+          <Route
+            path="courses/:id/edit"
+            element={
+              <Protected instructor>
+                <CourseEditPage />
               </Protected>
             }
           />

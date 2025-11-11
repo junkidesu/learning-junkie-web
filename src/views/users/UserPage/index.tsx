@@ -18,12 +18,12 @@ import useAuthUser from "../../../hooks/useAuthUser";
 import usePickImage from "../../../hooks/usePickImage";
 import {
   useGetUserByIdQuery,
-  useUploadAvatarMutation,
   useDeleteAvatarMutation,
 } from "../../../services/users.service";
 import { stringToColor, nameInitials } from "../../../util";
 import LoadingUserPage from "../../loading/LoadingUserPage";
 import UserTabs from "./UserTabs";
+import { useUploadAvatarMutation } from "../../../services/self.service";
 
 const UserPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -59,11 +59,15 @@ const UserPage = () => {
         try {
           console.log("Uploading");
 
-          await uploadAvatar({ id: user!.id, body: formData }).unwrap();
+          await uploadAvatar({ body: formData }).unwrap();
 
           console.log("Success!");
+
+          setAvatar(undefined);
         } catch (error) {
           console.log(error);
+
+          setAvatar(undefined);
         }
       }
     };
@@ -71,7 +75,7 @@ const UserPage = () => {
     if (avatar) {
       handleUploadAvatar();
     }
-  }, [avatar, user, uploadAvatar]);
+  }, [avatar, user, uploadAvatar, setAvatar]);
 
   if (!userId) return null;
 

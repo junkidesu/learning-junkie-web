@@ -72,6 +72,12 @@ export enum Difficulty {
   Advanced = "Advanced",
 }
 
+export interface CompletionRequirements {
+  exercisePercentage: number;
+  lessonPercentage: number;
+  finalProject: boolean;
+}
+
 export interface Course {
   id: number;
   title: string;
@@ -82,6 +88,7 @@ export interface Course {
   university: University;
   totalExercisesNum: number;
   totalLessonsNum: number;
+  completionRequirements: CompletionRequirements;
   enrollmentsCount: number;
 }
 
@@ -95,6 +102,15 @@ export interface NewCourse {
   title: string;
   description: string;
   difficulty: Difficulty;
+  completionRequirements: CompletionRequirements;
+  instructor: number;
+}
+
+export interface EditCourse {
+  title?: string;
+  description?: string;
+  difficulty?: Difficulty;
+  completionRequirements?: CompletionRequirements;
 }
 
 export interface Chapter {

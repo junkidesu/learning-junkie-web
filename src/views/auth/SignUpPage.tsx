@@ -20,16 +20,14 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Education, NewUser } from "../../types";
-import {
-  useSignUpMutation,
-  useUploadAvatarMutation,
-} from "../../services/users.service";
+import { useUploadAvatarMutation } from "../../services/users.service";
 import { useNavigate } from "react-router-dom";
 import usePickImage from "../../hooks/usePickImage";
 import CollapseAlert from "../../components/custom/CollapseAlert";
 import useAlert from "../../hooks/useAlert";
 import useAuthentication from "../../hooks/useAuthentication";
 import ProgressButton from "../../components/custom/ProgressButton";
+import { useRegisterMutation } from "../../services/auth.service";
 
 const SignUpPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -46,7 +44,7 @@ const SignUpPage = () => {
 
   const { showAlert } = useAlert();
 
-  const [signup, { isLoading: signingUp }] = useSignUpMutation();
+  const [register, { isLoading: signingUp }] = useRegisterMutation();
   const [uploadAvatar, { isLoading: uploadingAvatar }] =
     useUploadAvatarMutation();
   const { authenticate, signingIn } = useAuthentication();
@@ -71,7 +69,7 @@ const SignUpPage = () => {
     };
 
     try {
-      const addedUser = await signup(newUser).unwrap();
+      const addedUser = await register(newUser).unwrap();
 
       console.log("Successfully signed up!");
 

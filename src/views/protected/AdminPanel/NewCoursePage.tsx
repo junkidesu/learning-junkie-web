@@ -44,6 +44,8 @@ const NewCoursePage = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.Beginner);
   const [university, setUniversity] = useState<number>();
   const [instructor, setInstructor] = useState<number>();
+  const [exercisePercentage, setExercisePercentage] = useState<number>();
+  const [lessonPercentage, setLessonPercentage] = useState<number>();
   const [universitiesLoaded, setUniversitiesLoaded] = useState(false);
   const [instructorsLoaded, setInstructorsLoaded] = useState(false);
 
@@ -94,7 +96,12 @@ const NewCoursePage = () => {
           title,
           description,
           difficulty,
-          instructorId: instructor as number,
+          instructor: instructor as number,
+          completionRequirements: {
+            exercisePercentage: exercisePercentage as number,
+            lessonPercentage: lessonPercentage as number,
+            finalProject: true,
+          },
         },
       }).unwrap();
 
@@ -224,6 +231,24 @@ const NewCoursePage = () => {
               Please select your level of difficulty
             </FormHelperText>
           </FormControl>
+
+          <TextField
+            fullWidth
+            value={lessonPercentage}
+            onChange={(e) => setLessonPercentage(Number(e.target.value))}
+            required
+            label="Percentage of Lessons Required"
+            helperText="Please enter the percentage of lessons required for completion"
+          />
+
+          <TextField
+            fullWidth
+            value={exercisePercentage}
+            onChange={(e) => setExercisePercentage(Number(e.target.value))}
+            required
+            label="Percentage of Lessons Required"
+            helperText="Please enter the percentage of exercises required for completion"
+          />
 
           {universitiesLoaded && (
             <FormControl fullWidth required>

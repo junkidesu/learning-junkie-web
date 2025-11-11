@@ -1,4 +1,11 @@
-import { Breadcrumbs, Container, Link, Typography } from "@mui/material";
+import {
+  Breadcrumbs,
+  Container,
+  Divider,
+  Link,
+  Paper,
+  Typography,
+} from "@mui/material";
 import CourseNavigation from "../../components/courses/CourseNavigation";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetLessonByIdQuery } from "../../services/lessons.service";
@@ -26,7 +33,7 @@ const LessonPage = () => {
     <Container sx={{ display: "flex", flexDirection: "row" }}>
       <CourseNavigation activeLesson={lesson} course={lesson.chapter.course} />
 
-      <Container sx={{ width: "100%" }}>
+      <Paper sx={{ p: 2, width: "100%" }}>
         <Breadcrumbs>
           <Link
             onClick={() => navigate(`/courses/${lesson.chapter.course.id}`)}
@@ -39,7 +46,13 @@ const LessonPage = () => {
           <Typography>{lesson.title}</Typography>
         </Breadcrumbs>
 
-        <Typography>{lesson.title}</Typography>
+        <Typography variant="h4">
+          {lesson.number} {lesson.title}
+        </Typography>
+
+        <Divider />
+
+        <Typography color="text.secondary">{lesson.description}</Typography>
 
         {lesson.components.map((component) =>
           component.tag === "Markdown" ? (
@@ -48,7 +61,7 @@ const LessonPage = () => {
             <Typography key={component.title}>Video</Typography>
           )
         )}
-      </Container>
+      </Paper>
     </Container>
   );
 };

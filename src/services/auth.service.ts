@@ -1,4 +1,4 @@
-import { AuthResponse, Credentials } from "../types";
+import { AuthResponse, Credentials, NewUser, User } from "../types";
 import { api } from "./api.service";
 
 export const authApi = api.injectEndpoints({
@@ -10,7 +10,14 @@ export const authApi = api.injectEndpoints({
         body: credentials,
       }),
     }),
+    register: builder.mutation<User, NewUser>({
+      query: (newUser) => ({
+        url: "users/register",
+        method: "POST",
+        body: newUser,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;

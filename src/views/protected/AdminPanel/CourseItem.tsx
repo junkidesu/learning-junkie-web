@@ -74,7 +74,7 @@ const CourseItem = ({ course }: { course: Course }) => {
   };
 
   const handleUpdateBanner = () => {
-    openImagePicker()
+    openImagePicker();
     setAnchorEl(null);
   };
 
@@ -136,10 +136,8 @@ const CourseItem = ({ course }: { course: Course }) => {
             Visit
           </Button>
 
-          <Button
-            onClick={() => navigate(`/courses/${course.id}/lessons/edit`)}
-          >
-            Lessons
+          <Button onClick={() => navigate(`/courses/${course.id}/edit`)}>
+            Manage
           </Button>
 
           <Button

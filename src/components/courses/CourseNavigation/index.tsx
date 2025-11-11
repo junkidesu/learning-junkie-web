@@ -43,7 +43,7 @@ const CourseNavigation = ({
   return (
     <List
       component="nav"
-      sx={{ maxWidth: "350px", width: "100%" }}
+      sx={{ maxWidth: "300px", width: "100%" }}
       subheader={
         <ListSubheader>
           <Typography>Course Chapters and Lessons</Typography>
@@ -51,7 +51,7 @@ const CourseNavigation = ({
       }
     >
       {chapters.map((chapter) => (
-        <Container key={chapter.number}>
+        <>
           <ListItemButton onClick={handleChange(chapter.title)}>
             <ListItemIcon>
               <Class />
@@ -65,7 +65,7 @@ const CourseNavigation = ({
           <Collapse in={chapter.title == open}>
             <ChapterLessons chapter={chapter} />
           </Collapse>
-        </Container>
+        </>
       ))}
     </List>
   );

@@ -1,6 +1,7 @@
 import {
   Collapse,
   Container,
+  Divider,
   List,
   ListItemButton,
   ListItemText,
@@ -30,22 +31,22 @@ const CourseLessons = ({ course }: { course: Course }) => {
     return <Typography>Some error has occurred!</Typography>;
 
   return (
-    <Paper sx={{ p: 2 }}>
-      <Typography variant="h5">Course Syllabus</Typography>
-      <List component="nav" id="chapters-and-lessons">
+    <Paper square={false} sx={{ mb: 2 }}>
+      <Container sx={{ p: 2 }}>
+        <Typography variant="h5">Course Syllabus</Typography>
+      </Container>
+
+      <Divider />
+
+      <List component="nav" id="chapters-and-lessons" sx={{ width: "100%" }}>
         {chapters.map((chapter) => (
-          <Container>
+          <>
             <ListItemButton
               key={chapter.number}
               onClick={handleChange(chapter.title)}
             >
               <ListItemText>
-                <Typography
-                  component="span"
-                  fontSize={20}
-                  variant="h6"
-                  // sx={{ mb: 1, fontWeight: "bold" }}
-                >
+                <Typography component="span" fontSize={20} variant="h6">
                   Chapter {chapter.number} {chapter.title}
                 </Typography>
                 <Typography component="div" sx={{ color: "text.secondary" }}>
@@ -56,7 +57,7 @@ const CourseLessons = ({ course }: { course: Course }) => {
             <Collapse in={chapter.title === open} sx={{ p: 0 }}>
               <LessonList chapter={chapter} />
             </Collapse>
-          </Container>
+          </>
         ))}
       </List>
     </Paper>

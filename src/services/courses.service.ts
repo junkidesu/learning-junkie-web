@@ -1,4 +1,4 @@
-import { Course, Enrollment, NewCourse } from "../types";
+import { Course, EditCourse, Enrollment, NewCourse } from "../types";
 import { api } from "./api.service";
 
 export const coursesApi = api.injectEndpoints({
@@ -28,6 +28,13 @@ export const coursesApi = api.injectEndpoints({
         url: `courses/${id}/enrollments`,
       }),
       providesTags: ["CourseUsers"],
+    }),
+    editCourse: builder.mutation<Course, { id: number; body: EditCourse }>({
+      query: ({ id, body }) => ({
+        url: `courses/${id}`,
+        method: "PUT",
+        body,
+      }),
     }),
     deleteCourse: builder.mutation<void, number>({
       query: (id) => ({
@@ -66,6 +73,7 @@ export const {
   useGetCourseByIdQuery,
   useGetEnrolledUsersQuery,
   useDeleteCourseMutation,
+  useEditCourseMutation,
   useEnrollMutation,
   useUploadBannerMutation,
   useDeleteBannerMutation,

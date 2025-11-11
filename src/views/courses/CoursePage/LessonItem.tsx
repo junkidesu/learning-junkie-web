@@ -30,6 +30,10 @@ const LessonItem = ({ lesson }: { lesson: Lesson }) => {
         <Typography variant="h6">
           Lesson {lesson.number} {lesson.title}
         </Typography>
+
+        <Typography sx={{ color: "text.secondary" }}>
+          {lesson.description}
+        </Typography>
       </ListItemText>
     </ListItemButton>
   );

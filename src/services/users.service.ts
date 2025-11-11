@@ -1,11 +1,4 @@
-import {
-  Course,
-  Enrollment,
-  Exercise,
-  NewUser,
-  Progress,
-  User,
-} from "../types";
+import { Course, Enrollment, Exercise, Progress, User } from "../types";
 import { api } from "./api.service";
 
 export const usersApi = api.injectEndpoints({
@@ -39,13 +32,6 @@ export const usersApi = api.injectEndpoints({
       }),
       providesTags: ["UserSolutions"],
     }),
-    signUp: builder.mutation<User, NewUser>({
-      query: (newUser) => ({
-        url: `users`,
-        body: newUser,
-        method: "POST",
-      }),
-    }),
     uploadAvatar: builder.mutation<User, { id: number; body: FormData }>({
       query: ({ id, body }) => ({
         url: `users/${id}/avatar`,
@@ -70,7 +56,6 @@ export const {
   useGetTaughtCoursesQuery,
   useGetUserSolutionsQuery,
   useGetUserProgressQuery,
-  useSignUpMutation,
   useUploadAvatarMutation,
   useDeleteAvatarMutation,
 } = usersApi;

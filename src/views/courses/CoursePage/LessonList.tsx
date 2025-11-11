@@ -1,4 +1,4 @@
-import { Container, List, Typography } from "@mui/material";
+import { List, Typography } from "@mui/material";
 import { Chapter } from "../../../types";
 import { useGetChapterLessonsQuery } from "../../../services/lessons.service";
 import LessonItem from "./LessonItem";
@@ -19,13 +19,11 @@ const LessonList = ({ chapter }: { chapter: Chapter }) => {
     return <Typography>Some error has occurred!</Typography>;
 
   return (
-    <Container>
-      <List component="nav">
-        {lessons.map((lesson) => (
-          <LessonItem key={lesson.id} lesson={lesson} />
-        ))}
-      </List>
-    </Container>
+    <List component="nav">
+      {lessons.map((lesson) => (
+        <LessonItem key={lesson.id} lesson={lesson} />
+      ))}
+    </List>
   );
 };
 

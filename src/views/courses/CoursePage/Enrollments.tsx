@@ -6,7 +6,6 @@ import {
   useGetEnrolledUsersQuery,
 } from "../../../services/courses.service";
 import useAuthUser from "../../../hooks/useAuthUser";
-import { useNavigate } from "react-router-dom";
 import SnackbarAlert from "../../../components/custom/SnackbarAlert";
 import useAlert from "../../../hooks/useAlert";
 import ProgressButton from "../../../components/custom/ProgressButton";
@@ -18,8 +17,6 @@ const Enrollments = ({ course }: { course: Course }) => {
     isLoading,
     isError,
   } = useGetEnrolledUsersQuery(Number(course.id));
-
-  const navigate = useNavigate();
 
   const { showAlert } = useAlert();
 
