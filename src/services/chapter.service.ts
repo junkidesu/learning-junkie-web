@@ -1,4 +1,4 @@
-import { Chapter } from "../types";
+import { Chapter, NewChapter } from "../types";
 import { api } from "./api.service";
 
 export const chaptersApi = api.injectEndpoints({
@@ -6,6 +6,13 @@ export const chaptersApi = api.injectEndpoints({
     getChaptersByCourseId: builder.query<Chapter[], number>({
       query: (id) => ({
         url: `courses/${id}/chapters`,
+      }),
+    }),
+    addChapter: builder.mutation<Chapter, { id: number; body: NewChapter }>({
+      query: ({ id, body }) => ({
+        url: `courses/${id}/chapters`,
+        method: "POST",
+        body,
       }),
     }),
     deleteChapter: builder.mutation<
@@ -20,5 +27,8 @@ export const chaptersApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetChaptersByCourseIdQuery, useDeleteChapterMutation } =
-  chaptersApi;
+export const {
+  useGetChaptersByCourseIdQuery,
+  useAddChapterMutation,
+  useDeleteChapterMutation,
+} = chaptersApi;

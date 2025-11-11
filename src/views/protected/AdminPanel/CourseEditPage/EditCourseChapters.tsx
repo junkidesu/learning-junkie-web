@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Collapse,
   IconButton,
   List,
@@ -17,6 +18,7 @@ import {
 import { Course } from "../../../../types";
 import EditCourseLessonList from "./EditCourseLessonList";
 import { Add, Delete } from "@mui/icons-material";
+import NewChapterForm from "../NewChapterForm";
 
 const EditCourseChapters = ({ course }: { course: Course }) => {
   const {
@@ -24,6 +26,9 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
     isLoading,
     isError,
   } = useGetChaptersByCourseIdQuery(course.id);
+
+  const [newChapterForm, setNewChapterForm] = useState<boolean>(false);
+
   const [open, setOpen] = useState<string | boolean>(false);
 
   const [deleteChapter] = useDeleteChapterMutation();
@@ -46,8 +51,33 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
   if (isError || !chapters)
     return <Typography>Some error has occurred!</Typography>;
 
+  const lastChapterNumber = Math.max(
+    ...chapters.map((chapter) => chapter.number)
+  );
+
+  console.log(lastChapterNumber);
+
   return (
-    <Box sx={{ p: 0, display: "flex", alignItems: "start" }}>
+    <Box
+      sx={{
+        p: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "end",
+      }}
+    >
+      <Button
+        variant="contained"
+        startIcon={<Add />}
+        onClick={() => setNewChapterForm(!newChapterForm)}
+      >
+        Add chapter
+      </Button>
+
+      <Collapse sx={{ width: "100%" }} in={newChapterForm}>
+        <NewChapterForm course={course} lastChapterNumber={lastChapterNumber} />
+      </Collapse>
+
       <List component="nav" id="chapters-and-lessons" sx={{ width: "100%" }}>
         {chapters.map((chapter) => (
           <>

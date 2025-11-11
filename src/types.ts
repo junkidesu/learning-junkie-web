@@ -121,6 +121,17 @@ export interface Chapter {
   course: Course;
 }
 
+export interface NewChapter {
+  description: string;
+  number: number;
+  title: string;
+}
+
+export interface EditChapter {
+  description: string;
+  title: string;
+}
+
 export type Component =
   | {
       tag: "Markdown";
