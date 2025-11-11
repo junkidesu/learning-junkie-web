@@ -17,7 +17,7 @@ import { educationToString } from "../../../types";
 import UserAvatar from "../../../components/users/UserAvatar";
 import Enrollments from "./Enrollments";
 import LoadingCoursePage from "../../loading/LoadingCoursePage";
-import CourseLessons from "./CourseLessons";
+import CourseChapters from "./CourseChapters";
 
 const CoursePage = () => {
   const courseId = useParams().id;
@@ -104,7 +104,7 @@ const CoursePage = () => {
 
       <Enrollments course={course} />
 
-      <CourseLessons course={course} />
+      <CourseChapters course={course} />
     </Container>
   );
 };

@@ -23,9 +23,9 @@ export const lessonsApi = api.injectEndpoints({
         url: `lessons/${id}`,
       }),
     }),
-    deleteLesson: builder.mutation<void, { id: number; number: number }>({
-      query: ({ id, number }) => ({
-        url: `courses/${id}/lessons/${number}`,
+    deleteLesson: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `lessons/${id}`,
         method: "DELETE",
       }),
     }),

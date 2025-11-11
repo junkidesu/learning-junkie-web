@@ -8,9 +8,17 @@ export const chaptersApi = api.injectEndpoints({
         url: `courses/${id}/chapters`,
       }),
     }),
+    deleteChapter: builder.mutation<
+      void,
+      { id: number; chapterNumber: number }
+    >({
+      query: ({ id, chapterNumber }) => ({
+        url: `courses/${id}/chapters/${chapterNumber}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const {
-    useGetChaptersByCourseIdQuery
-} = chaptersApi
+export const { useGetChaptersByCourseIdQuery, useDeleteChapterMutation } =
+  chaptersApi;

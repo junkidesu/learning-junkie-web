@@ -13,7 +13,7 @@ import { useGetChaptersByCourseIdQuery } from "../../../services/chapter.service
 import { useState } from "react";
 import LessonList from "./LessonList";
 
-const CourseLessons = ({ course }: { course: Course }) => {
+const CourseChapters = ({ course }: { course: Course }) => {
   const {
     data: chapters,
     isLoading,
@@ -64,4 +64,4 @@ const CourseLessons = ({ course }: { course: Course }) => {
   );
 };
 
-export default CourseLessons;
+export default CourseChapters;
