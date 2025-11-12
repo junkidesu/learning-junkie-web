@@ -163,7 +163,7 @@ export interface NewLesson {
   number: number;
   title: string;
   description: string;
-  content: string;
+  components: Component[];
 }
 
 export interface EditLesson {

@@ -9,7 +9,7 @@ import {
 import CourseNavigation from "../../components/courses/CourseNavigation";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetLessonByIdQuery } from "../../services/lessons.service";
-import Markdown from "react-markdown";
+import MDEditor from "@uiw/react-md-editor";
 
 const LessonPage = () => {
   const lessonId = useParams().id;
@@ -33,7 +33,15 @@ const LessonPage = () => {
     <Container sx={{ display: "flex", flexDirection: "row" }}>
       <CourseNavigation activeLesson={lesson} course={lesson.chapter.course} />
 
-      <Paper sx={{ p: 2, width: "100%" }}>
+      <Paper
+        sx={{
+          p: 2,
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
         <Breadcrumbs>
           <Link
             onClick={() => navigate(`/courses/${lesson.chapter.course.id}`)}
@@ -46,6 +54,8 @@ const LessonPage = () => {
           <Typography>{lesson.title}</Typography>
         </Breadcrumbs>
 
+        <Divider />
+
         <Typography variant="h4">
           {lesson.number} {lesson.title}
         </Typography>
@@ -54,9 +64,15 @@ const LessonPage = () => {
 
         <Typography color="text.secondary">{lesson.description}</Typography>
 
+        <Divider />
+
         {lesson.components.map((component) =>
           component.tag === "Markdown" ? (
-            <Markdown key={component.content}>{component.content}</Markdown>
+            <MDEditor.Markdown
+              key={component.content}
+              style={{ backgroundColor: "transparent" }}
+              source={component.content}
+            />
           ) : (
             <Typography key={component.title}>Video</Typography>
           )

@@ -8,6 +8,14 @@ export const chaptersApi = api.injectEndpoints({
         url: `courses/${id}/chapters`,
       }),
     }),
+    getChapterByNumber: builder.query<
+      Chapter,
+      { id: number; chapterNumber: number }
+    >({
+      query: ({ id, chapterNumber }) => ({
+        url: `courses/${id}/chapters/${chapterNumber}`,
+      }),
+    }),
     addChapter: builder.mutation<Chapter, { id: number; body: NewChapter }>({
       query: ({ id, body }) => ({
         url: `courses/${id}/chapters`,
@@ -29,6 +37,7 @@ export const chaptersApi = api.injectEndpoints({
 
 export const {
   useGetChaptersByCourseIdQuery,
+  useGetChapterByNumberQuery,
   useAddChapterMutation,
   useDeleteChapterMutation,
 } = chaptersApi;

@@ -18,7 +18,8 @@ import {
 import { Course } from "../../../../types";
 import EditCourseLessonList from "./EditCourseLessonList";
 import { Add, Delete } from "@mui/icons-material";
-import NewChapterForm from "../NewChapterForm";
+import NewChapterForm from "./NewChapterForm";
+import { useNavigate } from "react-router-dom";
 
 const EditCourseChapters = ({ course }: { course: Course }) => {
   const {
@@ -26,6 +27,8 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
     isLoading,
     isError,
   } = useGetChaptersByCourseIdQuery(course.id);
+
+  const navigate = useNavigate();
 
   const [newChapterForm, setNewChapterForm] = useState<boolean>(false);
 
@@ -55,8 +58,6 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
     ...chapters.map((chapter) => chapter.number)
   );
 
-  console.log(lastChapterNumber);
-
   return (
     <Box
       sx={{
@@ -84,7 +85,13 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
             <ListItem
               secondaryAction={
                 <Stack direction="row">
-                  <IconButton>
+                  <IconButton
+                    onClick={() =>
+                      navigate(
+                        `/courses/${course.id}/chapters/${chapter.number}/new-lesson`
+                      )
+                    }
+                  >
                     <Add />
                   </IconButton>
                   <IconButton onClick={handleDeleteChapter(chapter.number)}>

@@ -3,9 +3,12 @@ import { api } from "./api.service";
 
 export const lessonsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    addLesson: builder.mutation<Lesson, { id: number; body: NewLesson }>({
-      query: ({ id, body }) => ({
-        url: `courses/${id}/lessons`,
+    addLesson: builder.mutation<
+      Lesson,
+      { id: number; chapterNumber: number; body: NewLesson }
+    >({
+      query: ({ id, chapterNumber, body }) => ({
+        url: `courses/${id}/chapters/${chapterNumber}/lessons`,
         method: "POST",
         body,
       }),
@@ -45,6 +48,7 @@ export const lessonsApi = api.injectEndpoints({
 export const {
   useGetChapterLessonsQuery,
   useGetLessonByIdQuery,
+  useAddLessonMutation,
   useDeleteLessonMutation,
   useEditLessonMutation,
 } = lessonsApi;

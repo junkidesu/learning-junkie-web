@@ -42,6 +42,7 @@ const CourseEditPage = () => {
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               variant="scrollable"
+              value={tab}
               onChange={(_event, newValue) => setTab(newValue)}
             >
               <Tab label="Lessons" {...a11yProps(0)} />
