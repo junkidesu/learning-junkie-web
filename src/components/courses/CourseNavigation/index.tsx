@@ -6,10 +6,11 @@ import {
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  Paper,
   Typography,
 } from "@mui/material";
 import { useGetChaptersByCourseIdQuery } from "../../../services/chapter.service";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Class } from "@mui/icons-material";
 import ChapterLessons from "./ChapterLessons";
 import { Course, Lesson } from "../../../types";
@@ -41,33 +42,37 @@ const CourseNavigation = ({
     return <Container>Some issue has occurred!</Container>;
 
   return (
-    <List
-      component="nav"
-      sx={{ maxWidth: "300px", width: "100%" }}
-      subheader={
-        <ListSubheader>
-          <Typography>Course Chapters and Lessons</Typography>
-        </ListSubheader>
-      }
-    >
-      {chapters.map((chapter) => (
-        <>
-          <ListItemButton onClick={handleChange(chapter.title)}>
-            <ListItemIcon>
-              <Class />
-            </ListItemIcon>
-            <ListItemText>
-              <Typography>
-                {chapter.number} {chapter.title}
-              </Typography>
-            </ListItemText>
-          </ListItemButton>
-          <Collapse in={chapter.title == open}>
-            <ChapterLessons chapter={chapter} />
-          </Collapse>
-        </>
-      ))}
-    </List>
+    <Paper square={false} sx={{ p: 2 }}>
+      <List
+        component="nav"
+        sx={{ maxWidth: "300px", width: "100%" }}
+        subheader={
+          <ListSubheader sx={{ backgroundColor: "transparent" }}>
+            <Typography>Course Chapters and Lessons</Typography>
+          </ListSubheader>
+        }
+      >
+        {chapters.map((chapter) => (
+          <React.Fragment
+            key={chapter.course.id.toString() + chapter.number.toString()}
+          >
+            <ListItemButton onClick={handleChange(chapter.title)}>
+              <ListItemIcon>
+                <Class />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography>
+                  {chapter.number} {chapter.title}
+                </Typography>
+              </ListItemText>
+            </ListItemButton>
+            <Collapse in={chapter.title == open}>
+              <ChapterLessons chapter={chapter} />
+            </Collapse>
+          </React.Fragment>
+        ))}
+      </List>
+    </Paper>
   );
 };
 

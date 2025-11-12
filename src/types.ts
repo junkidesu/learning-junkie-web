@@ -212,6 +212,13 @@ export interface Exercise {
   title: string;
   description: string;
   content: ExerciseContent;
+  lesson: Lesson;
+}
+
+export interface NewExercise {
+  maxGrade: number;
+  title: string;
+  description: string;
 }
 
 export enum SubmissionState {

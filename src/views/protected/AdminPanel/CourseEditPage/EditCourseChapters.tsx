@@ -81,7 +81,7 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
 
       <List component="nav" id="chapters-and-lessons" sx={{ width: "100%" }}>
         {chapters.map((chapter) => (
-          <>
+          <div key={chapter.course.id.toString() + chapter.number.toString()}>
             <ListItem
               secondaryAction={
                 <Stack direction="row">
@@ -118,7 +118,7 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
             <Collapse in={chapter.title === open} sx={{ p: 0 }}>
               <EditCourseLessonList chapter={chapter} />
             </Collapse>
-          </>
+          </div>
         ))}
       </List>
     </Box>

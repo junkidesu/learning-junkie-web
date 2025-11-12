@@ -1,4 +1,4 @@
-import { EditLesson, Lesson, NewLesson } from "../types";
+import { EditLesson, Lesson, LessonCompletion, NewLesson } from "../types";
 import { api } from "./api.service";
 
 export const lessonsApi = api.injectEndpoints({
@@ -42,6 +42,12 @@ export const lessonsApi = api.injectEndpoints({
         body,
       }),
     }),
+    addLessonCompletion: builder.mutation<LessonCompletion, number>({
+      query: (id) => ({
+        url: `lessons/${id}/completions`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -51,4 +57,5 @@ export const {
   useAddLessonMutation,
   useDeleteLessonMutation,
   useEditLessonMutation,
+  useAddLessonCompletionMutation,
 } = lessonsApi;
