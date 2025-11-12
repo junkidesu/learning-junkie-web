@@ -12,6 +12,7 @@ export const submissionsApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Progress", "Submission"],
     }),
   }),
 });

@@ -253,7 +253,7 @@ export interface Submission {
   id: number;
   user: User;
   exercise: Exercise;
-  status: SubmissionState;
+  state: SubmissionState;
   submitted: string;
   grade?: number;
   comment?: string;
