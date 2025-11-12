@@ -1,28 +1,25 @@
-import { Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { useAddLessonMutation } from "../../../../services/lessons.service";
 import { Chapter, NewLesson } from "../../../../types";
-import { useNavigate } from "react-router-dom";
 
 const NewLessonForm = ({
   lastLessonNumber,
   chapter,
+  setActiveStep,
 }: {
   lastLessonNumber: number;
   chapter: Chapter;
+  setActiveStep: React.Dispatch<SetStateAction<number>>;
 }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [content, setContent] = useState<string | undefined>("");
 
-  const navigate = useNavigate();
-
   const [addLesson] = useAddLessonMutation();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     const body: NewLesson = {
       title,
       description,
@@ -39,45 +36,48 @@ const NewLessonForm = ({
 
       console.log("Success!");
 
-      navigate(`/courses/${chapter.course.id}/edit`);
+      setActiveStep(1);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Stack
-      component="form"
-      sx={{ display: "flex", alignItems: "center", gap: 2 }}
-      onSubmit={handleSubmit}
-    >
-      <TextField
-        label="Title"
-        helperText="Please enter the title of the chapter"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-        fullWidth
-      />
-      <TextField
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        fullWidth
-        label="Description"
-        helperText="Please enter the description of the chapter"
-        required
-      />
+    <React.Fragment>
+      <Stack
+        component="form"
+        sx={{ display: "flex", alignItems: "center", gap: 2 }}
+      >
+        <TextField
+          label="Title"
+          helperText="Please enter the title of the chapter"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          fullWidth
+        />
+        <TextField
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          fullWidth
+          label="Description"
+          helperText="Please enter the description of the chapter"
+          required
+        />
 
-      <MDEditor
-        value={content}
-        onChange={setContent}
-        style={{ width: "100%" }}
-      />
+        <MDEditor
+          value={content}
+          onChange={setContent}
+          style={{ width: "100%" }}
+        />
+      </Stack>
 
-      <Button type="submit" variant="contained">
-        Submit
-      </Button>
-    </Stack>
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
+        <Button sx={{ mr: 1, width: "fit-content" }} onClick={handleSubmit}>
+          Next
+        </Button>
+      </Box>
+    </React.Fragment>
   );
 };
 

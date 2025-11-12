@@ -1,12 +1,29 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetChapterByNumberQuery } from "../../../../services/chapter.service";
-import { Divider, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Paper,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 import NewLessonForm from "./NewLessonForm";
 import { useGetChapterLessonsQuery } from "../../../../services/lessons.service";
+import { useState } from "react";
+import React from "react";
+
+const steps = ["Add lesson information", "Add Exercises"];
 
 const NewLessonPage = () => {
   const courseId = useParams().id;
   const chapterNumber = useParams().chapterNumber;
+
+  const navigate = useNavigate();
+
+  const [activeStep, setActiveStep] = useState(0);
 
   const {
     data: chapter,
@@ -39,6 +56,10 @@ const NewLessonPage = () => {
 
   if (!courseId || !chapterNumber) return null;
 
+  const isStepOptional = (step: number) => {
+    return step === 1;
+  };
+
   const lastLessonNumber =
     lessons.length === 0
       ? 0
@@ -48,13 +69,56 @@ const NewLessonPage = () => {
       square={false}
       sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2 }}
     >
+      <Stepper activeStep={activeStep}>
+        {steps.map((label, index) => {
+          const stepProps: { completed?: boolean } = {};
+          const labelProps: {
+            optional?: React.ReactNode;
+          } = {};
+          if (isStepOptional(index)) {
+            labelProps.optional = (
+              <Typography variant="caption">Optional</Typography>
+            );
+          }
+
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+
       <Typography variant="h5">New Lesson</Typography>
       <Divider />
 
-      <NewLessonForm
-        chapter={chapter}
-        lastLessonNumber={Number(lastLessonNumber)}
-      />
+      {activeStep === 0 && (
+        <NewLessonForm
+          chapter={chapter}
+          lastLessonNumber={Number(lastLessonNumber)}
+          setActiveStep={setActiveStep}
+        />
+      )}
+
+      {activeStep === 1 && (
+        <React.Fragment>
+          <Typography>Add exercises to a lesson</Typography>
+
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ flex: "1 1 auto" }} />
+
+            <Button
+              onClick={() =>
+                navigate(
+                  `/courses/${chapter.course.id}/edit`
+                )
+              }
+            >
+              Finish
+            </Button>
+          </Box>
+        </React.Fragment>
+      )}
     </Paper>
   );
 };
