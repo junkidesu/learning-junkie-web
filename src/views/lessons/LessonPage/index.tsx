@@ -11,16 +11,17 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
-import CourseNavigation from "../../components/courses/CourseNavigation";
+import CourseNavigation from "../../../components/courses/CourseNavigation";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useAddLessonCompletionMutation,
   useGetLessonByIdQuery,
-} from "../../services/lessons.service";
+} from "../../../services/lessons.service";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import React from "react";
-import useAuthUser from "../../hooks/useAuthUser";
+import useAuthUser from "../../../hooks/useAuthUser";
+import LessonExercises from "./LessonExercises";
 
 const steps = ["Lesson", "Exercises", "Discussion"];
 
@@ -165,7 +166,7 @@ const LessonPage = () => {
 
         {activeStep === 1 && (
           <React.Fragment>
-            <Container>Page with exercises</Container>
+            <LessonExercises lesson={lesson} />
 
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
