@@ -19,8 +19,10 @@ export const api = createApi({
     "User",
     "Lesson",
     "Exercise",
-    "CourseUsers",
-    "UserSolutions",
+    "Enrollment",
+    "Submission",
     "University",
+    "Chapter",
+    "Progress",
   ],
 });

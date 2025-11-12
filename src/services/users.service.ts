@@ -13,7 +13,7 @@ export const usersApi = api.injectEndpoints({
       query: (id) => ({
         url: `users/${id}/enrollments`,
       }),
-      providesTags: ["CourseUsers"],
+      providesTags: ["Enrollment", "Progress"],
     }),
     getTaughtCourses: builder.query<Course[], number>({
       query: (id) => ({
@@ -24,13 +24,13 @@ export const usersApi = api.injectEndpoints({
       query: (id) => ({
         url: `users/${id}/solutions`,
       }),
-      providesTags: ["UserSolutions"],
+      providesTags: ["Progress", "Submission"],
     }),
     getUserProgress: builder.query<Progress[], number>({
       query: (id) => ({
         url: `users/${id}/progress`,
       }),
-      providesTags: ["UserSolutions"],
+      providesTags: ["Progress", "Submission", "Enrollment"],
     }),
     uploadAvatar: builder.mutation<User, { id: number; body: FormData }>({
       query: ({ id, body }) => ({
@@ -46,6 +46,7 @@ export const usersApi = api.injectEndpoints({
         url: `users/${id}/avatar`,
         method: "DELETE",
       }),
+      invalidatesTags: ["User"],
     }),
   }),
 });

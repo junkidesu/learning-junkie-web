@@ -12,6 +12,7 @@ export const lessonsApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Lesson", "Chapter"],
     }),
     getChapterLessons: builder.query<
       Lesson[],
@@ -20,17 +21,20 @@ export const lessonsApi = api.injectEndpoints({
       query: ({ id, chapterNumber }) => ({
         url: `courses/${id}/chapters/${chapterNumber}/lessons`,
       }),
+      providesTags: ["Chapter", "Lesson"],
     }),
     getLessonById: builder.query<Lesson, number>({
       query: (id) => ({
         url: `lessons/${id}`,
       }),
+      providesTags: ["Lesson"],
     }),
     deleteLesson: builder.mutation<void, number>({
       query: (id) => ({
         url: `lessons/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Lesson", "Chapter"],
     }),
     editLesson: builder.mutation<
       Lesson,
@@ -41,12 +45,14 @@ export const lessonsApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["Lesson", "Chapter"],
     }),
     addLessonCompletion: builder.mutation<LessonCompletion, number>({
       query: (id) => ({
         url: `lessons/${id}/completions`,
         method: "POST",
       }),
+      invalidatesTags: ["Lesson", "Progress"],
     }),
   }),
 });

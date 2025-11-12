@@ -7,6 +7,7 @@ export const chaptersApi = api.injectEndpoints({
       query: (id) => ({
         url: `courses/${id}/chapters`,
       }),
+      providesTags: ["Chapter"],
     }),
     getChapterByNumber: builder.query<
       Chapter,
@@ -15,6 +16,7 @@ export const chaptersApi = api.injectEndpoints({
       query: ({ id, chapterNumber }) => ({
         url: `courses/${id}/chapters/${chapterNumber}`,
       }),
+      providesTags: ["Chapter"],
     }),
     addChapter: builder.mutation<Chapter, { id: number; body: NewChapter }>({
       query: ({ id, body }) => ({
@@ -22,6 +24,7 @@ export const chaptersApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Chapter"],
     }),
     deleteChapter: builder.mutation<
       void,
@@ -31,6 +34,7 @@ export const chaptersApi = api.injectEndpoints({
         url: `courses/${id}/chapters/${chapterNumber}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Chapter"],
     }),
   }),
 });

@@ -27,7 +27,7 @@ export const coursesApi = api.injectEndpoints({
       query: (id) => ({
         url: `courses/${id}/enrollments`,
       }),
-      providesTags: ["CourseUsers"],
+      providesTags: ["Enrollment"],
     }),
     editCourse: builder.mutation<Course, { id: number; body: EditCourse }>({
       query: ({ id, body }) => ({
@@ -35,6 +35,7 @@ export const coursesApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["Course"],
     }),
     deleteCourse: builder.mutation<void, number>({
       query: (id) => ({
@@ -48,7 +49,7 @@ export const coursesApi = api.injectEndpoints({
         url: `courses/${id}/enrollments`,
         method: "POST",
       }),
-      invalidatesTags: ["CourseUsers"],
+      invalidatesTags: ["Enrollment"],
     }),
     uploadBanner: builder.mutation<Course, { id: number; body: FormData }>({
       query: ({ id, body }) => ({

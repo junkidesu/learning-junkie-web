@@ -7,21 +7,25 @@ export const selfApi = api.injectEndpoints({
       query: () => ({
         url: "users/self/progress",
       }),
+      providesTags: ["Progress"],
     }),
     getSelfLessonCompletions: builder.query<LessonCompletion[], void>({
       query: () => ({
         url: `users/self/lesson-completions`,
       }),
+      providesTags: ["Progress"],
     }),
     getSelfSubmissions: builder.query<Submission[], void>({
       query: () => ({
         url: "users/self/submissions",
       }),
+      providesTags: ["Progress", "Submission"],
     }),
     getSelfSuccessfulSubmissions: builder.query<Submission[], void>({
       query: () => ({
         url: "users/self/submissions/successful",
       }),
+      providesTags: ["Progress", "Submission"],
     }),
     uploadAvatar: builder.mutation<User, { body: FormData }>({
       query: ({ body }) => ({
