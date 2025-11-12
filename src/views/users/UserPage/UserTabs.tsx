@@ -3,8 +3,7 @@ import { useState } from "react";
 import CoursesGrid from "../../../components/courses/CoursesGrid";
 import TabPanel from "../../../components/custom/TabPanel";
 import LoadingCoursesGrid from "../../../components/loading/LoadingCoursesGrid";
-import ProgressList from "../../../components/users/ProgressList";
-import useAuthUser from "../../../hooks/useAuthUser";
+// import useAuthUser from "../../../hooks/useAuthUser";
 import {
   useGetUserEnrollmentsQuery,
   useGetTaughtCoursesQuery,
@@ -52,13 +51,13 @@ const TaughtCourses = ({ user }: { user: User }) => {
 const UserTabs = ({ user }: { user: User }) => {
   const [value, setValue] = useState(0);
 
-  const { authUser } = useAuthUser();
+  // const { authUser } = useAuthUser();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const isSameUser = authUser?.id === user.id;
+  // const isSameUser = authUser?.id === user.id;
 
   return (
     <Card sx={{ width: "100%" }} variant="outlined">
@@ -70,10 +69,9 @@ const UserTabs = ({ user }: { user: User }) => {
           variant="scrollable"
         >
           <Tab label="Enrollments" {...a11yProps(0)} />
-          <Tab label="Progress" {...a11yProps(1)} disabled={!isSameUser} />
           <Tab
             label="Teaches"
-            {...a11yProps(2)}
+            {...a11yProps(1)}
             disabled={user.role !== Role.Instructor}
           />
         </Tabs>
@@ -82,9 +80,6 @@ const UserTabs = ({ user }: { user: User }) => {
         <Enrollments user={user} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProgressList />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
         <TaughtCourses user={user} />
       </TabPanel>
     </Card>
