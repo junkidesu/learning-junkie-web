@@ -18,6 +18,11 @@ export const selfApi = api.injectEndpoints({
         url: "users/self/submissions",
       }),
     }),
+    getSelfSuccessfulSubmissions: builder.query<Submission[], void>({
+      query: () => ({
+        url: "users/self/submissions/successful",
+      }),
+    }),
     uploadAvatar: builder.mutation<User, { body: FormData }>({
       query: ({ body }) => ({
         url: `users/self/avatar`,
@@ -34,5 +39,6 @@ export const {
   useGetSelfProgressQuery,
   useGetSelfLessonCompletionsQuery,
   useGetSelfSubmissionsQuery,
+  useGetSelfSuccessfulSubmissionsQuery,
   useUploadAvatarMutation,
 } = selfApi;

@@ -46,6 +46,8 @@ const LessonPage = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const { authUser } = useAuthUser();
+
   const {
     data: lesson,
     isLoading,
@@ -72,8 +74,10 @@ const LessonPage = () => {
       if (isLessonCompleted) {
         setActiveStep(1);
       } else {
-        await completeLesson(lesson.id);
-        console.log("Success!");
+        if (authUser) {
+          await completeLesson(lesson.id);
+          console.log("Success!");
+        }
         setActiveStep(1);
       }
     } catch (error) {

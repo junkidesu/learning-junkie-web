@@ -228,6 +228,27 @@ export enum SubmissionState {
   Success = "Success",
 }
 
+export type SubmissionContent =
+  | {
+      tag: "TypeAnswer";
+      typedAnswer: string;
+    }
+  | {
+      tag: "TrueFalse";
+      trueFalseAnswer: string;
+    }
+  | {
+      tag: "Essay";
+      essayAnswer: string;
+    }
+  | {
+      tag: "QuizAnswer";
+      quizAnswer: string;
+    }
+  | {
+      tag: "Coding";
+      program: string;
+    };
 export interface Submission {
   id: number;
   user: User;
@@ -236,27 +257,11 @@ export interface Submission {
   submitted: string;
   grade?: number;
   comment?: string;
-  content:
-    | {
-        tag: "TypeAnswer";
-        typedAnswer: string;
-      }
-    | {
-        tag: "TrueFalse";
-        trueFalseAnswer: string;
-      }
-    | {
-        tag: "Essay";
-        essayAnswer: string;
-      }
-    | {
-        tag: "QuizAnswer";
-        quizAnswer: string;
-      }
-    | {
-        tag: "Coding";
-        program: string;
-      };
+  content: SubmissionContent;
+}
+
+export interface NewSubmission {
+  content: SubmissionContent;
 }
 
 export enum ExerciseStatus {

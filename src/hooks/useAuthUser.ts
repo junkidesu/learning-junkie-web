@@ -2,12 +2,19 @@ import { useAppSelector } from "../hooks";
 import {
   useGetSelfLessonCompletionsQuery,
   useGetSelfProgressQuery,
+  useGetSelfSubmissionsQuery,
 } from "../services/self.service";
 import {
   useGetUserByIdQuery,
   useGetUserEnrollmentsQuery,
 } from "../services/users.service";
-import { Enrollment, LessonCompletion, Progress, User } from "../types";
+import {
+  Enrollment,
+  LessonCompletion,
+  Progress,
+  Submission,
+  User,
+} from "../types";
 
 type AuthUserData = {
   existsId: boolean;
@@ -23,6 +30,9 @@ type AuthUserData = {
   coursesError: boolean;
   progressError: boolean;
   lessonCompletionsError: boolean;
+  submissions?: Submission[];
+  submissionsLoading: boolean;
+  submissionsError: boolean;
 };
 
 const useAuthUser = (): AuthUserData => {
@@ -52,6 +62,12 @@ const useAuthUser = (): AuthUserData => {
     isError: lessonCompletionsError,
   } = useGetSelfLessonCompletionsQuery(undefined, { skip: !id });
 
+  const {
+    data: submissions,
+    isLoading: submissionsLoading,
+    isError: submissionsError,
+  } = useGetSelfSubmissionsQuery(undefined, { skip: !id });
+
   if (!id)
     return {
       existsId: false,
@@ -63,6 +79,8 @@ const useAuthUser = (): AuthUserData => {
       progressError: false,
       lessonCompletionsLoading: false,
       lessonCompletionsError: false,
+      submissionsLoading: false,
+      submissionsError: false,
     };
 
   return {
@@ -79,6 +97,9 @@ const useAuthUser = (): AuthUserData => {
     progressError,
     lessonCompletionsLoading,
     lessonCompletionsError,
+    submissions,
+    submissionsLoading,
+    submissionsError,
   };
 };
 
