@@ -1,12 +1,4 @@
-import {
-  Container,
-  Typography,
-  Card,
-  Box,
-  Tabs,
-  Tab,
-  Stack,
-} from "@mui/material";
+import { Container, Typography, Card, Box, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
 import CoursesGrid from "../../../components/courses/CoursesGrid";
 import TabPanel from "../../../components/custom/TabPanel";
@@ -16,11 +8,9 @@ import useAuthUser from "../../../hooks/useAuthUser";
 import {
   useGetUserEnrollmentsQuery,
   useGetTaughtCoursesQuery,
-  useGetUserSolutionsQuery,
 } from "../../../services/users.service";
 import { User, Role } from "../../../types";
 import { a11yProps } from "../../../util";
-import SolutionItem from "../../../components/users/SolutionItem";
 
 const Enrollments = ({ user }: { user: User }) => {
   const { data: enrollments, isLoading } = useGetUserEnrollmentsQuery(user.id);
@@ -59,27 +49,6 @@ const TaughtCourses = ({ user }: { user: User }) => {
   );
 };
 
-const UserSolutions = ({ user }: { user: User }) => {
-  const {
-    data: solutions,
-    isLoading,
-    isError,
-  } = useGetUserSolutionsQuery(user.id);
-
-  if (isLoading) return <Typography>Loading...</Typography>;
-
-  if (isError || !solutions)
-    return <Typography>Some error has occurred!</Typography>;
-
-  return (
-    <Stack gap={1}>
-      {solutions.map((ex) => (
-        <SolutionItem exercise={ex} key={ex.id} />
-      ))}
-    </Stack>
-  );
-};
-
 const UserTabs = ({ user }: { user: User }) => {
   const [value, setValue] = useState(0);
 
@@ -102,10 +71,9 @@ const UserTabs = ({ user }: { user: User }) => {
         >
           <Tab label="Enrollments" {...a11yProps(0)} />
           <Tab label="Progress" {...a11yProps(1)} disabled={!isSameUser} />
-          <Tab label="Solutions" {...a11yProps(2)} disabled={!isSameUser} />
           <Tab
             label="Teaches"
-            {...a11yProps(3)}
+            {...a11yProps(2)}
             disabled={user.role !== Role.Instructor}
           />
         </Tabs>
@@ -117,11 +85,6 @@ const UserTabs = ({ user }: { user: User }) => {
         <ProgressList />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Typography>
-          <UserSolutions user={user} />
-        </Typography>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
         <TaughtCourses user={user} />
       </TabPanel>
     </Card>

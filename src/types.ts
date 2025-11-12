@@ -235,7 +235,7 @@ export type SubmissionContent =
     }
   | {
       tag: "TrueFalse";
-      trueFalseAnswer: string;
+      trueFalseAnswer: boolean;
     }
   | {
       tag: "Essay";
