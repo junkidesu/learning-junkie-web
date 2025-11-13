@@ -167,8 +167,9 @@ export interface NewLesson {
 }
 
 export interface EditLesson {
+  title: string;
   description: string;
-  content: string;
+  components: Component[];
 }
 
 export enum Environment {
@@ -206,6 +207,34 @@ export type ExerciseContent =
       requirements: string;
     };
 
+export type NewExerciseContent =
+  | {
+      tag: "TypeAnswer";
+      question: string;
+      answer: string;
+    }
+  | {
+      tag: "TrueFalse";
+      question: string;
+      correctBool: boolean;
+    }
+  | {
+      tag: "Essay";
+      task: string;
+      model: string;
+    }
+  | {
+      tag: "Quiz";
+      options: {
+        A: string;
+        B: string;
+        C: string;
+        D: string;
+      };
+      question: string;
+      correctOption: "A" | "B" | "C" | "D";
+    };
+
 export interface Exercise {
   id: number;
   maxGrade: number;
@@ -219,6 +248,14 @@ export interface NewExercise {
   maxGrade: number;
   title: string;
   description: string;
+  content: NewExerciseContent;
+}
+
+export interface EditExercise {
+  maxGrade: number;
+  title: string;
+  description: string;
+  content: NewExerciseContent;
 }
 
 export enum SubmissionState {

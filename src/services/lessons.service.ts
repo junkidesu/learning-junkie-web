@@ -36,12 +36,9 @@ export const lessonsApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Lesson", "Chapter"],
     }),
-    editLesson: builder.mutation<
-      Lesson,
-      { id: number; number: number; body: EditLesson }
-    >({
-      query: ({ id, number, body }) => ({
-        url: `courses/${id}/lessons/${number}`,
+    editLesson: builder.mutation<Lesson, { id: number; body: EditLesson }>({
+      query: ({ id, body }) => ({
+        url: `lessons/${id}`,
         method: "PUT",
         body,
       }),

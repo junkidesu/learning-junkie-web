@@ -14,12 +14,14 @@ import NewLessonForm from "./NewLessonForm";
 import { useGetChapterLessonsQuery } from "../../../../services/lessons.service";
 import { useState } from "react";
 import React from "react";
+import AddExercises from "./AddExercises";
 
 const steps = ["Add lesson information", "Add Exercises"];
 
 const NewLessonPage = () => {
   const courseId = useParams().id;
   const chapterNumber = useParams().chapterNumber;
+  const [newLessonId, setNewLessonId] = useState<number | undefined>(undefined);
 
   const navigate = useNavigate();
 
@@ -89,30 +91,31 @@ const NewLessonPage = () => {
         })}
       </Stepper>
 
-      <Typography variant="h5">New Lesson</Typography>
-      <Divider />
-
       {activeStep === 0 && (
-        <NewLessonForm
-          chapter={chapter}
-          lastLessonNumber={Number(lastLessonNumber)}
-          setActiveStep={setActiveStep}
-        />
+        <React.Fragment>
+          <Typography variant="h5">New Lesson</Typography>
+          <Divider />
+          <NewLessonForm
+            chapter={chapter}
+            lastLessonNumber={Number(lastLessonNumber)}
+            setActiveStep={setActiveStep}
+            setNewLessonId={setNewLessonId}
+          />
+        </React.Fragment>
       )}
 
       {activeStep === 1 && (
         <React.Fragment>
-          <Typography>Add exercises to a lesson</Typography>
+          <Typography variant="h5">Add exercises</Typography>
+
+          <Divider />
+          <AddExercises newLessonId={newLessonId} />
 
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
 
             <Button
-              onClick={() =>
-                navigate(
-                  `/courses/${chapter.course.id}/edit`
-                )
-              }
+              onClick={() => navigate(`/courses/${chapter.course.id}/edit`)}
             >
               Finish
             </Button>

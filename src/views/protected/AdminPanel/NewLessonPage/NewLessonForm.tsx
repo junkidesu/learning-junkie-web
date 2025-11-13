@@ -8,10 +8,12 @@ const NewLessonForm = ({
   lastLessonNumber,
   chapter,
   setActiveStep,
+  setNewLessonId,
 }: {
   lastLessonNumber: number;
   chapter: Chapter;
   setActiveStep: React.Dispatch<SetStateAction<number>>;
+  setNewLessonId: React.Dispatch<SetStateAction<number | undefined>>;
 }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -28,7 +30,7 @@ const NewLessonForm = ({
     };
 
     try {
-      await addLesson({
+      const newLesson = await addLesson({
         id: chapter.course.id,
         chapterNumber: chapter.number,
         body,
@@ -36,6 +38,7 @@ const NewLessonForm = ({
 
       console.log("Success!");
 
+      setNewLessonId(newLesson.id);
       setActiveStep(1);
     } catch (error) {
       console.log(error);

@@ -17,11 +17,12 @@ const ChapterLessons = ({ chapter }: { chapter: Chapter }) => {
 
   if (isError || !lessons)
     return <Typography>Some error has occurred!</Typography>;
+  const sortedLessons = lessons.slice().sort((l1, l2) => l1.number - l2.number);
 
   return (
     <Container>
       <List component="nav">
-        {lessons.map((lesson) => (
+        {sortedLessons.map((lesson) => (
           <LessonItem key={lesson.id} lesson={lesson} />
         ))}
       </List>
