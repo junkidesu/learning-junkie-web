@@ -27,12 +27,19 @@ export const universitiesApi = api.injectEndpoints({
       query: (id) => ({
         url: `universities/${id}/courses`,
       }),
-      providesTags: ["University"],
+      providesTags: ["University", "Course"],
+    }),
+    getUniversityRepresentatives: builder.query<User[], number>({
+      query: (id) => ({
+        url: `universities/${id}/representatives`,
+      }),
+      providesTags: ["University", "User"],
     }),
     getUniversityInsturctors: builder.query<User[], number>({
       query: (id) => ({
         url: `universities/${id}/instructors`,
       }),
+      providesTags: ["University", "User"],
     }),
     uploadLogo: builder.mutation<University, { id: number; body: FormData }>({
       query: ({ id, body }) => ({
@@ -56,12 +63,21 @@ export const universitiesApi = api.injectEndpoints({
       }),
       invalidatesTags: ["University"],
     }),
+    addRepresentative: builder.mutation<User, { id: number; body: NewUser }>({
+      query: ({ id, body }) => ({
+        url: `universities/${id}/representatives`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["University", "User"],
+    }),
     addInstructor: builder.mutation<User, { id: number; body: NewUser }>({
       query: ({ id, body }) => ({
         url: `universities/${id}/instructors`,
         method: "POST",
         body,
       }),
+      invalidatesTags: ["University", "User"],
     }),
   }),
 });
@@ -71,9 +87,11 @@ export const {
   useGetUniversitiesQuery,
   useGetUniversityByIdQuery,
   useGetUniversityCoursesQuery,
+  useGetUniversityRepresentativesQuery,
   useGetUniversityInsturctorsQuery,
   useUploadLogoMutation,
   useDeleteLogoMutation,
   useDeleteUniversityMutation,
+  useAddRepresentativeMutation,
   useAddInstructorMutation,
 } = universitiesApi;

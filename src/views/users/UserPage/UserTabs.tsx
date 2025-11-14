@@ -156,7 +156,7 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
           {!completion && !areRequirementsMet && (
             <Button
               variant="contained"
-              onClick={() => navigate(`courses/${progress.course.id}`)}
+              onClick={() => navigate(`/courses/${progress.course.id}`)}
             >
               Continue
             </Button>
@@ -215,7 +215,7 @@ const UserTabs = ({ user }: { user: User }) => {
   };
 
   const isSameUser = authUser?.id === user.id;
-  const isInstructor = authUser?.role === Role.Instructor;
+  const isInstructor = user.role === Role.Instructor;
 
   return (
     <Card sx={{ width: "100%", mb: 2 }} variant="outlined">
@@ -226,19 +226,19 @@ const UserTabs = ({ user }: { user: User }) => {
           aria-label="basic tabs example"
           variant="scrollable"
         >
-          <Tab label="Enrollments" {...a11yProps(0)} />
-          {isSameUser && <Tab label="Progress" {...a11yProps(1)} />}
-          {isInstructor && <Tab label="Teaches" {...a11yProps(2)} />}
+          {isInstructor && <Tab label="Teaches" {...a11yProps(0)} />}
+          <Tab label="Enrollments" {...a11yProps(1)} />
+          {isSameUser && <Tab label="Progress" {...a11yProps(2)} />}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Enrollments user={user} />
+        <TaughtCourses user={user} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProgressTab />
+        <Enrollments user={user} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TaughtCourses user={user} />
+        <ProgressTab />
       </TabPanel>
     </Card>
   );

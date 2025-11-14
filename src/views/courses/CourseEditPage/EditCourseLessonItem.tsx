@@ -33,7 +33,7 @@ const EditCourseLessonItem = ({ lesson }: { lesson: Lesson }) => {
         onClick={() => navigate(`/lessons/${lesson.id}/edit`)}
       >
         <ListItemText>
-          <Typography variant="h6">
+          <Typography>
             Lesson {lesson.number} {lesson.title}
           </Typography>
 

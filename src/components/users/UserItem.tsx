@@ -7,7 +7,7 @@ const UserItem = ({ user }: { user: User }) => {
   const navigate = useNavigate();
 
   return (
-    <Card key={user.id}>
+    <Card key={user.id} elevation={3}>
       <CardActionArea
         sx={{ p: 2 }}
         onClick={() => navigate(`/users/${user.id}`)}

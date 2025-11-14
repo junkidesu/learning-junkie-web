@@ -60,15 +60,7 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
   );
 
   return (
-    <Box
-      sx={{
-        p: 0,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "stretch",
-        gap: 2,
-      }}
-    >
+    <Stack alignItems="stretch" gap={2}>
       <Button
         variant="contained"
         startIcon={<Add />}
@@ -117,13 +109,15 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
               </ListItemButton>
             </ListItem>
 
-            <Collapse in={chapter.title === open} sx={{ p: 0 }}>
-              <EditCourseLessonList chapter={chapter} />
-            </Collapse>
+            <Box sx={{ p: 2 }}>
+              <Collapse in={chapter.title === open} sx={{ p: 0 }}>
+                <EditCourseLessonList chapter={chapter} />
+              </Collapse>
+            </Box>
           </div>
         ))}
       </List>
-    </Box>
+    </Stack>
   );
 };
 
