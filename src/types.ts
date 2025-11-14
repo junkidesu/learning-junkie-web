@@ -54,8 +54,7 @@ export interface User {
 }
 
 export interface Progress {
-  user: User;
-  course: Course;
+  enrollment: Enrollment;
   lessonsCompleted: number;
   exercisesCompleted: number;
 }

@@ -26,6 +26,7 @@ import { useGetSelfProgressQuery } from "../../../services/self.service";
 import { WorkspacePremium } from "@mui/icons-material";
 import { useCompleteCourseMutation } from "../../../services/courses.service";
 import { useNavigate } from "react-router-dom";
+import useAlert from "../../../hooks/useAlert";
 
 const Enrollments = ({ user }: { user: User }) => {
   const { data: enrollments, isLoading } = useGetUserEnrollmentsQuery(user.id);
@@ -75,7 +76,7 @@ const ProgressTab = () => {
   return (
     <Stack gap={2}>
       {progress.map((p) => (
-        <ProgressItem key={p.course.id} progress={p} />
+        <ProgressItem key={p.enrollment.course.id} progress={p} />
       ))}
     </Stack>
   );
@@ -84,6 +85,8 @@ const ProgressTab = () => {
 const serverUrl = import.meta.env.VITE_BACKEND_URL;
 
 const ProgressItem = ({ progress }: { progress: Progress }) => {
+  const { showAlert } = useAlert();
+
   const { courseCompletions } = useAuthUser();
 
   const navigate = useNavigate();
@@ -94,42 +97,59 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
 
   const handleCompleteCourse = async () => {
     try {
-      await completeCourse(progress.course.id).unwrap();
+      await completeCourse(progress.enrollment.course.id).unwrap();
       console.log("Success!");
+      showAlert({ severity: "success", message: "Generated certificate!" });
     } catch (error) {
       console.error(error);
     }
   };
 
   const completedLessonsPercentage =
-    progress.course.totalLessonsNum === 0
+    progress.enrollment.course.totalLessonsNum === 0
       ? 100
       : Math.ceil(
-          (100 * progress.lessonsCompleted) / progress.course.totalLessonsNum
+          (100 * progress.lessonsCompleted) /
+            progress.enrollment.course.totalLessonsNum
         );
   const completedExercisesPercentage =
-    progress.course.totalExercisesNum === 0
+    progress.enrollment.course.totalExercisesNum === 0
       ? 100
       : Math.ceil(
           (100 * progress.exercisesCompleted) /
-            progress.course.totalExercisesNum
+            progress.enrollment.course.totalExercisesNum
         );
 
   const areRequirementsMet =
     completedLessonsPercentage >
-      progress.course.completionRequirements.lessonPercentage &&
+      progress.enrollment.course.completionRequirements.lessonPercentage &&
     completedExercisesPercentage >
-      progress.course.completionRequirements.exercisePercentage;
+      progress.enrollment.course.completionRequirements.exercisePercentage;
 
   const completion = courseCompletions.find(
-    (cc) => cc.course.id === progress.course.id
+    (cc) => cc.course.id === progress.enrollment.course.id
   );
 
   return (
     <Paper square={false} sx={{ p: 2 }}>
       <Stack gap={2}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h6">{progress.course.title}</Typography>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Stack>
+            <Typography variant="h6">
+              {progress.enrollment.course.title}
+            </Typography>
+            <Typography color="text.secondary">
+              By {progress.enrollment.course.university.name}
+            </Typography>
+            <Typography color="text.secondary">
+              Enrolled on{" "}
+              {new Date(progress.enrollment.time).toLocaleDateString()}
+            </Typography>
+          </Stack>
 
           {completion && (
             <Button
@@ -156,7 +176,9 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
           {!completion && !areRequirementsMet && (
             <Button
               variant="contained"
-              onClick={() => navigate(`/courses/${progress.course.id}`)}
+              onClick={() =>
+                navigate(`/courses/${progress.enrollment.course.id}`)
+              }
             >
               Continue
             </Button>
@@ -168,7 +190,7 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
         <Stack direction="row" gap={2} alignItems="center">
           <Typography>
             Lessons: {progress.lessonsCompleted}/
-            {progress.course.totalLessonsNum}
+            {progress.enrollment.course.totalLessonsNum}
           </Typography>
 
           <LinearProgress
@@ -186,7 +208,7 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
         <Stack direction="row" gap={2} alignItems="center">
           <Typography>
             Exercises: {progress.exercisesCompleted}/
-            {progress.course.totalExercisesNum}
+            {progress.enrollment.course.totalExercisesNum}
           </Typography>
 
           <LinearProgress
@@ -206,7 +228,7 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
 };
 
 const UserTabs = ({ user }: { user: User }) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   const { authUser } = useAuthUser();
 
@@ -226,9 +248,9 @@ const UserTabs = ({ user }: { user: User }) => {
           aria-label="basic tabs example"
           variant="scrollable"
         >
-          {isInstructor && <Tab label="Teaches" {...a11yProps(0)} />}
+          <Tab label="Teaches" {...a11yProps(0)} disabled={!isInstructor} />
           <Tab label="Enrollments" {...a11yProps(1)} />
-          {isSameUser && <Tab label="Progress" {...a11yProps(2)} />}
+          <Tab label="Progress" {...a11yProps(2)} disabled={!isSameUser} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
