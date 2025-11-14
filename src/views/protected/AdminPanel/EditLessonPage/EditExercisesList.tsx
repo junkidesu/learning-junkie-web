@@ -1,6 +1,7 @@
-import { Paper, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useGetLessonExercisesQuery } from "../../../../services/exercises.service";
 import { Lesson } from "../../../../types";
+import EditExerciseForm from "../NewLessonPage/EditExerciseForm";
 
 const EditExercisesList = ({ lesson }: { lesson: Lesson }) => {
   const {
@@ -17,9 +18,7 @@ const EditExercisesList = ({ lesson }: { lesson: Lesson }) => {
   return (
     <Stack gap={2}>
       {exercises.map((exercise) => (
-        <Paper elevation={3} sx={{ p: 2 }}>
-          {exercise.title}
-        </Paper>
+        <EditExerciseForm key={exercise.id} exercise={exercise} />
       ))}
     </Stack>
   );

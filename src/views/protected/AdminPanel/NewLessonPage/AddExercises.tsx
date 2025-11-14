@@ -29,7 +29,7 @@ const AddExercises = ({ newLessonId }: { newLessonId?: number }) => {
 
       <Stack gap={2}>
         {exercises.map((e) => (
-          <EditExerciseForm exercise={e} />
+          <EditExerciseForm key={e.id} exercise={e} />
         ))}
       </Stack>
     </Stack>
