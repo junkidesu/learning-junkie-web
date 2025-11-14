@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import EditLessonForm from "./EditLessonForm";
-import EditExercisesList from "./EditExercisesList";
+import AddExercises from "../NewLessonPage/AddExercises";
 
 const EditLessonPage = () => {
   const lessonId = useParams().id;
@@ -48,7 +48,7 @@ const EditLessonPage = () => {
 
             <Divider />
 
-            <EditExercisesList lesson={lesson} />
+            <AddExercises lessonId={lesson.id} />
           </Stack>
         </Paper>
       </Box>

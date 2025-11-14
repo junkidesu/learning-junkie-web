@@ -11,20 +11,19 @@ import {
 import { useState } from "react";
 import { NewExercise } from "../../../../../types";
 import { useAddExerciseMutation } from "../../../../../services/exercises.service";
+import { AddExerciseFormProps } from ".";
 
 type Option = "A" | "B" | "C" | "D";
 
 const AddQuiz = ({
   title,
+  setTitle,
   description,
+  setDescription,
   maxGrade,
+  setMaxGrade,
   lessonId,
-}: {
-  title: string;
-  description: string;
-  maxGrade: number;
-  lessonId: number;
-}) => {
+}: AddExerciseFormProps) => {
   const [question, setQuestion] = useState("");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
@@ -59,6 +58,14 @@ const AddQuiz = ({
       await addExercise({ id: lessonId, body }).unwrap();
 
       console.log("Success!");
+
+      setTitle("");
+      setDescription("");
+      setMaxGrade("");
+      setOptionA("");
+      setOptionB("");
+      setOptionC("");
+      setOptionD("");
     } catch (error) {
       console.error(error);
     }

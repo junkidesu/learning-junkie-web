@@ -109,7 +109,7 @@ const NewLessonPage = () => {
           <Typography variant="h5">Add exercises</Typography>
 
           <Divider />
-          <AddExercises newLessonId={newLessonId} />
+          <AddExercises lessonId={newLessonId} />
 
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />

@@ -2,18 +2,17 @@ import { Stack, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { NewExercise } from "../../../../../types";
 import { useAddExerciseMutation } from "../../../../../services/exercises.service";
+import { AddExerciseFormProps } from ".";
 
 const AddTypeAnswer = ({
   title,
+  setTitle,
   description,
+  setDescription,
   maxGrade,
+  setMaxGrade,
   lessonId,
-}: {
-  title: string;
-  description: string;
-  maxGrade: number;
-  lessonId: number;
-}) => {
+}: AddExerciseFormProps) => {
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
 
@@ -33,6 +32,12 @@ const AddTypeAnswer = ({
       await addExercise({ id: lessonId, body }).unwrap();
 
       console.log("Success!");
+
+      setTitle("");
+      setDescription("");
+      setMaxGrade("");
+      setQuestion("");
+      setAnswer("");
     } catch (error) {
       console.error(error);
     }

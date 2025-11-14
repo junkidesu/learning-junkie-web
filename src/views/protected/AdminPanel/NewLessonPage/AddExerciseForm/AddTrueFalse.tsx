@@ -11,18 +11,17 @@ import {
 import { useState } from "react";
 import { useAddExerciseMutation } from "../../../../../services/exercises.service";
 import { NewExercise } from "../../../../../types";
+import { AddExerciseFormProps } from ".";
 
 const AddTrueFalse = ({
   title,
+  setTitle,
   description,
+  setDescription,
   maxGrade,
+  setMaxGrade,
   lessonId,
-}: {
-  title: string;
-  description: string;
-  maxGrade: number;
-  lessonId: number;
-}) => {
+}: AddExerciseFormProps) => {
   const [question, setQuestion] = useState("");
   const [correctBool, setCorrectBool] = useState("false");
 
@@ -52,6 +51,11 @@ const AddTrueFalse = ({
       await addExercise({ id: lessonId, body }).unwrap();
 
       console.log("Success!");
+
+      setTitle("");
+      setDescription("");
+      setMaxGrade("");
+      setQuestion("");
     } catch (error) {
       console.error(error);
     }

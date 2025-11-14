@@ -3,13 +3,13 @@ import AddExerciseForm from "./AddExerciseForm";
 import { useGetLessonExercisesQuery } from "../../../../services/exercises.service";
 import EditExerciseForm from "./EditExerciseForm";
 
-const AddExercises = ({ newLessonId }: { newLessonId?: number }) => {
+const AddExercises = ({ lessonId }: { lessonId?: number }) => {
   const {
     data: exercises,
     isLoading,
     isError,
-  } = useGetLessonExercisesQuery(Number(newLessonId), {
-    skip: !newLessonId,
+  } = useGetLessonExercisesQuery(Number(lessonId), {
+    skip: !lessonId,
   });
 
   if (isLoading) return <Typography>Loading exercises...</Typography>;
@@ -17,20 +17,22 @@ const AddExercises = ({ newLessonId }: { newLessonId?: number }) => {
   if (isError || !exercises)
     return <Typography>Some error has occurred!</Typography>;
 
-  if (!newLessonId) return null;
+  if (!lessonId) return null;
 
   return (
     <Stack gap={2}>
-      <AddExerciseForm lessonId={newLessonId} />
+      <AddExerciseForm lessonId={lessonId} />
 
       <Divider />
 
       <Typography variant="h6">Added exercises</Typography>
 
       <Stack gap={2}>
-        {exercises.map((e) => (
-          <EditExerciseForm key={e.id} exercise={e} />
-        ))}
+        {exercises.length === 0 ? (
+          <Typography>No exercises so far!</Typography>
+        ) : (
+          exercises.map((e) => <EditExerciseForm key={e.id} exercise={e} />)
+        )}
       </Stack>
     </Stack>
   );
