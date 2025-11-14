@@ -10,7 +10,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import React, { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { defaultUniversityLogo } from "../../../assets";
 import usePickImage from "../../../hooks/usePickImage";
 import {

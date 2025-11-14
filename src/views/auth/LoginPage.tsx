@@ -18,7 +18,6 @@ import { LockTwoTone, Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAlert from "../../hooks/useAlert";
-import CollapseAlert from "../../components/custom/CollapseAlert";
 import useAuthentication from "../../hooks/useAuthentication";
 import ProgressButton from "../../components/custom/ProgressButton";
 
@@ -46,17 +45,17 @@ const LoginPage = () => {
       await authenticate({ email, password });
 
       navigate("/");
+
+      showAlert({ message: "Successfully logged in", severity: "success" });
     } catch (error) {
       console.log(error);
       console.error(error);
-      showAlert({ severity: "error" });
+      showAlert({ message: "Could not log in", severity: "error" });
     }
   };
 
   return (
     <Container sx={{ width: "fit-content" }}>
-      <CollapseAlert />
-
       <Paper square={false} sx={{ overflow: "hidden", width: "fit-content" }}>
         <Stack direction={{ xs: "column", md: "row" }}>
           <img

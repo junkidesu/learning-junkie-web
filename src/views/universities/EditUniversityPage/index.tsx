@@ -16,6 +16,7 @@ import NewUniversityInstructors from "../NewUniversityPage/NewUniversityInstruct
 import TabPanel from "../../../components/custom/TabPanel";
 import { a11yProps } from "../../../util";
 import { useState } from "react";
+import EditUniversityCourses from "./EditUniversityCourses";
 
 const EditUniversityPage = () => {
   const [tab, setTab] = useState(0);
@@ -56,6 +57,7 @@ const EditUniversityPage = () => {
               <Tabs onChange={(_event, newValue) => setTab(newValue)}>
                 <Tab label="Representatives" {...a11yProps(0)} />
                 <Tab label="Instructors" {...a11yProps(1)} />
+                <Tab label="Courses" {...a11yProps(2)} />
               </Tabs>
             </Box>
 
@@ -64,6 +66,9 @@ const EditUniversityPage = () => {
             </TabPanel>
             <TabPanel index={1} value={tab}>
               <NewUniversityInstructors universityId={university.id} />
+            </TabPanel>
+            <TabPanel index={2} value={tab}>
+              <EditUniversityCourses university={university} />
             </TabPanel>
           </Box>
         </Paper>

@@ -15,7 +15,6 @@ import UserPage from "./views/users/UserPage";
 import SignUpPage from "./views/auth/SignUpPage";
 import AdminPanel from "./views/protected/AdminPanel";
 import NewUniversityPage from "./views/universities/NewUniversityPage";
-import NewCoursePage from "./views/courses/NewCoursePage";
 import { useEffect, useState } from "react";
 import useInitialization from "./hooks/useInitialization";
 import Protected from "./components/custom/Protected";
@@ -25,6 +24,7 @@ import CourseEditPage from "./views/courses/CourseEditPage";
 import NewLessonPage from "./views/lessons/NewLessonPage";
 import EditLessonPage from "./views/lessons/EditLessonPage";
 import EditUniversityPage from "./views/universities/EditUniversityPage";
+import CollapseAlert from "./components/custom/CollapseAlert";
 
 const darkTheme = createTheme({ palette: { mode: "dark" } });
 const lightTheme = createTheme({ palette: { mode: "light" } });
@@ -57,6 +57,8 @@ const App = () => {
       <CssBaseline />
       <Container sx={{ p: 0 }}>
         <CustomAppBar theme={theme} toggleTheme={toggleTheme} />
+
+        <CollapseAlert />
 
         <Routes>
           <Route path="/" element={<AllCoursesPage />} />
@@ -96,14 +98,7 @@ const App = () => {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="courses" element={<AllCoursesPage />} />
-          <Route
-            path="courses/new"
-            element={
-              <Protected>
-                <NewCoursePage />
-              </Protected>
-            }
-          />
+      
           <Route path="courses/:id" element={<CoursePage />} />
 
           <Route path="lessons/:id" element={<LessonPage />} />

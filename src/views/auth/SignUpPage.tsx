@@ -23,7 +23,6 @@ import { Education, NewUser } from "../../types";
 import { useUploadAvatarMutation } from "../../services/users.service";
 import { useNavigate } from "react-router-dom";
 import usePickImage from "../../hooks/usePickImage";
-import CollapseAlert from "../../components/custom/CollapseAlert";
 import useAlert from "../../hooks/useAlert";
 import useAuthentication from "../../hooks/useAuthentication";
 import ProgressButton from "../../components/custom/ProgressButton";
@@ -88,6 +87,11 @@ const SignUpPage = () => {
       }
 
       navigate("/");
+
+      showAlert({
+        message: "Welcome to Learning Junkie!",
+        severity: "success",
+      });
     } catch (error) {
       console.error(error);
       showAlert({ severity: "error" });
@@ -111,8 +115,6 @@ const SignUpPage = () => {
 
   return (
     <Container>
-      <CollapseAlert />
-
       <Stack sx={{ width: "100%" }}>
         <Paper sx={{ p: 2 }}>
           <Stack
