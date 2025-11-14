@@ -54,8 +54,8 @@ export interface User {
 export interface Progress {
   user: User;
   course: Course;
-  completedLessonsNum: number;
-  completedExercisesNum: number;
+  lessonsCompleted: number;
+  exercisesCompleted: number;
 }
 
 export interface NewUser {
@@ -305,6 +305,13 @@ export enum ExerciseStatus {
   ExerciseSuccess = "ExerciseSuccess",
   ExerciseFailure = "ExerciseFailure",
   ExercisePending = "ExercisePending",
+}
+
+export interface CourseCompletion {
+  id: string;
+  user: User;
+  course: Course;
+  time: string;
 }
 
 export interface ExerciseCheckResponse {

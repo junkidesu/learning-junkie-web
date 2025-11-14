@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Course } from "../../../types";
 import { useGetChaptersByCourseIdQuery } from "../../../services/chapter.service";
-import { useState } from "react";
+import React, { useState } from "react";
 import LessonList from "./LessonList";
 
 const CourseChapters = ({ course }: { course: Course }) => {
@@ -40,11 +40,8 @@ const CourseChapters = ({ course }: { course: Course }) => {
 
       <List component="nav" id="chapters-and-lessons" sx={{ width: "100%" }}>
         {chapters.map((chapter) => (
-          <>
-            <ListItemButton
-              key={chapter.number}
-              onClick={handleChange(chapter.title)}
-            >
+          <React.Fragment key={chapter.number}>
+            <ListItemButton onClick={handleChange(chapter.title)}>
               <ListItemText>
                 <Typography component="span" fontSize={20} variant="h6">
                   Chapter {chapter.number} {chapter.title}
@@ -57,7 +54,7 @@ const CourseChapters = ({ course }: { course: Course }) => {
             <Collapse in={chapter.title === open} sx={{ p: 0 }}>
               <LessonList chapter={chapter} />
             </Collapse>
-          </>
+          </React.Fragment>
         ))}
       </List>
     </Paper>

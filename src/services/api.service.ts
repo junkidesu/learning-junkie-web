@@ -24,5 +24,6 @@ export const api = createApi({
     "University",
     "Chapter",
     "Progress",
+    "CourseCompletion",
   ],
 });

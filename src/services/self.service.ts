@@ -1,4 +1,10 @@
-import { LessonCompletion, Progress, Submission, User } from "../types";
+import {
+  CourseCompletion,
+  LessonCompletion,
+  Progress,
+  Submission,
+  User,
+} from "../types";
 import { api } from "./api.service";
 
 export const selfApi = api.injectEndpoints({
@@ -27,6 +33,12 @@ export const selfApi = api.injectEndpoints({
       }),
       providesTags: ["Progress", "Submission"],
     }),
+    getSelfCourseCompletions: builder.query<CourseCompletion[], void>({
+      query: () => ({
+        url: "users/self/completions",
+      }),
+      providesTags: ["Progress", "CourseCompletion"],
+    }),
     uploadAvatar: builder.mutation<User, { body: FormData }>({
       query: ({ body }) => ({
         url: `users/self/avatar`,
@@ -44,5 +56,6 @@ export const {
   useGetSelfLessonCompletionsQuery,
   useGetSelfSubmissionsQuery,
   useGetSelfSuccessfulSubmissionsQuery,
+  useGetSelfCourseCompletionsQuery,
   useUploadAvatarMutation,
 } = selfApi;

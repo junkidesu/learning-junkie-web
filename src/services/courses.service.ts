@@ -1,4 +1,10 @@
-import { Course, EditCourse, Enrollment, NewCourse } from "../types";
+import {
+  Course,
+  CourseCompletion,
+  EditCourse,
+  Enrollment,
+  NewCourse,
+} from "../types";
 import { api } from "./api.service";
 
 export const coursesApi = api.injectEndpoints({
@@ -58,12 +64,21 @@ export const coursesApi = api.injectEndpoints({
         formData: true,
         body,
       }),
+      invalidatesTags: ["Course"],
     }),
     deleteBanner: builder.mutation<void, number>({
       query: (id) => ({
         url: `courses/${id}/banner`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Course"],
+    }),
+    completeCourse: builder.mutation<CourseCompletion, number>({
+      query: (id) => ({
+        url: `courses/${id}/certificate/generate`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Progress", "CourseCompletion"],
     }),
   }),
 });
@@ -78,4 +93,5 @@ export const {
   useEnrollMutation,
   useUploadBannerMutation,
   useDeleteBannerMutation,
+  useCompleteCourseMutation,
 } = coursesApi;
