@@ -32,6 +32,14 @@ export const exercisesApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["Exercise"],
+    }),
+    deleteExercise: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `exercises/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Exercise"],
     }),
   }),
 });
@@ -39,5 +47,7 @@ export const exercisesApi = api.injectEndpoints({
 export const {
   useGetLessonExercisesQuery,
   useAddExerciseMutation,
+  useEditExerciseMutation,
+  useDeleteExerciseMutation,
   useGetExerciseByIdQuery,
 } = exercisesApi;

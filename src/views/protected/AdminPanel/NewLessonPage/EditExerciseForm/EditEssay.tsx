@@ -1,23 +1,25 @@
 import { Stack, TextField, Button } from "@mui/material";
 import { useState } from "react";
-import { NewExercise } from "../../../../../types";
-import { useAddExerciseMutation } from "../../../../../services/exercises.service";
+import { Exercise, NewExercise } from "../../../../../types";
+import { useEditExerciseMutation } from "../../../../../services/exercises.service";
 
-const AddEssay = ({
+const EditEssay = ({
+  exercise,
   title,
   description,
   maxGrade,
-  lessonId,
 }: {
   title: string;
   description: string;
   maxGrade: number;
-  lessonId: number;
+  exercise: Exercise;
 }) => {
-  const [task, setTask] = useState("");
+  const [task, setTask] = useState(
+    exercise.content.tag === "Essay" ? exercise.content.task : ""
+  );
   const [model, setModel] = useState("");
 
-  const [addExercise] = useAddExerciseMutation();
+  const [editExercise] = useEditExerciseMutation();
 
   const handleAnswerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,7 +32,7 @@ const AddEssay = ({
     };
 
     try {
-      await addExercise({ id: lessonId, body }).unwrap();
+      await editExercise({ id: exercise.id, body }).unwrap();
 
       console.log("Success!");
     } catch (error) {
@@ -66,10 +68,10 @@ const AddEssay = ({
       />
 
       <Button variant="contained" type="submit">
-        Submit
+        Update
       </Button>
     </Stack>
   );
 };
 
-export default AddEssay;
+export default EditEssay;
