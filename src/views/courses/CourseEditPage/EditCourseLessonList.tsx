@@ -1,7 +1,7 @@
 import { List, Typography } from "@mui/material";
-import { useGetChapterLessonsQuery } from "../../../../services/lessons.service";
-import { Chapter } from "../../../../types";
 import EditCourseLessonItem from "./EditCourseLessonItem";
+import { useGetChapterLessonsQuery } from "../../../services/lessons.service";
+import { Chapter } from "../../../types";
 
 const EditCourseLessonList = ({ chapter }: { chapter: Chapter }) => {
   const {

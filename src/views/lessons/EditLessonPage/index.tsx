@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetLessonByIdQuery } from "../../../../services/lessons.service";
+import { useGetLessonByIdQuery } from "../../../services/lessons.service";
 import {
   Box,
   Container,

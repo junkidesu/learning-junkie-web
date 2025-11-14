@@ -21,11 +21,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Education, NewUser } from "../../../types";
+import { Education, NewUser } from "../../types";
 import {
   useAddInstructorMutation,
   useGetUniversityByIdQuery,
-} from "../../../services/universities.service";
+} from "../../services/universities.service";
 
 const NewInstructorPage = () => {
   const [alertOpen, setAlertOpen] = useState(false);

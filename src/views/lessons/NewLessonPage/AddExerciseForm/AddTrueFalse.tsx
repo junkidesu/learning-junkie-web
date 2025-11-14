@@ -1,10 +1,19 @@
-import { Stack, TextField, Button } from "@mui/material";
+import {
+  Stack,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Button,
+  TextField,
+} from "@mui/material";
 import { useState } from "react";
-import { NewExercise } from "../../../../../types";
-import { useAddExerciseMutation } from "../../../../../services/exercises.service";
+import { useAddExerciseMutation } from "../../../../services/exercises.service";
+import { NewExercise } from "../../../../types";
 import { AddExerciseFormProps } from ".";
 
-const AddTypeAnswer = ({
+const AddTrueFalse = ({
   title,
   setTitle,
   description,
@@ -13,10 +22,16 @@ const AddTypeAnswer = ({
   setMaxGrade,
   lessonId,
 }: AddExerciseFormProps) => {
-  const [question, setQuestion] = useState<string>("");
-  const [answer, setAnswer] = useState<string>("");
+  const [question, setQuestion] = useState("");
+  const [correctBool, setCorrectBool] = useState("false");
 
   const [addExercise] = useAddExerciseMutation();
+
+  const handleTrueFalseChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCorrectBool((event.target as HTMLInputElement).value);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +40,11 @@ const AddTypeAnswer = ({
       title,
       description,
       maxGrade,
-      content: { tag: "TypeAnswer", question, answer },
+      content: {
+        tag: "TrueFalse",
+        question,
+        correctBool: correctBool === "true",
+      },
     };
 
     try {
@@ -37,7 +56,6 @@ const AddTypeAnswer = ({
       setDescription("");
       setMaxGrade("");
       setQuestion("");
-      setAnswer("");
     } catch (error) {
       console.error(error);
     }
@@ -54,13 +72,13 @@ const AddTypeAnswer = ({
         fullWidth
       />
 
-      <TextField
-        label="Answer"
-        fullWidth
-        helperText="Please enter the answer to the question"
-        value={answer}
-        onChange={(e) => setAnswer(e.target.value)}
-      />
+      <FormControl required>
+        <FormLabel>Choose the correct answer</FormLabel>
+        <RadioGroup row value={correctBool} onChange={handleTrueFalseChange}>
+          <FormControlLabel value="true" control={<Radio />} label="True" />
+          <FormControlLabel value="false" control={<Radio />} label="False" />
+        </RadioGroup>
+      </FormControl>
 
       <Button variant="contained" type="submit">
         Submit
@@ -69,4 +87,4 @@ const AddTypeAnswer = ({
   );
 };
 
-export default AddTypeAnswer;
+export default AddTrueFalse;

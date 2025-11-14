@@ -1,7 +1,7 @@
 import { Stack, TextField, Button } from "@mui/material";
 import React, { useState } from "react";
-import { NewExercise } from "../../../../../types";
-import { useAddExerciseMutation } from "../../../../../services/exercises.service";
+import { NewExercise } from "../../../../types";
+import { useAddExerciseMutation } from "../../../../services/exercises.service";
 import { AddExerciseFormProps } from ".";
 
 const AddEssay = ({

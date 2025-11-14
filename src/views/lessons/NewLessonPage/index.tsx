@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetChapterByNumberQuery } from "../../../../services/chapter.service";
+import { useGetChapterByNumberQuery } from "../../../services/chapter.service";
 import {
   Box,
   Button,
@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import NewLessonForm from "./NewLessonForm";
-import { useGetChapterLessonsQuery } from "../../../../services/lessons.service";
+import { useGetChapterLessonsQuery } from "../../../services/lessons.service";
 import { useState } from "react";
 import React from "react";
 import AddExercises from "./AddExercises";

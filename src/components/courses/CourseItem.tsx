@@ -9,17 +9,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Course } from "../../../types";
+import { Course } from "../../types";
 import { DeleteForeverOutlined } from "@mui/icons-material";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   useDeleteBannerMutation,
   useDeleteCourseMutation,
   useUploadBannerMutation,
-} from "../../../services/courses.service";
+} from "../../services/courses.service";
 import { useEffect, useState } from "react";
-import { defaultCourseBanner2 } from "../../../assets";
-import usePickImage from "../../../hooks/usePickImage";
+import { defaultCourseBanner2 } from "../../assets";
+import usePickImage from "../../hooks/usePickImage";
 
 const CourseItem = ({ course }: { course: Course }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();

@@ -1,8 +1,7 @@
-import { Button, Paper, Stack, TextField, Typography } from "@mui/material";
-
+import { Paper, Stack, Typography, TextField, Button } from "@mui/material";
 import { useState } from "react";
-import { Course, NewChapter } from "../../../../types";
-import { useAddChapterMutation } from "../../../../services/chapter.service";
+import { useAddChapterMutation } from "../../../services/chapter.service";
+import { Course, NewChapter } from "../../../types";
 
 const NewChapterForm = ({
   course,

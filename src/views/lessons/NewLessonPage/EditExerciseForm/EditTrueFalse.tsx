@@ -9,8 +9,8 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { useEditExerciseMutation } from "../../../../../services/exercises.service";
-import { Exercise, NewExercise } from "../../../../../types";
+import { useEditExerciseMutation } from "../../../../services/exercises.service";
+import { Exercise, NewExercise } from "../../../../types";
 
 const EditTrueFalse = ({
   exercise,

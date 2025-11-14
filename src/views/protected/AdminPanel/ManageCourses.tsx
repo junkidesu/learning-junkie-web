@@ -1,8 +1,8 @@
 import { Button, Container, Stack, Typography } from "@mui/material";
 import { useGetCoursesQuery } from "../../../services/courses.service";
-import CourseItem from "./CourseItem";
 import { PlayLesson } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import CourseItem from "../../../components/courses/CourseItem";
 
 const ManageCourses = () => {
   const { data: courses, isLoading, isError } = useGetCoursesQuery();

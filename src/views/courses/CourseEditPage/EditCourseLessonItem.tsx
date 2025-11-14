@@ -6,9 +6,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDeleteLessonMutation } from "../../../../services/lessons.service";
-import { Lesson } from "../../../../types";
 import { Delete } from "@mui/icons-material";
+import { useDeleteLessonMutation } from "../../../services/lessons.service";
+import { Lesson } from "../../../types";
 
 const EditCourseLessonItem = ({ lesson }: { lesson: Lesson }) => {
   const navigate = useNavigate();

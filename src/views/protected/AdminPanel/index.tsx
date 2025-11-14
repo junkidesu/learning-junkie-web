@@ -1,9 +1,9 @@
 import { Box, Container, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import ManageUniversities from "./ManageUniversities";
-import ManageCourses from "./ManageCourses";
 import TabPanel from "../../../components/custom/TabPanel";
 import { a11yProps } from "../../../util";
+import ManageCourses from "./ManageCourses";
 
 const AdminPanel = () => {
   const [value, setValue] = useState(0);

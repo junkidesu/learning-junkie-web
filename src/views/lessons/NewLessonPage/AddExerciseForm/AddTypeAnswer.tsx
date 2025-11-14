@@ -1,19 +1,10 @@
-import {
-  Stack,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Button,
-  TextField,
-} from "@mui/material";
+import { Stack, TextField, Button } from "@mui/material";
 import { useState } from "react";
-import { useAddExerciseMutation } from "../../../../../services/exercises.service";
-import { NewExercise } from "../../../../../types";
+import { NewExercise } from "../../../../types";
+import { useAddExerciseMutation } from "../../../../services/exercises.service";
 import { AddExerciseFormProps } from ".";
 
-const AddTrueFalse = ({
+const AddTypeAnswer = ({
   title,
   setTitle,
   description,
@@ -22,16 +13,10 @@ const AddTrueFalse = ({
   setMaxGrade,
   lessonId,
 }: AddExerciseFormProps) => {
-  const [question, setQuestion] = useState("");
-  const [correctBool, setCorrectBool] = useState("false");
+  const [question, setQuestion] = useState<string>("");
+  const [answer, setAnswer] = useState<string>("");
 
   const [addExercise] = useAddExerciseMutation();
-
-  const handleTrueFalseChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCorrectBool((event.target as HTMLInputElement).value);
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,11 +25,7 @@ const AddTrueFalse = ({
       title,
       description,
       maxGrade,
-      content: {
-        tag: "TrueFalse",
-        question,
-        correctBool: correctBool === "true",
-      },
+      content: { tag: "TypeAnswer", question, answer },
     };
 
     try {
@@ -56,6 +37,7 @@ const AddTrueFalse = ({
       setDescription("");
       setMaxGrade("");
       setQuestion("");
+      setAnswer("");
     } catch (error) {
       console.error(error);
     }
@@ -72,13 +54,13 @@ const AddTrueFalse = ({
         fullWidth
       />
 
-      <FormControl required>
-        <FormLabel>Choose the correct answer</FormLabel>
-        <RadioGroup row value={correctBool} onChange={handleTrueFalseChange}>
-          <FormControlLabel value="true" control={<Radio />} label="True" />
-          <FormControlLabel value="false" control={<Radio />} label="False" />
-        </RadioGroup>
-      </FormControl>
+      <TextField
+        label="Answer"
+        fullWidth
+        helperText="Please enter the answer to the question"
+        value={answer}
+        onChange={(e) => setAnswer(e.target.value)}
+      />
 
       <Button variant="contained" type="submit">
         Submit
@@ -87,4 +69,4 @@ const AddTrueFalse = ({
   );
 };
 
-export default AddTrueFalse;
+export default AddTypeAnswer;

@@ -17,11 +17,11 @@ import { FormEvent, useState } from "react";
 import {
   useAddUniversityMutation,
   useUploadLogoMutation,
-} from "../../../services/universities.service";
+} from "../../services/universities.service";
 import { CloseTwoTone } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import usePickImage from "../../../hooks/usePickImage";
-import { defaultUniversityLogo } from "../../../assets";
+import usePickImage from "../../hooks/usePickImage";
+import { defaultUniversityLogo } from "../../assets";
 
 const NewUniversityPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();

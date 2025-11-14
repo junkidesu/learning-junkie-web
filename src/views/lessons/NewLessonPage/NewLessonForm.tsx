@@ -1,8 +1,8 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 import React, { SetStateAction, useState } from "react";
-import { useAddLessonMutation } from "../../../../services/lessons.service";
-import { Chapter, NewLesson } from "../../../../types";
+import { useAddLessonMutation } from "../../../services/lessons.service";
+import { Chapter, NewLesson } from "../../../types";
 
 const NewLessonForm = ({
   lastLessonNumber,

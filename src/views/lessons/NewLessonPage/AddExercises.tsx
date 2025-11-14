@@ -1,6 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/material";
 import AddExerciseForm from "./AddExerciseForm";
-import { useGetLessonExercisesQuery } from "../../../../services/exercises.service";
+import { useGetLessonExercisesQuery } from "../../../services/exercises.service";
 import EditExerciseForm from "./EditExerciseForm";
 
 const AddExercises = ({ lessonId }: { lessonId?: number }) => {

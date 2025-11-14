@@ -1,7 +1,7 @@
 import { Container, Divider, Paper, Stack, Typography } from "@mui/material";
 import useAuthUser from "../../../hooks/useAuthUser";
 import { useGetTaughtCoursesQuery } from "../../../services/users.service";
-import CourseItem from "../AdminPanel/CourseItem";
+import CourseItem from "../../../components/courses/CourseItem";
 
 const InstructorPanel = () => {
   const { authUser, userLoading, userError } = useAuthUser();

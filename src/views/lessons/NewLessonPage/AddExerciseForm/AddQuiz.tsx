@@ -9,40 +9,29 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { Exercise, NewExercise } from "../../../../../types";
-import { useEditExerciseMutation } from "../../../../../services/exercises.service";
+import { NewExercise } from "../../../../types";
+import { useAddExerciseMutation } from "../../../../services/exercises.service";
+import { AddExerciseFormProps } from ".";
 
 type Option = "A" | "B" | "C" | "D";
 
-const EditQuiz = ({
-  exercise,
+const AddQuiz = ({
   title,
+  setTitle,
   description,
+  setDescription,
   maxGrade,
-}: {
-  title: string;
-  description: string;
-  maxGrade: number;
-  exercise: Exercise;
-}) => {
-  const [question, setQuestion] = useState(
-    exercise.content.tag === "Quiz" ? exercise.content.question : ""
-  );
-  const [optionA, setOptionA] = useState(
-    exercise.content.tag === "Quiz" ? exercise.content.options.B : ""
-  );
-  const [optionB, setOptionB] = useState(
-    exercise.content.tag === "Quiz" ? exercise.content.options.C : ""
-  );
-  const [optionC, setOptionC] = useState(
-    exercise.content.tag === "Quiz" ? exercise.content.options.C : ""
-  );
-  const [optionD, setOptionD] = useState(
-    exercise.content.tag === "Quiz" ? exercise.content.options.D : ""
-  );
+  setMaxGrade,
+  lessonId,
+}: AddExerciseFormProps) => {
+  const [question, setQuestion] = useState("");
+  const [optionA, setOptionA] = useState("");
+  const [optionB, setOptionB] = useState("");
+  const [optionC, setOptionC] = useState("");
+  const [optionD, setOptionD] = useState("");
   const [correctOption, setCorrectOption] = useState<Option>("A");
 
-  const [editExercise] = useEditExerciseMutation();
+  const [addExercise] = useAddExerciseMutation();
 
   const handleQuizChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -66,9 +55,17 @@ const EditQuiz = ({
     };
 
     try {
-      await editExercise({ id: exercise.id, body }).unwrap();
+      await addExercise({ id: lessonId, body }).unwrap();
 
       console.log("Success!");
+
+      setTitle("");
+      setDescription("");
+      setMaxGrade("");
+      setOptionA("");
+      setOptionB("");
+      setOptionC("");
+      setOptionD("");
     } catch (error) {
       console.error(error);
     }
@@ -180,4 +177,4 @@ const EditQuiz = ({
   );
 };
 
-export default EditQuiz;
+export default AddQuiz;

@@ -1,7 +1,7 @@
 import { Stack, TextField, Button } from "@mui/material";
 import { useState } from "react";
-import { EditExercise, Exercise } from "../../../../../types";
-import { useEditExerciseMutation } from "../../../../../services/exercises.service";
+import { EditExercise, Exercise } from "../../../../types";
+import { useEditExerciseMutation } from "../../../../services/exercises.service";
 
 const EditTypeAnswer = ({
   exercise,

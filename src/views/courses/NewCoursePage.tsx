@@ -17,21 +17,16 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import {
-  useGetUniversitiesQuery,
-  useGetUniversityInsturctorsQuery,
-} from "../../../services/universities.service";
 import { CloseTwoTone } from "@mui/icons-material";
 import { FormEvent, useEffect, useState } from "react";
-import {
-  useAddCourseMutation,
-  useUploadBannerMutation,
-} from "../../../services/courses.service";
-import { Difficulty } from "../../../types";
 import { useNavigate } from "react-router-dom";
-import usePickImage from "../../../hooks/usePickImage";
-import { nameInitials } from "../../../util";
-import { defaultCourseBanner2, defaultUniversityLogo } from "../../../assets";
+import { defaultCourseBanner2, defaultUniversityLogo } from "../../assets";
+import usePickImage from "../../hooks/usePickImage";
+import { useAddCourseMutation, useUploadBannerMutation } from "../../services/courses.service";
+import { useGetUniversitiesQuery, useGetUniversityInsturctorsQuery } from "../../services/universities.service";
+import { Difficulty } from "../../types";
+import { nameInitials } from "../../util";
+
 
 const NewCoursePage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();

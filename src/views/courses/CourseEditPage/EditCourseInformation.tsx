@@ -15,10 +15,10 @@ import {
   Collapse,
   IconButton,
 } from "@mui/material";
-import { Course, Difficulty } from "../../../../types";
-import { FormEvent, useEffect, useState } from "react";
-import { useEditCourseMutation } from "../../../../services/courses.service";
 import { CloseTwoTone } from "@mui/icons-material";
+import { useState, FormEvent, useEffect } from "react";
+import { useEditCourseMutation } from "../../../services/courses.service";
+import { Course, Difficulty } from "../../../types";
 
 const EditCourseInformation = ({ course }: { course: Course }) => {
   const [alertOpen, setAlertOpen] = useState(false);

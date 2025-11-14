@@ -11,15 +11,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import {
-  useDeleteChapterMutation,
-  useGetChaptersByCourseIdQuery,
-} from "../../../../services/chapter.service";
-import { Course } from "../../../../types";
+
 import EditCourseLessonList from "./EditCourseLessonList";
 import { Add, Delete } from "@mui/icons-material";
 import NewChapterForm from "./NewChapterForm";
 import { useNavigate } from "react-router-dom";
+import {
+  useGetChaptersByCourseIdQuery,
+  useDeleteChapterMutation,
+} from "../../../services/chapter.service";
+import { Course } from "../../../types";
 
 const EditCourseChapters = ({ course }: { course: Course }) => {
   const {
@@ -64,7 +65,8 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
         p: 0,
         display: "flex",
         flexDirection: "column",
-        alignItems: "end",
+        alignItems: "stretch",
+        gap: 2,
       }}
     >
       <Button

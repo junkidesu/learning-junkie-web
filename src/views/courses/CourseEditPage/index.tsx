@@ -1,12 +1,12 @@
-import { useParams } from "react-router-dom";
-import { useGetCourseByIdQuery } from "../../../../services/courses.service";
-import { Box, Container, Paper, Tab, Tabs, Typography } from "@mui/material";
-import { defaultCourseBanner2 } from "../../../../assets";
-import EditCourseInformation from "./EditCourseInformation";
-import { a11yProps } from "../../../../util";
-import TabPanel from "../../../../components/custom/TabPanel";
+import { Typography, Container, Paper, Box, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { defaultCourseBanner2 } from "../../../assets";
+import TabPanel from "../../../components/custom/TabPanel";
+import { useGetCourseByIdQuery } from "../../../services/courses.service";
+import { a11yProps } from "../../../util";
 import EditCourseChapters from "./EditCourseChapters";
+import EditCourseInformation from "./EditCourseInformation";
 
 const CourseEditPage = () => {
   const courseId = useParams().id;

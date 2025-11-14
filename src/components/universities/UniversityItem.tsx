@@ -11,17 +11,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { University } from "../../../types";
+import { University } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { DeleteForeverOutlined } from "@mui/icons-material";
 import {
   useDeleteLogoMutation,
   useDeleteUniversityMutation,
   useUploadLogoMutation,
-} from "../../../services/universities.service";
+} from "../../services/universities.service";
 import { useFilePicker } from "use-file-picker";
 import { useEffect, useState } from "react";
-import { defaultUniversityLogo } from "../../../assets";
+import { defaultUniversityLogo } from "../../assets";
 
 const UniversityItem = ({ university }: { university: University }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();

@@ -16,9 +16,9 @@ import EditTrueFalse from "./EditTrueFalse";
 import EditTypeAnswer from "./EditTypeAnswer";
 import { useState } from "react";
 import EditQuiz from "./EditQuiz";
-import { Exercise } from "../../../../../types";
+import { Exercise } from "../../../../types";
 import { Close, Delete, Edit } from "@mui/icons-material";
-import { useDeleteExerciseMutation } from "../../../../../services/exercises.service";
+import { useDeleteExerciseMutation } from "../../../../services/exercises.service";
 
 type ExerciseType = "TypeAnswer" | "TrueFalse" | "Essay" | "Quiz";
 

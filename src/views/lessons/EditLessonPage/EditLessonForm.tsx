@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { EditLesson, Lesson } from "../../../../types";
+import { EditLesson, Lesson } from "../../../types";
 import { Button, Stack, TextField } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
-import { useEditLessonMutation } from "../../../../services/lessons.service";
+import { useEditLessonMutation } from "../../../services/lessons.service";
 
 const EditLessonForm = ({ lesson }: { lesson: Lesson }) => {
   const [title, setTitle] = useState<string>(lesson.title);

@@ -1,8 +1,8 @@
 import { Button, Container, Stack, Typography } from "@mui/material";
 import { useGetUniversitiesQuery } from "../../../services/universities.service";
-import UniversityItem from "./UniversityItem";
 import { AddHomeTwoTone } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import UniversityItem from "../../../components/universities/UniversityItem";
 
 const ManageUniversities = () => {
   const { data: universities, isLoading, isError } = useGetUniversitiesQuery();
