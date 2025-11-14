@@ -15,6 +15,8 @@ export interface NewUniversity {
   year: number;
 }
 
+export type EditUniversity = NewUniversity;
+
 export enum Role {
   Student = "Student",
   Instructor = "Instructor",

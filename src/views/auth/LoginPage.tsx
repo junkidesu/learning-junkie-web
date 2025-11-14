@@ -47,6 +47,7 @@ const LoginPage = () => {
 
       navigate("/");
     } catch (error) {
+      console.log(error);
       console.error(error);
       showAlert({ severity: "error" });
     }

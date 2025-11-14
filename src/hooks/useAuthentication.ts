@@ -25,6 +25,7 @@ const useAuthentication = (): ReturnType => {
     const result = await login(credentials).unwrap();
 
     dispatch(setAuth(result));
+
     storage.setAuth(result);
 
     return result;

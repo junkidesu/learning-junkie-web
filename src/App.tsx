@@ -18,13 +18,13 @@ import NewUniversityPage from "./views/universities/NewUniversityPage";
 import NewCoursePage from "./views/courses/NewCoursePage";
 import { useEffect, useState } from "react";
 import useInitialization from "./hooks/useInitialization";
-import NewInstructorPage from "./views/universities/NewInstructorPage";
 import Protected from "./components/custom/Protected";
 import InstructorPanel from "./views/protected/InstructorPanel";
 import LessonPage from "./views/lessons/LessonPage";
 import CourseEditPage from "./views/courses/CourseEditPage";
 import NewLessonPage from "./views/lessons/NewLessonPage";
 import EditLessonPage from "./views/lessons/EditLessonPage";
+import EditUniversityPage from "./views/universities/EditUniversityPage";
 
 const darkTheme = createTheme({ palette: { mode: "dark" } });
 const lightTheme = createTheme({ palette: { mode: "light" } });
@@ -126,11 +126,12 @@ const App = () => {
             }
           />
           <Route path="universities/:id" element={<UniversityPage />} />
+
           <Route
-            path="universities/:id/instructors/new"
+            path="universities/:id/edit"
             element={
               <Protected>
-                <NewInstructorPage />
+                <EditUniversityPage />
               </Protected>
             }
           />

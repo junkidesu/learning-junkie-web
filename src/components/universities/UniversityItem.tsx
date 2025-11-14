@@ -135,11 +135,9 @@ const UniversityItem = ({ university }: { university: University }) => {
           </Button>
 
           <Button
-            onClick={() =>
-              navigate(`/universities/${university.id}/instructors/new`)
-            }
+            onClick={() => navigate(`/universities/${university.id}/edit`)}
           >
-            Add instructor
+            Manage
           </Button>
 
           <Button
