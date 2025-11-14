@@ -84,6 +84,18 @@ const CustomAppBar = ({ theme, toggleTheme }: Props) => {
               </Button>
             )}
 
+            {authUser?.role === "UniversityRep" && (
+              <Button
+                startIcon={<AdminPanelSettings />}
+                color="inherit"
+                onClick={() =>
+                  navigate(`/universities/${authUser!.university!.id}/edit`)
+                }
+              >
+                University Rep. Panel
+              </Button>
+            )}
+
             <Box flexGrow={1}>
               <Stack
                 direction="row"

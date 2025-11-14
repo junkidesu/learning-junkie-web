@@ -98,7 +98,7 @@ const App = () => {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="courses" element={<AllCoursesPage />} />
-      
+
           <Route path="courses/:id" element={<CoursePage />} />
 
           <Route path="lessons/:id" element={<LessonPage />} />
@@ -125,7 +125,7 @@ const App = () => {
           <Route
             path="universities/:id/edit"
             element={
-              <Protected>
+              <Protected universityRep>
                 <EditUniversityPage />
               </Protected>
             }

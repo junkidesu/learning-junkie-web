@@ -8,6 +8,7 @@ import { Box, Button, IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthUser from "../../../hooks/useAuthUser";
+import { Role } from "../../../types";
 
 const NavMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
@@ -93,6 +94,22 @@ const NavMenu = () => {
               onClick={() => navigateAndClose(`/instructor`)}
             >
               Instructor
+            </Button>
+          </MenuItem>
+        )}
+
+        {authUser?.role === Role.UniversityRep && (
+          <MenuItem>
+            <Button
+              startIcon={<AdminPanelSettings />}
+              color="inherit"
+              onClick={() =>
+                navigateAndClose(
+                  `/universities/${authUser?.university?.id}/edit`
+                )
+              }
+            >
+              University Rep.
             </Button>
           </MenuItem>
         )}

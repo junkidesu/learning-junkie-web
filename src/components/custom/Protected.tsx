@@ -5,10 +5,11 @@ import { Role } from "../../types";
 
 interface Props {
   children: ReactNode;
+  universityRep?: boolean;
   instructor?: boolean;
 }
 
-const Protected = ({ children, instructor }: Props) => {
+const Protected = ({ children, universityRep, instructor }: Props) => {
   const { existsId, authUser, userLoading, userError } = useAuthUser();
 
   if (userLoading) return <Typography>Loading...</Typography>;
@@ -18,7 +19,10 @@ const Protected = ({ children, instructor }: Props) => {
 
   if (!existsId) return null;
 
-  if (instructor && authUser.role === Role.Instructor) return children;
+  if (authUser.role === Role.UniversityRep && (universityRep || instructor))
+    return children;
+
+  if (authUser.role === Role.Instructor && instructor) return children;
 
   if (authUser.role === Role.Admin) return children;
 
