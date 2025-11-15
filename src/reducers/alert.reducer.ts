@@ -4,6 +4,7 @@ type AlertState = {
   visible: boolean;
   message?: string;
   severity?: "success" | "error" | "warning" | "info";
+  processId?: number;
 };
 
 const alertSlice = createSlice({

@@ -21,8 +21,11 @@ import {
   useDeleteChapterMutation,
 } from "../../../services/chapter.service";
 import { Course } from "../../../types";
+import useAlert from "../../../hooks/useAlert";
 
 const EditCourseChapters = ({ course }: { course: Course }) => {
+  const { showAlert } = useAlert();
+
   const {
     data: chapters,
     isLoading,
@@ -43,10 +46,15 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
 
   const handleDeleteChapter = (chapterNumber: number) => async () => {
     try {
-      await deleteChapter({ id: course.id, chapterNumber });
+      await deleteChapter({ id: course.id, chapterNumber }).unwrap();
       console.log("success!");
+      showAlert({
+        severity: "success",
+        message: "Deleted chapter successfully!",
+      });
     } catch (error) {
       console.error(error);
+      showAlert({ severity: "error", message: "Something went wrong :(" });
     }
   };
 

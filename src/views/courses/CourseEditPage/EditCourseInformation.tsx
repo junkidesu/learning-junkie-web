@@ -19,8 +19,10 @@ import { CloseTwoTone } from "@mui/icons-material";
 import { useState, FormEvent, useEffect } from "react";
 import { useEditCourseMutation } from "../../../services/courses.service";
 import { Course, Difficulty } from "../../../types";
+import useAlert from "../../../hooks/useAlert";
 
 const EditCourseInformation = ({ course }: { course: Course }) => {
+  const { showAlert } = useAlert();
   const [alertOpen, setAlertOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -49,7 +51,11 @@ const EditCourseInformation = ({ course }: { course: Course }) => {
     };
 
     try {
-      await editCourse({ id: course!.id, body });
+      await editCourse({ id: course!.id, body }).unwrap();
+      showAlert({
+        severity: "success",
+        message: "Edited course successfully!",
+      });
     } catch (error) {
       console.log(error);
     }

@@ -24,7 +24,7 @@ import CourseEditPage from "./views/courses/CourseEditPage";
 import NewLessonPage from "./views/lessons/NewLessonPage";
 import EditLessonPage from "./views/lessons/EditLessonPage";
 import EditUniversityPage from "./views/universities/EditUniversityPage";
-import CollapseAlert from "./components/custom/CollapseAlert";
+import SnackbarAlert from "./components/custom/SnackbarAlert";
 
 const darkTheme = createTheme({ palette: { mode: "dark" } });
 const lightTheme = createTheme({ palette: { mode: "light" } });
@@ -58,7 +58,7 @@ const App = () => {
       <Container sx={{ p: 0 }}>
         <CustomAppBar theme={theme} toggleTheme={toggleTheme} />
 
-        <CollapseAlert />
+        <SnackbarAlert />
 
         <Routes>
           <Route path="/" element={<AllCoursesPage />} />

@@ -22,10 +22,13 @@ import { useState } from "react";
 import React from "react";
 import useAuthUser from "../../../hooks/useAuthUser";
 import LessonExercises from "./LessonExercises";
+import useAlert from "../../../hooks/useAlert";
 
 const steps = ["Lesson", "Exercises", "Discussion"];
 
 const LessonPage = () => {
+  const { showAlert } = useAlert();
+
   const lessonId = useParams().id;
 
   // Used for stepper
@@ -75,13 +78,22 @@ const LessonPage = () => {
         setActiveStep(1);
       } else {
         if (authUser) {
-          await completeLesson(lesson.id);
+          await completeLesson(lesson.id).unwrap();
           console.log("Success!");
+          showAlert({
+            message: "Successfully completed lesson!",
+            severity: "success",
+          });
         }
         setActiveStep(1);
       }
     } catch (error) {
       console.error(error);
+
+      showAlert({
+        message: "Could not complete lesson :(",
+        severity: "error",
+      });
     }
   };
 

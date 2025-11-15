@@ -35,11 +35,11 @@ const Enrollments = ({ course }: { course: Course }) => {
 
   const handleEnroll = async () => {
     try {
-      await enroll(course.id);
+      await enroll(course.id).unwrap();
       showAlert({ severity: "success", message: "Successfully enrolled!" });
     } catch (error) {
       console.error(error);
-      showAlert({ severity: "error" });
+      showAlert({ severity: "error", message: "Could not enroll :(" });
     }
   };
 

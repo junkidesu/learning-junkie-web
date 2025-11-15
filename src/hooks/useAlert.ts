@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../hooks";
-import { setAlert } from "../reducers/alert.reducer";
+import { clearAlert, setAlert } from "../reducers/alert.reducer";
 
 type Props = {
   message?: string;
@@ -10,7 +10,11 @@ const useAlert = () => {
   const dispatch = useAppDispatch();
 
   const showAlert = ({ message, severity }: Props) => {
-    dispatch(setAlert({ message, severity, visible: true }));
+    const processId = setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
+
+    dispatch(setAlert({ message, severity, processId, visible: true }));
   };
 
   return { showAlert };

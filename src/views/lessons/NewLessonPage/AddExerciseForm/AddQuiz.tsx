@@ -12,6 +12,7 @@ import { useState } from "react";
 import { NewExercise } from "../../../../types";
 import { useAddExerciseMutation } from "../../../../services/exercises.service";
 import { AddExerciseFormProps } from ".";
+import useAlert from "../../../../hooks/useAlert";
 
 type Option = "A" | "B" | "C" | "D";
 
@@ -24,6 +25,7 @@ const AddQuiz = ({
   setMaxGrade,
   lessonId,
 }: AddExerciseFormProps) => {
+  const { showAlert } = useAlert();
   const [question, setQuestion] = useState("");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
@@ -66,8 +68,12 @@ const AddQuiz = ({
       setOptionB("");
       setOptionC("");
       setOptionD("");
+
+      showAlert({ message: "Successfully added quiz!", severity: "success" });
     } catch (error) {
       console.error(error);
+
+      showAlert({ message: "Could not add quiz :(", severity: "error" });
     }
   };
 

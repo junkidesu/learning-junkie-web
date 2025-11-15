@@ -19,6 +19,7 @@ import {
   useUploadLogoMutation,
 } from "../../../services/universities.service";
 import { CloseTwoTone } from "@mui/icons-material";
+import useAlert from "../../../hooks/useAlert";
 
 const NewUniversityForm = ({
   setActiveStep,
@@ -27,6 +28,8 @@ const NewUniversityForm = ({
   setActiveStep: React.Dispatch<SetStateAction<number>>;
   setUniversityId: React.Dispatch<SetStateAction<number | undefined>>;
 }) => {
+  const { showAlert } = useAlert();
+
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -74,9 +77,18 @@ const NewUniversityForm = ({
 
       setUniversityId(addedUniversity.id);
       setActiveStep(1);
+
+      showAlert({
+        message: "Added university successfully!",
+        severity: "success",
+      });
     } catch (error) {
       setAlertOpen(true);
       console.error(error);
+      showAlert({
+        message: "Could not add university :(",
+        severity: "error",
+      });
     }
   };
 

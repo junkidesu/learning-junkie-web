@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { NewExercise } from "../../../../types";
 import { useAddExerciseMutation } from "../../../../services/exercises.service";
 import { AddExerciseFormProps } from ".";
+import useAlert from "../../../../hooks/useAlert";
 
 const AddEssay = ({
   title,
@@ -13,6 +14,7 @@ const AddEssay = ({
   setMaxGrade,
   lessonId,
 }: AddExerciseFormProps) => {
+  const { showAlert } = useAlert();
   const [task, setTask] = useState("");
   const [model, setModel] = useState("");
 
@@ -38,8 +40,11 @@ const AddEssay = ({
       setMaxGrade("");
       setTask("");
       setModel("");
+
+      showAlert({ message: "Successfully added essay!", severity: "success" });
     } catch (error) {
       console.error(error);
+      showAlert({ message: "Could not add exercise :(", severity: "error" });
     }
   };
 

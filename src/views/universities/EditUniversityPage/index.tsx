@@ -54,7 +54,10 @@ const EditUniversityPage = () => {
         <Paper square={false} sx={{ p: 0 }}>
           <Box>
             <Box sx={{ borderBottom: 1, borderBottomColor: "divider" }}>
-              <Tabs onChange={(_event, newValue) => setTab(newValue)}>
+              <Tabs
+                value={tab}
+                onChange={(_event, newValue) => setTab(newValue)}
+              >
                 <Tab label="Representatives" {...a11yProps(0)} />
                 <Tab label="Instructors" {...a11yProps(1)} />
                 <Tab label="Courses" {...a11yProps(2)} />

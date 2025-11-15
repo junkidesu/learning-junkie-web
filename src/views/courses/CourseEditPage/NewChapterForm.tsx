@@ -2,6 +2,7 @@ import { Paper, Stack, Typography, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { useAddChapterMutation } from "../../../services/chapter.service";
 import { Course, NewChapter } from "../../../types";
+import useAlert from "../../../hooks/useAlert";
 
 const NewChapterForm = ({
   course,
@@ -10,6 +11,8 @@ const NewChapterForm = ({
   course: Course;
   lastChapterNumber: number;
 }) => {
+  const { showAlert } = useAlert();
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -25,10 +28,18 @@ const NewChapterForm = ({
     };
 
     try {
-      await addChapter({ id: course.id, body });
+      await addChapter({ id: course.id, body }).unwrap();
       console.log("Success!");
+      showAlert({
+        message: "Successfully added new chapter!",
+        severity: "success",
+      });
     } catch (error) {
       console.error(error);
+      showAlert({
+        message: "Could not add a new chapter :(",
+        severity: "error",
+      });
     }
   };
 

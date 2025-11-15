@@ -13,7 +13,7 @@ const AdminPanel = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{ mb: 2 }}>
       <Paper sx={{ p: 2 }}>
         <Typography variant="h5">Admin Panel</Typography>
 

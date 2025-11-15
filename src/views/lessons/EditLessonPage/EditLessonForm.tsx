@@ -3,8 +3,11 @@ import { EditLesson, Lesson } from "../../../types";
 import { Button, Stack, TextField } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 import { useEditLessonMutation } from "../../../services/lessons.service";
+import useAlert from "../../../hooks/useAlert";
 
 const EditLessonForm = ({ lesson }: { lesson: Lesson }) => {
+  const { showAlert } = useAlert();
+
   const [title, setTitle] = useState<string>(lesson.title);
   const [description, setDescription] = useState<string>(lesson.description);
   const [content, setContent] = useState(
@@ -31,8 +34,14 @@ const EditLessonForm = ({ lesson }: { lesson: Lesson }) => {
       await editLesson({ id: lesson.id, body }).unwrap();
 
       console.log("Success!");
+
+      showAlert({
+        message: "Successfully edited lesson!",
+        severity: "success",
+      });
     } catch (error) {
       console.error(error);
+      showAlert({ message: "Could not edit lesson :(", severity: "error" });
     }
   };
 

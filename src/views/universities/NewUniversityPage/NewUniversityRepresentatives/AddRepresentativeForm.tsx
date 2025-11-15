@@ -18,8 +18,10 @@ import {
 import { useState } from "react";
 import { useAddRepresentativeMutation } from "../../../../services/universities.service";
 import { NewUser, Education } from "../../../../types";
+import useAlert from "../../../../hooks/useAlert";
 
 const AddRepresentativeForm = ({ universityId }: { universityId: number }) => {
+  const { showAlert } = useAlert();
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
@@ -57,6 +59,11 @@ const AddRepresentativeForm = ({ universityId }: { universityId: number }) => {
       setPassword("");
     } catch (error) {
       console.error(error);
+
+      showAlert({
+        message: "Could not add university representative :(",
+        severity: "error",
+      });
     }
   };
 

@@ -9,15 +9,26 @@ import { useNavigate } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 import { useDeleteLessonMutation } from "../../../services/lessons.service";
 import { Lesson } from "../../../types";
+import useAlert from "../../../hooks/useAlert";
 
 const EditCourseLessonItem = ({ lesson }: { lesson: Lesson }) => {
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
 
   const [deleteLesson] = useDeleteLessonMutation();
 
   const handleDelete = async () => {
-    await deleteLesson(lesson.id);
-    console.log("success");
+    try {
+      await deleteLesson(lesson.id).unwrap();
+      console.log("success");
+      showAlert({
+        severity: "success",
+        message: "Deleted lesson successfully!",
+      });
+    } catch (error) {
+      console.error(error);
+      showAlert({ severity: "error", message: "Could not delete the lesson" });
+    }
   };
 
   return (
