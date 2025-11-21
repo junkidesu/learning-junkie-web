@@ -6,6 +6,7 @@ import {
   Divider,
   Link,
   Paper,
+  Stack,
   Step,
   StepLabel,
   Stepper,
@@ -98,14 +99,13 @@ const LessonPage = () => {
   };
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "start",
-        mb: 2,
-        gap: 2,
-      }}
+    <Stack
+      direction={{ md: "row", xs: "column" }}
+      pl={{ md: "24px", sm: "24px", xs: 0 }}
+      pr={{ md: "24px", sm: "24px", xs: 0 }}
+      mb={2}
+      gap={{ xs: 1, sm: 2, md: 2 }}
+      alignItems="start"
     >
       <CourseNavigation activeLesson={lesson} course={lesson.chapter.course} />
 
@@ -212,7 +212,7 @@ const LessonPage = () => {
           </React.Fragment>
         )}
       </Paper>
-    </Container>
+    </Stack>
   );
 };
 
