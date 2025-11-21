@@ -22,9 +22,13 @@ const EditCourseLessonList = ({ chapter }: { chapter: Chapter }) => {
 
   return (
     <List component="nav">
-      {sortedLessons.map((lesson) => (
-        <EditCourseLessonItem key={lesson.id} lesson={lesson} />
-      ))}
+      {lessons.length === 0 ? (
+        <Typography>No lessons added yet</Typography>
+      ) : (
+        sortedLessons.map((lesson) => (
+          <EditCourseLessonItem key={lesson.id} lesson={lesson} />
+        ))
+      )}
     </List>
   );
 };

@@ -82,48 +82,55 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
       </Collapse>
 
       <List component="nav" id="chapters-and-lessons" sx={{ width: "100%" }}>
-        {chapters.map((chapter) => (
-          <div key={chapter.course.id.toString() + chapter.number.toString()}>
-            <ListItem
-              secondaryAction={
-                <Stack direction="row">
-                  <IconButton
-                    onClick={() =>
-                      navigate(
-                        `/courses/${course.id}/chapters/${chapter.number}/new-lesson`
-                      )
-                    }
-                  >
-                    <Add />
-                  </IconButton>
-                  <IconButton onClick={handleDeleteChapter(chapter.number)}>
-                    <Delete />
-                  </IconButton>
-                </Stack>
-              }
-            >
-              <ListItemButton
-                key={chapter.number}
-                onClick={handleChange(chapter.title)}
+        {chapters.length === 0 ? (
+          <Typography>No chapters added yet</Typography>
+        ) : (
+          chapters.map((chapter) => (
+            <div key={chapter.course.id.toString() + chapter.number.toString()}>
+              <ListItem
+                secondaryAction={
+                  <Stack direction="row">
+                    <IconButton
+                      onClick={() =>
+                        navigate(
+                          `/courses/${course.id}/chapters/${chapter.number}/new-lesson`
+                        )
+                      }
+                    >
+                      <Add />
+                    </IconButton>
+                    <IconButton onClick={handleDeleteChapter(chapter.number)}>
+                      <Delete />
+                    </IconButton>
+                  </Stack>
+                }
               >
-                <ListItemText>
-                  <Typography component="span" fontSize={20} variant="h6">
-                    Chapter {chapter.number} {chapter.title}
-                  </Typography>
-                  <Typography component="div" sx={{ color: "text.secondary" }}>
-                    {chapter.description}
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
+                <ListItemButton
+                  key={chapter.number}
+                  onClick={handleChange(chapter.title)}
+                >
+                  <ListItemText>
+                    <Typography component="span" fontSize={20} variant="h6">
+                      Chapter {chapter.number} {chapter.title}
+                    </Typography>
+                    <Typography
+                      component="div"
+                      sx={{ color: "text.secondary" }}
+                    >
+                      {chapter.description}
+                    </Typography>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
 
-            <Box sx={{ p: 2 }}>
-              <Collapse in={chapter.title === open} sx={{ p: 0 }}>
-                <EditCourseLessonList chapter={chapter} />
-              </Collapse>
-            </Box>
-          </div>
-        ))}
+              <Box sx={{ p: 2 }}>
+                <Collapse in={chapter.title === open} sx={{ p: 0 }}>
+                  <EditCourseLessonList chapter={chapter} />
+                </Collapse>
+              </Box>
+            </div>
+          ))
+        )}
       </List>
     </Stack>
   );
