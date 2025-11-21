@@ -8,6 +8,7 @@ import { a11yProps } from "../../../util";
 import EditCourseChapters from "./EditCourseChapters";
 import EditCourseInformation from "./EditCourseInformation";
 import CourseEnrollments from "./CourseEnrollments";
+import PendingSubmissions from "./PendingSubmissions";
 
 const CourseEditPage = () => {
   const courseId = useParams().id;
@@ -48,6 +49,7 @@ const CourseEditPage = () => {
             >
               <Tab label="Lessons" {...a11yProps(0)} />
               <Tab label="Enrollments" {...a11yProps(1)} />
+              <Tab label="Pending Submissions" {...a11yProps(2)} />
             </Tabs>
           </Box>
           <TabPanel value={tab} index={0}>
@@ -56,6 +58,10 @@ const CourseEditPage = () => {
 
           <TabPanel value={tab} index={1}>
             <CourseEnrollments course={course} />
+          </TabPanel>
+
+          <TabPanel value={tab} index={2}>
+            <PendingSubmissions course={course} />
           </TabPanel>
         </Container>
       </Paper>

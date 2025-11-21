@@ -28,4 +28,5 @@ export const submissionsApi = api.injectEndpoints({
   }),
 });
 
-export const { useAddSubmissionMutation } = submissionsApi;
+export const { useAddSubmissionMutation, useGradeSubmissionMutation } =
+  submissionsApi;

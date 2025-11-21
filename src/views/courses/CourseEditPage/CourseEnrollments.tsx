@@ -18,7 +18,7 @@ const CourseEnrollments = ({ course }: { course: Course }) => {
   return (
     <Stack gap={2}>
       {enrollments.map((e) => (
-        <EnrollmentItem enrollment={e} />
+        <EnrollmentItem key={e.user.id} enrollment={e} />
       ))}
     </Stack>
   );

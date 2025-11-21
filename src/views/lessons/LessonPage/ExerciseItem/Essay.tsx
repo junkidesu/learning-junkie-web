@@ -37,7 +37,7 @@ const Essay = ({
       };
 
       try {
-        await addSubmission({ id: exercise.lesson.id, body: body! });
+        await addSubmission({ id: exercise.id, body: body! });
         console.log("Success!");
       } catch (error) {
         console.error(error);

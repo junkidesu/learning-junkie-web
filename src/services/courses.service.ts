@@ -81,7 +81,7 @@ export const coursesApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Progress", "CourseCompletion"],
     }),
-    getPendingSubmissions: builder.query<Submission, number>({
+    getPendingSubmissions: builder.query<Submission[], number>({
       query: (id) => ({
         url: `courses/${id}/submissions`,
       }),
