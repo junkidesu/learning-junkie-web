@@ -63,9 +63,10 @@ const EditCourseChapters = ({ course }: { course: Course }) => {
   if (isError || !chapters)
     return <Typography>Some error has occurred!</Typography>;
 
-  const lastChapterNumber = Math.max(
-    ...chapters.map((chapter) => chapter.number)
-  );
+  const lastChapterNumber =
+    chapters.length === 0
+      ? 0
+      : Math.max(...chapters.map((chapter) => chapter.number));
 
   return (
     <Stack alignItems="stretch" gap={2}>
