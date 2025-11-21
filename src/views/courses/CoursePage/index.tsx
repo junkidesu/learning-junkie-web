@@ -40,7 +40,12 @@ const CoursePage = () => {
     return <Typography>Some error has occurred!</Typography>;
 
   return (
-    <Container>
+    <Container
+      sx={{
+        pl: { xs: 0, sm: "24px", md: "24px" },
+        pr: { xs: 0, sm: "24px", md: "24px" },
+      }}
+    >
       <Paper square={false} sx={{ overflow: "hidden", mb: 2 }}>
         <img
           src={course.banner || defaultCourseBanner2}
