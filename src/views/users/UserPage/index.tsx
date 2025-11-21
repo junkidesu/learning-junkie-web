@@ -102,8 +102,13 @@ const UserPage = () => {
   };
 
   return (
-    <Container>
-      <Stack gap={3}>
+    <Container
+      sx={{
+        paddingLeft: { xs: 0, sm: "24px", md: "24px" },
+        paddingRight: { xs: 0, sm: "24px", md: "24px" },
+      }}
+    >
+      <Stack gap={2}>
         <Paper sx={{ p: 2 }}>
           <Stack gap={3}>
             <Stack

@@ -1,7 +1,5 @@
 import {
-  Container,
   Typography,
-  Card,
   Box,
   Tabs,
   Tab,
@@ -10,6 +8,7 @@ import {
   LinearProgress,
   Button,
   Divider,
+  Avatar,
 } from "@mui/material";
 import { useState } from "react";
 import CoursesGrid from "../../../components/courses/CoursesGrid";
@@ -27,6 +26,7 @@ import { WorkspacePremium } from "@mui/icons-material";
 import { useCompleteCourseMutation } from "../../../services/courses.service";
 import { useNavigate } from "react-router-dom";
 import useAlert from "../../../hooks/useAlert";
+import { defaultUniversityLogo } from "../../../assets";
 
 const Enrollments = ({ user }: { user: User }) => {
   const { data: enrollments, isLoading } = useGetUserEnrollmentsQuery(user.id);
@@ -34,7 +34,7 @@ const Enrollments = ({ user }: { user: User }) => {
   const courses = enrollments?.map((e) => e.course);
 
   return (
-    <Container sx={{ alignItems: "center" }}>
+    <Box sx={{ alignItems: "center" }}>
       {isLoading && <LoadingCoursesGrid />}
 
       {enrollments &&
@@ -44,7 +44,7 @@ const Enrollments = ({ user }: { user: User }) => {
         ) : (
           <CoursesGrid courses={courses} />
         ))}
-    </Container>
+    </Box>
   );
 };
 
@@ -52,7 +52,7 @@ const TaughtCourses = ({ user }: { user: User }) => {
   const { data: courses, isLoading } = useGetTaughtCoursesQuery(user.id);
 
   return (
-    <Container sx={{ alignItems: "center" }}>
+    <Box sx={{ alignItems: "center" }}>
       {isLoading && <LoadingCoursesGrid />}
 
       {courses &&
@@ -61,7 +61,7 @@ const TaughtCourses = ({ user }: { user: User }) => {
         ) : (
           <CoursesGrid courses={courses} />
         ))}
-    </Container>
+    </Box>
   );
 };
 
@@ -134,21 +134,29 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
     <Paper square={false} sx={{ p: 2 }}>
       <Stack gap={2}>
         <Stack
-          direction="row"
+          sx={{ flexDirection: { xs: "column", sm: "row", md: "row" } }}
           justifyContent="space-between"
           alignItems="center"
         >
-          <Stack>
-            <Typography variant="h6">
-              {progress.enrollment.course.title}
-            </Typography>
-            <Typography color="text.secondary">
-              By {progress.enrollment.course.university.name}
-            </Typography>
-            <Typography color="text.secondary">
-              Enrolled on{" "}
-              {new Date(progress.enrollment.time).toLocaleDateString()}
-            </Typography>
+          <Stack direction="row" gap={2} alignItems="center">
+            <Avatar
+              src={
+                progress.enrollment.course.university.logo ||
+                defaultUniversityLogo
+              }
+            />
+            <Stack>
+              <Typography variant="h6">
+                {progress.enrollment.course.title}
+              </Typography>
+              <Typography color="text.secondary">
+                By {progress.enrollment.course.university.name}
+              </Typography>
+              <Typography color="text.secondary">
+                Enrolled on{" "}
+                {new Date(progress.enrollment.time).toLocaleDateString()}
+              </Typography>
+            </Stack>
           </Stack>
 
           {completion && (
@@ -158,6 +166,9 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
               target="_blank"
               startIcon={<WorkspacePremium />}
               onClick={() => console.log("Go to certificate")}
+              sx={{
+                width: { xs: "100%", sm: "fit-content", md: "fit-content" },
+              }}
             >
               Certificate
             </Button>
@@ -168,6 +179,9 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
               variant="contained"
               startIcon={<WorkspacePremium />}
               onClick={handleCompleteCourse}
+              sx={{
+                width: { xs: "100%", sm: "fit-content", md: "fit-content" },
+              }}
             >
               Get Certificate
             </Button>
@@ -179,6 +193,9 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
               onClick={() =>
                 navigate(`/courses/${progress.enrollment.course.id}`)
               }
+              sx={{
+                width: { xs: "100%", sm: "fit-content", md: "fit-content" },
+              }}
             >
               Continue
             </Button>
@@ -240,7 +257,7 @@ const UserTabs = ({ user }: { user: User }) => {
   const isInstructor = user.role === Role.Instructor;
 
   return (
-    <Card sx={{ width: "100%", mb: 2 }} variant="outlined">
+    <Box sx={{ width: "100%", mb: 2 }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -253,16 +270,18 @@ const UserTabs = ({ user }: { user: User }) => {
           <Tab label="Progress" {...a11yProps(2)} disabled={!isSameUser} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <TaughtCourses user={user} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Enrollments user={user} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <ProgressTab />
-      </TabPanel>
-    </Card>
+      <Box>
+        <TabPanel value={value} index={0}>
+          <TaughtCourses user={user} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Enrollments user={user} />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <ProgressTab />
+        </TabPanel>
+      </Box>
+    </Box>
   );
 };
 
