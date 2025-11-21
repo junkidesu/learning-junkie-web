@@ -287,6 +287,7 @@ export type SubmissionContent =
       tag: "Coding";
       program: string;
     };
+
 export interface Submission {
   id: number;
   user: User;
@@ -296,6 +297,12 @@ export interface Submission {
   grade?: number;
   comment?: string;
   content: SubmissionContent;
+}
+
+export interface ManualGrade {
+  state: SubmissionState;
+  grade: number;
+  comment?: string;
 }
 
 export interface NewSubmission {

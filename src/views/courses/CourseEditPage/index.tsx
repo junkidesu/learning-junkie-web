@@ -7,6 +7,7 @@ import { useGetCourseByIdQuery } from "../../../services/courses.service";
 import { a11yProps } from "../../../util";
 import EditCourseChapters from "./EditCourseChapters";
 import EditCourseInformation from "./EditCourseInformation";
+import CourseEnrollments from "./CourseEnrollments";
 
 const CourseEditPage = () => {
   const courseId = useParams().id;
@@ -54,7 +55,7 @@ const CourseEditPage = () => {
           </TabPanel>
 
           <TabPanel value={tab} index={1}>
-            Enrollments
+            <CourseEnrollments course={course} />
           </TabPanel>
         </Container>
       </Paper>

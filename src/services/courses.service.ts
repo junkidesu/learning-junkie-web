@@ -4,6 +4,7 @@ import {
   EditCourse,
   Enrollment,
   NewCourse,
+  Submission,
 } from "../types";
 import { api } from "./api.service";
 
@@ -80,6 +81,12 @@ export const coursesApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Progress", "CourseCompletion"],
     }),
+    getPendingSubmissions: builder.query<Submission, number>({
+      query: (id) => ({
+        url: `courses/${id}/submissions`,
+      }),
+      providesTags: ["Submission"],
+    }),
   }),
 });
 
@@ -94,4 +101,5 @@ export const {
   useUploadBannerMutation,
   useDeleteBannerMutation,
   useCompleteCourseMutation,
+  useGetPendingSubmissionsQuery,
 } = coursesApi;
