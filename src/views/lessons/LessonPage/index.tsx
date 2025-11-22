@@ -24,6 +24,7 @@ import React from "react";
 import useAuthUser from "../../../hooks/useAuthUser";
 import LessonExercises from "./LessonExercises";
 import useAlert from "../../../hooks/useAlert";
+import NextLessonButton from "./NextLessonButton";
 
 const steps = ["Lesson", "Exercises", "Discussion"];
 
@@ -192,7 +193,7 @@ const LessonPage = () => {
 
               <Button onClick={handleNext}>Go to Discussion</Button>
 
-              <Button onClick={handleNext}>Next Lesson</Button>
+              <NextLessonButton lesson={lesson} setActiveStep={setActiveStep} />
             </Box>
           </React.Fragment>
         )}
@@ -207,7 +208,7 @@ const LessonPage = () => {
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button>Next Lesson</Button>
+              <NextLessonButton lesson={lesson} setActiveStep={setActiveStep} />
             </Box>
           </React.Fragment>
         )}
