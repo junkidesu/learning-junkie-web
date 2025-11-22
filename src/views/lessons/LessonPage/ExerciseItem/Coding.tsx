@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import useAuthUser from "../../../../hooks/useAuthUser";
 import { useAddSubmissionMutation } from "../../../../services/submissions.service";
 import Editor from "@monaco-editor/react";
+import useAlert from "../../../../hooks/useAlert";
 
 const environmentToLanguage = (e: Environment): string => {
   if (e === Environment.Node) return "javascript";
@@ -30,6 +31,8 @@ const Coding = ({
   const [editorOpen, setEditorOpen] = useState(false);
 
   const { authUser } = useAuthUser();
+
+  const { showAlert } = useAlert();
 
   const [addSubmission] = useAddSubmissionMutation();
 
@@ -54,8 +57,24 @@ const Coding = ({
 
       try {
         console.log(body);
-        await addSubmission({ id: exercise.id, body: body! }).unwrap();
+        const submission = await addSubmission({
+          id: exercise.id,
+          body: body!,
+        }).unwrap();
+
         console.log("Success!");
+
+        if (submission.state === SubmissionState.Success) {
+          showAlert({
+            message: "Completed the exercise successfully!",
+            severity: "success",
+          });
+        } else if (submission.state === SubmissionState.Failure) {
+          showAlert({
+            message: "Your answer is incorrect :(",
+            severity: "error",
+          });
+        }
       } catch (error) {
         console.error(error);
       }

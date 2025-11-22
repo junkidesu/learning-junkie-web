@@ -17,6 +17,7 @@ import {
   Submission,
   SubmissionState,
 } from "../../../../types";
+import useAlert from "../../../../hooks/useAlert";
 
 const QuizAnswer = ({
   exercise,
@@ -28,6 +29,8 @@ const QuizAnswer = ({
   const [quizAnswer, setQuizAnswer] = useState("A");
 
   const { authUser } = useAuthUser();
+
+  const { showAlert } = useAlert();
 
   const [addSubmission] = useAddSubmissionMutation();
 
@@ -57,8 +60,23 @@ const QuizAnswer = ({
       };
 
       try {
-        await addSubmission({ id: exercise.id, body: body! });
+        const submission = await addSubmission({
+          id: exercise.id,
+          body: body!,
+        }).unwrap();
         console.log("Success!");
+
+        if (submission.state === SubmissionState.Success) {
+          showAlert({
+            message: "Completed the exercise successfully!",
+            severity: "success",
+          });
+        } else if (submission.state === SubmissionState.Failure) {
+          showAlert({
+            message: "Your answer is incorrect :(",
+            severity: "error",
+          });
+        }
       } catch (error) {
         console.error(error);
       }

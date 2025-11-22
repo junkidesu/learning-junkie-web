@@ -3,6 +3,7 @@ import { Exercise, Submission, SubmissionState } from "../../../../types";
 import { useAddSubmissionMutation } from "../../../../services/submissions.service";
 import { useEffect, useState } from "react";
 import useAuthUser from "../../../../hooks/useAuthUser";
+import useAlert from "../../../../hooks/useAlert";
 
 const TypeAnswer = ({
   exercise,
@@ -14,6 +15,8 @@ const TypeAnswer = ({
   const [typedAnswer, setTypedAnswer] = useState<string>("");
 
   const { authUser } = useAuthUser();
+
+  const { showAlert } = useAlert();
 
   const [addSubmission] = useAddSubmissionMutation();
 
@@ -37,8 +40,23 @@ const TypeAnswer = ({
       };
 
       try {
-        await addSubmission({ id: exercise.id, body: body! });
+        const submission = await addSubmission({
+          id: exercise.id,
+          body: body!,
+        }).unwrap();
         console.log("Success!");
+
+        if (submission.state === SubmissionState.Success) {
+          showAlert({
+            message: "Completed the exercise successfully!",
+            severity: "success",
+          });
+        } else if (submission.state === SubmissionState.Failure) {
+          showAlert({
+            message: "Your answer is incorrect :(",
+            severity: "error",
+          });
+        }
       } catch (error) {
         console.error(error);
       }
