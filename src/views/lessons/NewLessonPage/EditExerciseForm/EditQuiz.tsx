@@ -29,10 +29,10 @@ const EditQuiz = ({
     exercise.content.tag === "Quiz" ? exercise.content.question : ""
   );
   const [optionA, setOptionA] = useState(
-    exercise.content.tag === "Quiz" ? exercise.content.options.B : ""
+    exercise.content.tag === "Quiz" ? exercise.content.options.A : ""
   );
   const [optionB, setOptionB] = useState(
-    exercise.content.tag === "Quiz" ? exercise.content.options.C : ""
+    exercise.content.tag === "Quiz" ? exercise.content.options.B : ""
   );
   const [optionC, setOptionC] = useState(
     exercise.content.tag === "Quiz" ? exercise.content.options.C : ""
