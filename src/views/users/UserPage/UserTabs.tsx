@@ -121,9 +121,9 @@ const ProgressItem = ({ progress }: { progress: Progress }) => {
         );
 
   const areRequirementsMet =
-    completedLessonsPercentage >
+    completedLessonsPercentage >=
       progress.enrollment.course.completionRequirements.lessonPercentage &&
-    completedExercisesPercentage >
+    completedExercisesPercentage >=
       progress.enrollment.course.completionRequirements.exercisePercentage;
 
   const completion = courseCompletions.find(
