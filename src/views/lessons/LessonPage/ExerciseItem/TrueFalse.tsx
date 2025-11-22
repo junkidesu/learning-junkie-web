@@ -8,7 +8,7 @@ import {
   Radio,
   Button,
 } from "@mui/material";
-import { Exercise, Submission } from "../../../../types";
+import { Exercise, Submission, SubmissionState } from "../../../../types";
 import { useEffect, useState } from "react";
 import useAuthUser from "../../../../hooks/useAuthUser";
 import { useAddSubmissionMutation } from "../../../../services/submissions.service";
@@ -62,6 +62,8 @@ const TrueFalse = ({
     }
   };
 
+  const isSubmissionSuccess = userSolution?.state === SubmissionState.Success;
+
   return (
     <Stack
       component="form"
@@ -71,7 +73,7 @@ const TrueFalse = ({
     >
       <Typography>{exercise.content.question}</Typography>
 
-      <FormControl disabled={!authUser || Boolean(userSolution)}>
+      <FormControl disabled={!authUser || isSubmissionSuccess}>
         <FormLabel>Choose the correct answer</FormLabel>
         <RadioGroup
           row
@@ -86,7 +88,7 @@ const TrueFalse = ({
       <Button
         variant="contained"
         type="submit"
-        disabled={!authUser || Boolean(userSolution)}
+        disabled={!authUser || isSubmissionSuccess}
       >
         Submit
       </Button>

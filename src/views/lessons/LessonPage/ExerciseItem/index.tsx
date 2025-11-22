@@ -1,5 +1,5 @@
 import { Divider, Paper, Stack, Typography } from "@mui/material";
-import { Exercise, SubmissionState } from "../../../../types";
+import { Exercise, Submission, SubmissionState } from "../../../../types";
 import { HistoryEdu, QuestionMark, Quiz, Rule } from "@mui/icons-material";
 import useAuthUser from "../../../../hooks/useAuthUser";
 import { useGetSelfSubmissionsQuery } from "../../../../services/self.service";
@@ -7,6 +7,26 @@ import TypeAnswer from "./TypeAnswer";
 import QuizAnswer from "./QuizAnswer";
 import TrueFalse from "./TrueFalse";
 import Essay from "./Essay";
+import Coding from "./Coding";
+
+function findUserSolution(
+  exerciseId: number,
+  submissions?: Submission[]
+): Submission | undefined {
+  const successSubmission = submissions?.find(
+    (submission) =>
+      submission.exercise.id === exerciseId &&
+      submission.state === SubmissionState.Success
+  );
+
+  if (successSubmission) return successSubmission;
+
+  return submissions?.find(
+    (submission) =>
+      submission.exercise.id === exerciseId &&
+      submission.state === SubmissionState.PartialSuccess
+  );
+}
 
 const ExerciseItem = ({ exercise }: { exercise: Exercise }) => {
   const { authUser } = useAuthUser();
@@ -16,9 +36,7 @@ const ExerciseItem = ({ exercise }: { exercise: Exercise }) => {
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const userSolution = submissions
-    ?.filter((submission) => submission.state === SubmissionState.Success)
-    ?.find((submission) => submission.exercise.id === exercise.id);
+  const userSolution = findUserSolution(exercise.id, submissions);
 
   return (
     <Paper square={false} elevation={3} sx={{ p: 2 }}>
@@ -60,6 +78,10 @@ const ExerciseItem = ({ exercise }: { exercise: Exercise }) => {
 
         {exercise.content.tag === "Essay" && (
           <Essay exercise={exercise} userSolution={userSolution} />
+        )}
+
+        {exercise.content.tag === "Coding" && (
+          <Coding exercise={exercise} userSolution={userSolution} />
         )}
       </Stack>
     </Paper>

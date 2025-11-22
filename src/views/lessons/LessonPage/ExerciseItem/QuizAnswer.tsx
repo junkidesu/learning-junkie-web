@@ -11,7 +11,12 @@ import {
 import { useEffect, useState } from "react";
 import useAuthUser from "../../../../hooks/useAuthUser";
 import { useAddSubmissionMutation } from "../../../../services/submissions.service";
-import { Exercise, NewSubmission, Submission } from "../../../../types";
+import {
+  Exercise,
+  NewSubmission,
+  Submission,
+  SubmissionState,
+} from "../../../../types";
 
 const QuizAnswer = ({
   exercise,
@@ -60,6 +65,8 @@ const QuizAnswer = ({
     }
   };
 
+  const isSubmissionSuccess = userSolution?.state === SubmissionState.Success;
+
   return (
     <Stack
       component="form"
@@ -69,7 +76,7 @@ const QuizAnswer = ({
     >
       <Typography>{exercise.content.question}</Typography>
 
-      <FormControl disabled={!authUser || Boolean(userSolution)}>
+      <FormControl disabled={!authUser || isSubmissionSuccess}>
         <FormLabel>Choose the correct answer</FormLabel>
         <RadioGroup value={quizAnswer} onChange={handleQuizChange}>
           <FormControlLabel
@@ -98,7 +105,7 @@ const QuizAnswer = ({
       <Button
         variant="contained"
         type="submit"
-        disabled={!authUser || Boolean(userSolution)}
+        disabled={!authUser || isSubmissionSuccess}
       >
         Submit
       </Button>

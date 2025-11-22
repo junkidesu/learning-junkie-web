@@ -1,5 +1,5 @@
 import { Stack, Typography, TextField, Button } from "@mui/material";
-import { Exercise, Submission } from "../../../../types";
+import { Exercise, Submission, SubmissionState } from "../../../../types";
 import { useAddSubmissionMutation } from "../../../../services/submissions.service";
 import { useEffect, useState } from "react";
 import useAuthUser from "../../../../hooks/useAuthUser";
@@ -45,6 +45,8 @@ const TypeAnswer = ({
     }
   };
 
+  const isSubmissionSuccess = userSolution?.state === SubmissionState.Success;
+
   return (
     <Stack
       component="form"
@@ -60,13 +62,13 @@ const TypeAnswer = ({
         helperText="Please enter the answer to the question"
         value={typedAnswer}
         onChange={(e) => setTypedAnswer(e.target.value)}
-        disabled={!authUser || Boolean(userSolution)}
+        disabled={!authUser || isSubmissionSuccess}
       />
 
       <Button
         variant="contained"
         type="submit"
-        disabled={!authUser || Boolean(userSolution)}
+        disabled={!authUser || isSubmissionSuccess}
       >
         Submit
       </Button>
