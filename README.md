@@ -9,7 +9,8 @@ This repository contains the source code for the Learning Junkie web application
 - [Redux Toolkit](https://redux-toolkit.js.org/) for state management
 - [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) for interacting with the API
 - [React Router](https://reactrouter.com/en/main) for navigation
-- [react-md-editor](https://www.npmjs.com/package/@uiw/react-md-editor)
+- [react-md-editor](https://www.npmjs.com/package/@uiw/react-md-editor) for lesson content
+- [Monaco Editor for React](https://www.npmjs.com/package/@monaco-editor/react) for built-in code editor
 
 ## Getting Started
 
@@ -22,7 +23,7 @@ You can install and manage different versions of Node.js and npm with [nvm](http
 
 #### Environment Variables
 
-`BACKEND_URL` environment variable needs to be specified for the application to work.
+`VITE_BACKEND_URL` environment variable needs to be specified for the application to work. You can either supply them directly in the command line, or use a dotenv file. See `.env.sample` for an example.
 
 #### REST API
 
