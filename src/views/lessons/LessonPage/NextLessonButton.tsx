@@ -52,7 +52,11 @@ const NextLessonButton = ({
           setActiveStep={setActiveStep}
         />
       ) : (
-        <Button>Next Chapter</Button>
+        <Button
+          onClick={() => navigate(`/courses/${lesson.chapter.course.id}`)}
+        >
+          Course Page
+        </Button>
       )}
     </React.Fragment>
   );
