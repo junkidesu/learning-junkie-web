@@ -15,8 +15,10 @@ import AddTypeAnswer from "./AddTypeAnswer";
 import { SetStateAction, useState } from "react";
 import AddQuiz from "./AddQuiz";
 import { Add, Close } from "@mui/icons-material";
+import CustomNumberField from "../../../../components/custom/CustomNumberField";
+import AddCoding from "./AddCoding";
 
-const exerciseTypes = ["TypeAnswer", "TrueFalse", "Essay", "Quiz"];
+const exerciseTypes = ["TypeAnswer", "TrueFalse", "Essay", "Quiz", "Coding"];
 
 export type AddExerciseFormProps = {
   title: string;
@@ -24,7 +26,7 @@ export type AddExerciseFormProps = {
   description: string;
   setDescription: React.Dispatch<SetStateAction<string>>;
   maxGrade: number;
-  setMaxGrade: React.Dispatch<SetStateAction<string>>;
+  setMaxGrade: React.Dispatch<SetStateAction<number>>;
   lessonId: number;
 };
 
@@ -33,7 +35,7 @@ const AddExerciseForm = ({ lessonId }: { lessonId: number }) => {
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [maxGrade, setMaxGrade] = useState<string>("");
+  const [maxGrade, setMaxGrade] = useState<number>(0);
 
   const [exerciseType, setExerciseType] = useState(exerciseTypes[0]);
 
@@ -65,12 +67,10 @@ const AddExerciseForm = ({ lessonId }: { lessonId: number }) => {
             required
           />
 
-          <TextField
-            value={maxGrade}
-            onChange={(e) => setMaxGrade(e.target.value)}
+          <CustomNumberField
             label="Highest Grade"
-            helperText="Please enter the highest grade of the exercise"
-            required
+            value={maxGrade}
+            setValue={setMaxGrade}
           />
 
           <FormControl fullWidth required>
@@ -85,8 +85,10 @@ const AddExerciseForm = ({ lessonId }: { lessonId: number }) => {
               <MenuItem value="TrueFalse">True/False</MenuItem>
               <MenuItem value="Essay">Essay</MenuItem>
               <MenuItem value="Quiz">Quiz</MenuItem>
+              <MenuItem value="Coding">Coding</MenuItem>
             </Select>
           </FormControl>
+
           <Divider />
 
           {exerciseType === "TypeAnswer" && (
@@ -127,6 +129,18 @@ const AddExerciseForm = ({ lessonId }: { lessonId: number }) => {
 
           {exerciseType === "Essay" && (
             <AddEssay
+              title={title}
+              setTitle={setTitle}
+              description={description}
+              setDescription={setDescription}
+              maxGrade={Number(maxGrade)}
+              setMaxGrade={setMaxGrade}
+              lessonId={lessonId}
+            />
+          )}
+
+          {exerciseType === "Coding" && (
+            <AddCoding
               title={title}
               setTitle={setTitle}
               description={description}

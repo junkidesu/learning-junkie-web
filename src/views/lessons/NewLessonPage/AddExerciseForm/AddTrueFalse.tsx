@@ -54,7 +54,7 @@ const AddTrueFalse = ({
 
       setTitle("");
       setDescription("");
-      setMaxGrade("");
+      setMaxGrade(0);
       setQuestion("");
     } catch (error) {
       console.error(error);

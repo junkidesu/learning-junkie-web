@@ -234,6 +234,13 @@ export type NewExerciseContent =
       };
       question: string;
       correctOption: "A" | "B" | "C" | "D";
+    }
+  | {
+      tag: "Coding";
+      environment: Environment;
+      requirements: string;
+      correctOutput: string;
+      model: string;
     };
 
 export interface Exercise {

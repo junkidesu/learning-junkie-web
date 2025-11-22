@@ -37,7 +37,7 @@ const AddEssay = ({
 
       setTitle("");
       setDescription("");
-      setMaxGrade("");
+      setMaxGrade(0);
       setTask("");
       setModel("");
 

@@ -35,7 +35,7 @@ const AddTypeAnswer = ({
 
       setTitle("");
       setDescription("");
-      setMaxGrade("");
+      setMaxGrade(0);
       setQuestion("");
       setAnswer("");
     } catch (error) {

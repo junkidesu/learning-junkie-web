@@ -63,7 +63,7 @@ const AddQuiz = ({
 
       setTitle("");
       setDescription("");
-      setMaxGrade("");
+      setMaxGrade(0);
       setOptionA("");
       setOptionB("");
       setOptionC("");

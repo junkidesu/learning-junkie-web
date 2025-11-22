@@ -19,6 +19,7 @@ import EditQuiz from "./EditQuiz";
 import { Exercise } from "../../../../types";
 import { Close, Delete, Edit } from "@mui/icons-material";
 import { useDeleteExerciseMutation } from "../../../../services/exercises.service";
+import EditCoding from "./EditCoding";
 
 type ExerciseType = "TypeAnswer" | "TrueFalse" | "Essay" | "Quiz";
 
@@ -104,6 +105,7 @@ const EditExerciseForm = ({ exercise }: { exercise: Exercise }) => {
                 <MenuItem value="TrueFalse">True/False</MenuItem>
                 <MenuItem value="Essay">Essay</MenuItem>
                 <MenuItem value="Quiz">Quiz</MenuItem>
+                <MenuItem value="Coding">Coding</MenuItem>
               </Select>
             </FormControl>
             <Divider />
@@ -136,6 +138,15 @@ const EditExerciseForm = ({ exercise }: { exercise: Exercise }) => {
 
             {exerciseType === "Essay" && (
               <EditEssay
+                title={title}
+                description={description}
+                maxGrade={Number(maxGrade)}
+                exercise={exercise}
+              />
+            )}
+
+            {exerciseType === "Coding" && (
+              <EditCoding
                 title={title}
                 description={description}
                 maxGrade={Number(maxGrade)}
