@@ -19,7 +19,7 @@ import {
   useGetLessonByIdQuery,
 } from "../../../services/lessons.service";
 import MDEditor from "@uiw/react-md-editor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import useAuthUser from "../../../hooks/useAuthUser";
 import LessonExercises from "./LessonExercises";
@@ -35,6 +35,15 @@ const LessonPage = () => {
 
   // Used for stepper
   const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    setActiveStep(0);
+    window.scrollTo(0, 0);
+  }, [lessonId]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeStep]);
 
   const { lessonCompletions } = useAuthUser();
 
