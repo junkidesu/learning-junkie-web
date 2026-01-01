@@ -25,6 +25,9 @@ import useAuthUser from "../../../hooks/useAuthUser";
 import LessonExercises from "./LessonExercises";
 import useAlert from "../../../hooks/useAlert";
 import NextLessonButton from "./NextLessonButton";
+import katex from "katex";
+import "katex/dist/katex.css";
+import { getCodeString } from "rehype-rewrite";
 
 const steps = ["Lesson", "Exercises", "Discussion"];
 
@@ -174,6 +177,50 @@ const LessonPage = () => {
                   key={component.content}
                   style={{ backgroundColor: "transparent" }}
                   source={component.content}
+                  components={{
+                    //@ts-expect-error issue with inline KaTex
+                    code: ({ inline, children = [], className, ...props }) => {
+                      //@ts-expect-error issue with inline KaTeX
+                      const txt = children[0] || "";
+                      if (inline) {
+                        if (
+                          typeof txt === "string" &&
+                          /^\$\$(.*)\$\$/.test(txt)
+                        ) {
+                          const html = katex.renderToString(
+                            txt.replace(/^\$\$(.*)\$\$/, "$1"),
+                            {
+                              throwOnError: false,
+                            }
+                          );
+                          return (
+                            <code dangerouslySetInnerHTML={{ __html: html }} />
+                          );
+                        }
+                        return <code>{txt}</code>;
+                      }
+                      const code =
+                        props.node && props.node.children
+                          ? getCodeString(props.node.children)
+                          : txt;
+                      if (
+                        typeof code === "string" &&
+                        typeof className === "string" &&
+                        /^language-katex/.test(className.toLocaleLowerCase())
+                      ) {
+                        const html = katex.renderToString(code, {
+                          throwOnError: false,
+                        });
+                        return (
+                          <code
+                            style={{ fontSize: "150%" }}
+                            dangerouslySetInnerHTML={{ __html: html }}
+                          />
+                        );
+                      }
+                      return <code className={String(className)}>{txt}</code>;
+                    },
+                  }}
                 />
               ) : (
                 <Typography key={component.title}>Video</Typography>
@@ -182,7 +229,7 @@ const LessonPage = () => {
             <Box sx={{ display: "flex", justifyContent: "end" }}>
               <Button
                 sx={{ mr: 1, width: "fit-content" }}
-                onClick={handleCompleteLesson} // ideally, this will also complete the lesson
+                onClick={handleCompleteLesson}
               >
                 Go to Exercises
               </Button>
