@@ -77,26 +77,28 @@ const NewLessonForm = ({
           style={{ width: "100%" }}
           previewOptions={{
             components: {
-              //@ts-expect-error issue with inline KaTex
-              code: ({ inline, children = [], className, ...props }) => {
-                //@ts-expect-error issue with inline KaTeX
-                const txt = children[0] || "";
-                if (inline) {
-                  if (typeof txt === "string" && /^\$\$(.*)\$\$/.test(txt)) {
-                    const html = katex.renderToString(
-                      txt.replace(/^\$\$(.*)\$\$/, "$1"),
-                      {
-                        throwOnError: false,
-                      }
-                    );
-                    return <code dangerouslySetInnerHTML={{ __html: html }} />;
-                  }
-                  return <code>{txt}</code>;
+              code: ({ children = [], className, ...props }) => {
+                if (
+                  typeof children === "string" &&
+                  /^\$\$(.*)\$\$/.test(children)
+                ) {
+                  const html = katex.renderToString(
+                    children.replace(/^\$\$(.*)\$\$/, "$1"),
+                    {
+                      throwOnError: false,
+                    }
+                  );
+                  return (
+                    <code
+                      dangerouslySetInnerHTML={{ __html: html }}
+                      style={{ background: "transparent" }}
+                    />
+                  );
                 }
                 const code =
                   props.node && props.node.children
                     ? getCodeString(props.node.children)
-                    : txt;
+                    : children;
                 if (
                   typeof code === "string" &&
                   typeof className === "string" &&
@@ -112,7 +114,7 @@ const NewLessonForm = ({
                     />
                   );
                 }
-                return <code className={String(className)}>{txt}</code>;
+                return <code className={String(className)}>{children}</code>;
               },
             },
           }}
